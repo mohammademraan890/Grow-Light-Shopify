@@ -1,6 +1,8 @@
 <!doctype html>
 <html lang="{{ request.locale.iso_code }}">
   <head>
+        <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4" async></script>
+
     {% # Inlined CSS Variables %}
     {% render 'css-variables' %}
 
@@ -27,8 +29,8 @@
   </head>
 
   <body>
-    {% sections 'header-group' %}
-
+    {% comment %} {% sections 'header-group' %} {% endcomment %}
+    {% section 'header-top' %}
     {{ content_for_layout }}
 
     {% sections 'footer-group' %}

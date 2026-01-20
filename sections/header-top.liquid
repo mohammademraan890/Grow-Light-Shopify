@@ -1,0 +1,44 @@
+
+<header>
+  <div class="custom-container">
+    <div class="flex items-center gap-4">
+      <div class="header-logo">
+        <img src="{{ "grow-light-logo.webp" | asset_url }}" alt="Grow Light Logo" width="100" height="100">
+      </div>
+      <div class="header-left w-[100%]">
+        <div class="flex items-center justify-between py-[6px] border-b border-[#E9E9E9]">
+          <div class="flex items-center gap-[20px]">
+            <a href="#">support@growlightheaven.com</a>
+            <a href="#">(914) 219-6983</a>
+            <span>Mon-Fri: 9AM - 5PM EST</span>
+          </div>
+          <div class="flex items-center gap-[20px]">
+            <a href="#">Commercial Pricing</a>
+            <a href="#"> Get Rebates</a>
+            <a href="#">Facility Design</a>
+          </div>
+        </div>
+        <div class="flex items-center">
+          <div class="border flex items-center w-full border-[#959595] rounded-[4px]">
+            <input class="w-full p-[10px]" type="text">
+            <button>{% render 'svg-icons', name: 'search-icon' %}</button>
+          </div>
+          <div class="flex items-center gap-4">
+            <div class="flex items-center flex-col">
+              {% render 'svg-icons', name: 'user-icon' %}
+              <span class="white">Sign In</span>
+            </div>
+            <div class="flex items-center flex-col">
+              {% render 'svg-icons', name: 'wishlist-icon' %}
+              <span class=""> My Wishlist</span>
+            </div>
+            <div class="flex items-center flex-col">
+              {% render 'svg-icons', name: 'cart-icon' %}
+              <span class="">My Cart</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
