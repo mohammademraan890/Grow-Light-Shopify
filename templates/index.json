@@ -10,11 +10,21 @@
 {
   "sections": {
     "main": {
-      "type": "hello-world",
+      "type": "home-hero-sec",
+      "settings": {}
+    },
+    "category-section": {
+      "type": "home-category-sec",
+      "settings": {}
+    },
+    "top-products-sec": {
+      "type": "home-top-products",
       "settings": {}
     }
   },
   "order": [
-    "main"
+    "main",
+    "category-section",
+    "top-products-sec"
   ]
 }

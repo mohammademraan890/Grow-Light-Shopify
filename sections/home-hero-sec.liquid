@@ -1,0 +1,128 @@
+<style>
+  #mySwiper,
+  #mySwiper * {
+    user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+
+    -webkit-touch-callout: none;
+  }
+
+  #mySwiper img {
+    pointer-events: none;
+  }
+</style>
+
+<div class="bg-white  mt-5 mb-10">
+  <div class="custom-container">
+    <div id="mySwiper" class="swiper ">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide border border-[#BEC0C2] overflow-hidden rounded-sm">
+          <div class="grid grid-cols-3 h-full">
+            <div style="padding: 40px;" class="col-span-1">
+              <div class="flex items-start flex-col h-full justify-end">
+                <p class="                text-[16px] text-[#414042]! font-medium">The Indutry's #1 Source</p>
+                <h2 class="                text-[50px] text-[#414042]! my-2 leading-[56px] font-bold">
+                  Cultivation SuperStore
+                </h2>
+                <p class="                text-[16px] text-[#414042]! mb-5!">10,000+ Items At Your Fingertips</p>
+                <a
+                  href="#"
+                  class="
+                    block bg-[#006A2E] text
+                    -[16px] font-medium w-full py-2.5! rounded-sm text-center text-white! hover:bg-[#005723] transition
+                  "
+                  >Get In Touch</a
+                >
+              </div>
+            </div>
+            <div class="col-span-2">
+              <img src="{{ 'hero-banner.webp' | asset_url }}" class="object-cover h-full w-full" alt="">
+            </div>
+          </div>
+        </div>
+        {% comment %}
+          <div class="swiper-slide border border-[#BEC0C2] h-[480px] overflow-hidden rounded-sm">
+            <div class="grid grid-cols-3 h-full">
+              <div style="padding: 40px;" class="col-span-1">
+                <div class="flex items-start flex-col h-full justify-end">
+                  <p class="                text-[16px] text-[#414042]! font-medium">The Indutry's #1 Source</p>
+                  <h2 class="                text-[50px] text-[#414042]! my-2 leading-[56px] font-bold">
+                    Cultivation SuperStore
+                  </h2>
+                  <p class="                text-[16px] text-[#414042]! mb-5!">10,000+ Items At Your Fingertips</p>
+                  <a
+                    href="#"
+                    class="
+                      block bg-[#006A2E] text
+                      -[16px] font-medium w-full py-2.5! rounded-sm text-center text-white! hover:bg-[#005723] transition
+                    "
+                    >Get In Touch</a
+                  >
+                </div>
+              </div>
+              <div class="col-span-2">
+                <img src="{{ 'hero-banner.webp' | asset_url }}" class="object-cover h-full w-full" alt="">
+              </div>
+            </div>
+          </div>
+        {% endcomment %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const swiperEl = document.querySelector('#mySwiper');
+    const wrapper = swiperEl.querySelector('.swiper-wrapper');
+    const slides = swiperEl.querySelectorAll('.swiper-slide');
+
+    if (slides.length > 1) {
+      // NORMAL SWIPER
+      new Swiper('#mySwiper', {
+        slidesPerView: 1,
+        loop: false,
+      });
+      return;
+    }
+
+    // ----- SINGLE SLIDE FULL ANIMATION -----
+
+    let startX = 0;
+    let currentX = 0;
+    let isDragging = false;
+
+    const MAX_DRAG = swiperEl.offsetWidth * 0.4; // 40% width
+
+    swiperEl.addEventListener('pointerdown', (e) => {
+      startX = e.clientX;
+      isDragging = true;
+      wrapper.style.transition = 'none';
+      swiperEl.setPointerCapture(e.pointerId);
+    });
+
+    swiperEl.addEventListener('pointermove', (e) => {
+      if (!isDragging) return;
+
+      currentX = e.clientX - startX;
+
+      // resistance after max
+      if (Math.abs(currentX) > MAX_DRAG) {
+        currentX = MAX_DRAG * Math.sign(currentX) + (currentX - MAX_DRAG * Math.sign(currentX)) * 0.15;
+      }
+
+      wrapper.style.transform = `translate3d(${currentX}px, 0, 0)`;
+    });
+
+    swiperEl.addEventListener('pointerup', release);
+    swiperEl.addEventListener('pointercancel', release);
+
+    function release() {
+      isDragging = false;
+
+      wrapper.style.transition = 'transform 0.55s cubic-bezier(0.22, 1, 0.36, 1)';
+      wrapper.style.transform = 'translate3d(0, 0, 0)';
+    }
+  });
+</script>

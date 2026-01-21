@@ -1,8 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
 * {
-  margin: 0px;
-  padding: 0px;
+  /* margin: 0px;
+  padding: 0px; */
   box-sizing: border-box;
   font-family: 'Roboto', sans-serif;
 }
@@ -12,3 +12,23 @@
   padding: 0 25px;
   margin: 0 auto;
 }
+a{
+  color: inherit;
+  text-decoration: none;
+}
+li{
+  list-style: none;
+}
+/* *************** Top Header*************** */
+
+/* .header-top-inner{
+  gap: 40px;
+}
+.header-left-top{
+
+  gap: 40px;
+}
+.header-left-bottom{
+ 
+  gap: 25px;
+} */

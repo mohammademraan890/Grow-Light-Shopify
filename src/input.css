@@ -1,0 +1,7 @@
+@import "tailwindcss";
+
+
+@theme {
+  /* This creates a new breakpoint called "xs" that starts at 500px */
+  --breakpoint-xs: 31.25rem;   /* 500px ÷ 16 = 31.25rem */
+}
