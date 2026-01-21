@@ -1,28 +1,51 @@
+<style>
+  #filter-btn-swiper .swiper-slide {
+  width: auto !important;
+}
+
+.filter-btn {
+  border: 1px solid #bec0c2;
+  border-radius: 20px;
+  padding: 5px 25px;
+  background: #fff;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.filter-btn.active {
+  background: #414042;
+  color: #fff;
+}
+
+</style>
+
 <div class="custom-container mt-20!">
   <div class="flex item-center justify-between">
     <h1 class="text-[24px] font-bold text-[#414042] mb-4">Browse Top Sellers</h1>
     <a href="#" class="text-[#006A2E]">Shop all > </a>
   </div>
 
-  <div class="swiper" id="filter-btn-swiper">
-    <div class="swiper-wrapper">
-      <button class="bg-[#414042] text-white border border-[#bec0c2] rounded-[20px] py-[5px] px-[25px] swiper-slide w-fit!">
-        Freeze Dryers
+ <div class="swiper" id="filter-btn-swiper">
+  <div class="swiper-wrapper">
+
+    {% for block in section.blocks %}
+      <button
+        class="swiper-slide filter-btn {% if forloop.first %}active{% endif %}"
+        data-filter="{{ block.settings.tag | downcase }}"
+        {{ block.shopify_attributes }}
+      >
+        {{ block.settings.label }}
       </button>
-      <button class=" border border-[#bec0c2] rounded-[20px] py-[5px] px-[25px] swiper-slide w-fit!">
-        Quest Dehumidifier
-      </button>
-      <button class=" border border-[#bec0c2] rounded-[20px] py-[5px] px-[25px] swiper-slide w-fit!">Floraflex</button>
-      <button class=" border border-[#bec0c2] rounded-[20px] py-[5px] px-[25px] swiper-slide w-fit!">
-        Centurion Pro
-      </button>
-      <button class=" border border-[#bec0c2] rounded-[20px] py-[5px] px-[25px] swiper-slide w-fit!">Dosatron</button>
-      <button class=" border border-[#bec0c2] rounded-[20px] py-[5px] px-[25px] swiper-slide w-fit!">GrowOnix</button>
-      <button class=" border border-[#bec0c2] rounded-[20px] py-[5px] px-[25px] swiper-slide w-fit!">TrolMaster</button>
-    </div>
+    {% endfor %}
+
   </div>
+</div>
+
+
   <div class="my-5">
-    <div class="swiper py-10! relative" id="products-swiper">
+    {% assign collection = collections['top-sell-products'] %}
+
+    <div class="swiper py-10 relative" id="products-swiper">
       <div
         class="
           prev-swiper-button absolute left-0 top-1/2 -translate-y-1/2 z-10
@@ -34,205 +57,46 @@
       </div>
 
       <div class="swiper-wrapper">
-        <div class="swiper-slide w-[260px]!">
-          <div class="w-[260px] border border-transparent hover:border-[#0000001f] rounded-md p-2">
-            <!-- Image wrapper -->
-            <div class="relative bg-[#FAFAFA]! rounded-md flex items-center justify-center">
-              <!-- Sale badge -->
-              <span class="absolute top-3 left-3  text-white text-[12px] font-medium px-2 py-0.5 rounded"> sale </span>
-
-              <img
-                src="{{ 'air-flow-circulation_300x.webp' | asset_url }}"
-                alt=""
-                class=" object-contain! h-auto w-full"
-              >
-            </div>
-
-            <!-- Price -->
-            <div class="mt-4">
-              <p class="text-[18px] font-semibold text-[#2B2B2B]">$10,431.00</p>
-              <p class="text-[14px] text-[#9B9B9B] line-through">$12,517.20</p>
-            </div>
-
-            <!-- Title -->
-            <p class="mt-2 text-[14px] leading-[20px] text-[#414042]">
-              Across International 110V RapidChill 20 Cu Ft Ultra Low
-            </p>
-
-            <!-- Button -->
-            <button
-              class="mt-4 w-full bg-[#006A2E] text-white text-[14px] font-medium py-2 rounded-sm hover:bg-[#005723] transition"
+        {% if collection %}
+          {% for product in collection.products %}
+            <div
+              class="swiper-slide w-[260px]"
+              data-tags="{{ product.tags | join: ',' | downcase }}"
             >
-              Quick View
-            </button>
-          </div>
-        </div>
-        <div class="swiper-slide w-[260px]!">
-          <div class="w-[260px] border border-transparent hover:border-[#0000001f] rounded-md p-2">
-            <!-- Image wrapper -->
-            <div class="relative bg-[#FAFAFA]! rounded-md flex items-center justify-center">
-              <!-- Sale badge -->
-              <span class="absolute top-3 left-3  text-white text-[12px] font-medium px-2 py-0.5 rounded"> sale </span>
+              <div class="w-[260px] border border-transparent hover:border-[#0000001f] rounded-md p-2">
+                <div class="relative bg-[#FAFAFA] rounded-md flex items-center justify-center">
+                  <img
+                    src="{{ product.featured_image | image_url: width: 300 }}"
+                    alt="{{ product.title }}"
+                    class="object-contain h-auto w-full"
+                  >
+                </div>
 
-              <img
-                src="{{ 'air-flow-circulation_300x.webp' | asset_url }}"
-                alt=""
-                class=" object-contain! h-auto w-full"
-              >
+                <div class="mt-4">
+                  <p class="text-[18px] font-semibold text-[#2B2B2B]">
+                    {{ product.price | money }}
+                  </p>
+
+                  {% if product.compare_at_price > product.price %}
+                    <p class="text-[14px] text-[#9B9B9B] line-through">
+                      {{ product.compare_at_price | money }}
+                    </p>
+                  {% endif %}
+                </div>
+
+                <p class="mt-2 text-[14px] leading-[20px] text-[#414042]">
+                  {{ product.title }}
+                </p>
+
+                <button class="mt-4 w-full bg-[#006A2E] text-white text-[14px] font-medium py-2 rounded-sm">
+                  Quick View
+                </button>
+              </div>
             </div>
-
-            <!-- Price -->
-            <div class="mt-4">
-              <p class="text-[18px] font-semibold text-[#2B2B2B]">$10,431.00</p>
-              <p class="text-[14px] text-[#9B9B9B] line-through">$12,517.20</p>
-            </div>
-
-            <!-- Title -->
-            <p class="mt-2 text-[14px] leading-[20px] text-[#414042]">
-              Across International 110V RapidChill 20 Cu Ft Ultra Low
-            </p>
-
-            <!-- Button -->
-            <button
-              class="mt-4 w-full bg-[#006A2E] text-white text-[14px] font-medium py-2 rounded-sm hover:bg-[#005723] transition"
-            >
-              Quick View
-            </button>
-          </div>
-        </div>
-        <div class="swiper-slide w-[260px]!">
-          <div class="w-[260px] border border-transparent hover:border-[#0000001f] rounded-md p-2">
-            <!-- Image wrapper -->
-            <div class="relative bg-[#FAFAFA]! rounded-md flex items-center justify-center">
-              <!-- Sale badge -->
-              <span class="absolute top-3 left-3  text-white text-[12px] font-medium px-2 py-0.5 rounded"> sale </span>
-
-              <img
-                src="{{ 'air-flow-circulation_300x.webp' | asset_url }}"
-                alt=""
-                class=" object-contain! h-auto w-full"
-              >
-            </div>
-
-            <!-- Price -->
-            <div class="mt-4">
-              <p class="text-[18px] font-semibold text-[#2B2B2B]">$10,431.00</p>
-              <p class="text-[14px] text-[#9B9B9B] line-through">$12,517.20</p>
-            </div>
-
-            <!-- Title -->
-            <p class="mt-2 text-[14px] leading-[20px] text-[#414042]">
-              Across International 110V RapidChill 20 Cu Ft Ultra Low
-            </p>
-
-            <!-- Button -->
-            <button
-              class="mt-4 w-full bg-[#006A2E] text-white text-[14px] font-medium py-2 rounded-sm hover:bg-[#005723] transition"
-            >
-              Quick View
-            </button>
-          </div>
-        </div>
-        <div class="swiper-slide w-[260px]! ">
-          <div class=" border border-transparent hover:border-[#0000001f] rounded-md p-2">
-            <!-- Image wrapper -->
-            <div class="relative bg-[#FAFAFA]! rounded-md flex items-center justify-center">
-              <!-- Sale badge -->
-              <span class="absolute top-3 left-3  text-white text-[12px] font-medium px-2 py-0.5 rounded"> sale </span>
-
-              <img
-                src="{{ 'air-flow-circulation_300x.webp' | asset_url }}"
-                alt=""
-                class=" object-contain! h-auto w-full"
-              >
-            </div>
-
-            <!-- Price -->
-            <div class="mt-4">
-              <p class="text-[18px] font-semibold text-[#2B2B2B]">$10,431.00</p>
-              <p class="text-[14px] text-[#9B9B9B] line-through">$12,517.20</p>
-            </div>
-
-            <!-- Title -->
-            <p class="mt-2 text-[14px] leading-[20px] text-[#414042]">
-              Across International 110V RapidChill 20 Cu Ft Ultra Low
-            </p>
-
-            <!-- Button -->
-            <button
-              class="mt-4 w-full bg-[#006A2E] text-white text-[14px] font-medium py-2 rounded-sm hover:bg-[#005723] transition"
-            >
-              Quick View
-            </button>
-          </div>
-        </div>
-        <div class="swiper-slide w-[260px]!">
-          <div class="w-[260px] border border-transparent hover:border-[#0000001f] rounded-md p-2">
-            <!-- Image wrapper -->
-            <div class="relative bg-[#FAFAFA]! rounded-md flex items-center justify-center">
-              <!-- Sale badge -->
-              <span class="absolute top-3 left-3  text-white text-[12px] font-medium px-2 py-0.5 rounded"> sale </span>
-
-              <img
-                src="{{ 'air-flow-circulation_300x.webp' | asset_url }}"
-                alt=""
-                class=" object-contain! h-auto w-full"
-              >
-            </div>
-
-            <!-- Price -->
-            <div class="mt-4">
-              <p class="text-[18px] font-semibold text-[#2B2B2B]">$10,431.00</p>
-              <p class="text-[14px] text-[#9B9B9B] line-through">$12,517.20</p>
-            </div>
-
-            <!-- Title -->
-            <p class="mt-2 text-[14px] leading-[20px] text-[#414042]">
-              Across International 110V RapidChill 20 Cu Ft Ultra Low
-            </p>
-
-            <!-- Button -->
-            <button
-              class="mt-4 w-full bg-[#006A2E] text-white text-[14px] font-medium py-2 rounded-sm hover:bg-[#005723] transition"
-            >
-              Quick View
-            </button>
-          </div>
-        </div>
-        <div class="swiper-slide w-[260px]!">
-          <div class="w-[260px] border border-transparent hover:border-[#0000001f] rounded-md p-2">
-            <!-- Image wrapper -->
-            <div class="relative bg-[#FAFAFA]! rounded-md flex items-center justify-center">
-              <!-- Sale badge -->
-              <span class="absolute top-3 left-3  text-white text-[12px] font-medium px-2 py-0.5 rounded"> sale </span>
-
-              <img
-                src="{{ 'air-flow-circulation_300x.webp' | asset_url }}"
-                alt=""
-                class=" object-contain! h-auto w-full"
-              >
-            </div>
-
-            <!-- Price -->
-            <div class="mt-4">
-              <p class="text-[18px] font-semibold text-[#2B2B2B]">$10,431.00</p>
-              <p class="text-[14px] text-[#9B9B9B] line-through">$12,517.20</p>
-            </div>
-
-            <!-- Title -->
-            <p class="mt-2 text-[14px] leading-[20px] text-[#414042]">
-              Across International 110V RapidChill 20 Cu Ft Ultra Low
-            </p>
-
-            <!-- Button -->
-            <button
-              class="mt-4 w-full bg-[#006A2E] text-white text-[14px] font-medium py-2 rounded-sm hover:bg-[#005723] transition"
-            >
-              Quick View
-            </button>
-          </div>
-        </div>
+          {% endfor %}
+        {% endif %}
       </div>
+
       <div
         class="
           next-swiper-button absolute right-0 top-1/2 -translate-y-1/2 z-10
@@ -246,37 +110,109 @@
   </div>
 </div>
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const filterSwiper = new Swiper('#filter-btn-swiper', {
-      slidesPerView: 'auto',
-      spaceBetween: 10,
-      freeMode: true,
-      grabCursor: false,
+document.addEventListener('DOMContentLoaded', function () {
+
+  const filterSwiper = new Swiper('#filter-btn-swiper', {
+    slidesPerView: 'auto',
+    spaceBetween: 10,
+    freeMode: true
+  });
+
+  const productSwiper = new Swiper('#products-swiper', {
+    slidesPerView: 'auto',
+    spaceBetween: 16,
+    navigation: {
+      nextEl: '.next-swiper-button',
+      prevEl: '.prev-swiper-button'
+    }
+  });
+
+  const filterButtons = document.querySelectorAll('.filter-btn');
+  const productSlides = document.querySelectorAll('#products-swiper .swiper-slide');
+
+  function applyFilter(filter) {
+    productSlides.forEach(slide => {
+      const tags = slide.dataset.tags || '';
+      slide.style.display = tags.includes(filter) ? '' : 'none';
     });
+    productSwiper.update();
+  }
 
-    const productSwiper = new Swiper('#products-swiper', {
-      slidesPerView: 'auto',
-      spaceBetween: 16,
-
-      speed: 600,
-      freeMode: false,
-
-      slidesPerGroup: 1,
-      centeredSlides: false,
-
-      watchSlidesProgress: true,
-      watchOverflow: true,
-
-      autoplay: {
-        delay: 3000, // 3 seconds
-        disableOnInteraction: false,
-        pauseOnMouseEnter: true,
-      },
-
-      navigation: {
-        nextEl: '.next-swiper-button',
-        prevEl: '.prev-swiper-button',
-      },
+  filterButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterButtons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      applyFilter(btn.dataset.filter);
     });
   });
+
+  // 🔥 AUTO APPLY FIRST FILTER ON LOAD
+  if (filterButtons.length) {
+    applyFilter(filterButtons[0].dataset.filter);
+  }
+
+});
 </script>
+
+
+{% schema %}
+  {
+  "name": "Top Sellers with Filters",
+  "blocks": [
+    {
+      "type": "filter",
+      "name": "Filter",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Filter label",
+          "default": "Freeze Dryers"
+        },
+        {
+          "type": "text",
+          "id": "tag",
+          "label": "Product tag to filter",
+          "default": "freeze dryers"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Browse Top Sellers",
+      "blocks": [
+        {
+          "type": "filter",
+          "settings": {
+            "label": "Freeze Dryers",
+            "tag": "freeze dryers"
+          }
+        },
+        {
+          "type": "filter",
+          "settings": {
+            "label": "Quest Dehumidifier",
+            "tag": "quest"
+          }
+        },
+        {
+          "type": "filter",
+          "settings": {
+            "label": "Floraflex",
+            "tag": "floraflex"
+          }
+        },
+        {
+          "type": "filter",
+          "settings": {
+            "label": "Dosatron",
+            "tag": "dosatron"
+          }
+        }
+      ]
+    }
+  ]
+}
+
+{% endschema %}

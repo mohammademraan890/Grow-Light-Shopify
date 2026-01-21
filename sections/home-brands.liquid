@@ -1,0 +1,178 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .brand-grid-{{ section.id }} .brand-heading {
+    font-size: {{ section.settings.heading_size_mobile }}px;
+    margin-bottom: {{ section.settings.heading_margin_bottom }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .brand-grid-{{ section.id }} .brand-heading {
+      font-size: {{ section.settings.heading_size_desktop }}px;
+    }
+  }
+
+  .brand-grid-{{ section.id }} .brand-grid-layout {
+    gap: {{ section.settings.grid_gap }}px;
+  }
+
+  .brand-card {
+    aspect-ratio: 16 / 9;
+  }
+{%- endstyle -%}
+
+<div class="brand-grid-{{ section.id }} section-{{ section.id }}-padding px-4 max-w-7xl mx-auto">
+  {% if section.settings.title != blank %}
+    <h2 class="brand-heading font-bold text-gray-800">
+      {{ section.settings.title }}
+    </h2>
+  {% endif %}
+
+  <div class="brand-grid-layout grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
+    {% for block in section.blocks %}
+      {%- assign brand_collection = collections[block.settings.collection] -%}
+      
+      <a href="{{ brand_collection.url | default: '#' }}" 
+         class="brand-card group flex items-center justify-center p-4 border border-gray-200 rounded-sm hover:shadow-md transition-shadow duration-300 min-h-[120px] bg-white hover:border-[#006A2E]"
+         {{ block.shopify_attributes }}>
+        
+        {% if brand_collection.image != blank %}
+          <img 
+            src="{{ brand_collection.image | image_url: width: 300 }}" 
+            alt="{{ brand_collection.title }}"
+            class="max-h-16 w-full object-contain filter grayscale group-hover:grayscale-0 transition-all duration-300"
+            loading="lazy"
+          >
+        {% else %}
+          <span class="text-center font-semibold text-gray-600 group-hover:text-black">
+            {{ block.settings.brand_name | default: brand_collection.title | default: "Brand" }}
+          </span>
+        {% endif %}
+      </a>
+    {% endfor %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Brand Grid",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Heading",
+      "default": "Over 200 Brands Stocked and Shipped Nationwide"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "heading_size_desktop",
+      "min": 16,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Heading Font Size (Desktop)",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "heading_size_mobile",
+      "min": 14,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Heading Font Size (Mobile)",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "heading_margin_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Space Below Heading",
+      "default": 32
+    },
+    {
+      "type": "header",
+      "content": "Section Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top Padding",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom Padding",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "grid_gap",
+      "min": 4,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "label": "Grid Gap (Spacing between cards)",
+      "default": 16
+    }
+  ],
+  "blocks": [
+    {
+      "type": "brand",
+      "name": "Brand",
+      "settings": [
+        {
+          "type": "text",
+          "id": "brand_name",
+          "label": "Brand Display Name (Fallback)",
+          "info": "Used if no collection image is found."
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Select Brand Collection"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Brand Grid",
+      "blocks": [
+        { "type": "brand" },
+        { "type": "brand" },
+        { "type": "brand" },
+        { "type": "brand" },
+        { "type": "brand" },
+        { "type": "brand" }
+      ]
+    }
+  ]
+}
+{% endschema %}

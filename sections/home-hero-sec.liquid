@@ -13,64 +13,224 @@
   }
 </style>
 
-<div class="bg-white  mt-5 mb-10">
+{%- style -%}
+  .hero-swiper-section {
+    margin-top: {{ section.settings.margin_top }}px;
+    margin-bottom: {{ section.settings.margin_bottom }}px;
+    background: {{ section.settings.section_bg }};
+  }
+
+  .hero-slide {
+    border-color: {{ section.settings.border_color }};
+  }
+
+  .hero-content {
+    padding: {{ section.settings.content_padding }}px;
+    color: {{ section.settings.text_color }};
+  }
+
+  .hero-btn {
+    background: {{ section.settings.button_bg }};
+    color: {{ section.settings.button_text }};
+  }
+
+  .hero-btn:hover {
+    background: {{ section.settings.button_hover }};
+  }
+{%- endstyle -%}
+
+
+<div class="hero-swiper-section bg-white">
   <div class="custom-container">
-    <div id="mySwiper" class="swiper ">
+    <div id="mySwiper" class="swiper">
       <div class="swiper-wrapper">
-        <div class="swiper-slide border border-[#BEC0C2] overflow-hidden rounded-sm">
-          <div class="grid grid-cols-3 h-full">
-            <div style="padding: 40px;" class="col-span-1">
-              <div class="flex items-start flex-col h-full justify-end">
-                <p class="                text-[16px] text-[#414042]! font-medium">The Indutry's #1 Source</p>
-                <h2 class="                text-[50px] text-[#414042]! my-2 leading-[56px] font-bold">
-                  Cultivation SuperStore
-                </h2>
-                <p class="                text-[16px] text-[#414042]! mb-5!">10,000+ Items At Your Fingertips</p>
-                <a
-                  href="#"
-                  class="
-                    block bg-[#006A2E] text
-                    -[16px] font-medium w-full py-2.5! rounded-sm text-center text-white! hover:bg-[#005723] transition
-                  "
-                  >Get In Touch</a
+
+        {% for block in section.blocks %}
+        <div class="swiper-slide hero-slide border overflow-hidden rounded-sm" {{ block.shopify_attributes }}>
+          <div class="grid grid-cols-3 h-full ">
+
+            {% if block.settings.reverse_layout %}
+              <!-- IMAGE -->
+              <div class="col-span-2">
+                <img
+                  src="{{ block.settings.image | image_url: width: 1200 }}"
+                  class="object-cover h-full w-full"
+                  alt=""
                 >
               </div>
+            {% endif %}
+
+            <!-- CONTENT -->
+            <div class="col-span-1 hero-content">
+              <div class="flex flex-col h-full justify-end">
+                <p class="text-[16px] font-medium">
+                  {{ block.settings.tagline }}
+                </p>
+                <h2 class="text-[50px] my-2 leading-[56px] font-bold">
+                  {{ block.settings.heading }}
+                </h2>
+                <p class="text-[16px] mb-5">
+                  {{ block.settings.subheading }}
+                </p>
+                <a
+                  href="{{ block.settings.button_link }}"
+                  class="hero-btn block text-[16px] font-medium w-full py-2.5 rounded-sm text-center transition"
+                >
+                  {{ block.settings.button_label }}
+                </a>
+              </div>
             </div>
-            <div class="col-span-2">
-              <img src="{{ 'hero-banner.webp' | asset_url }}" class="object-cover h-full w-full" alt="">
-            </div>
+
+            {% unless block.settings.reverse_layout %}
+              <!-- IMAGE -->
+              <div class="col-span-2">
+                <img
+                  src="{{ block.settings.image | image_url: width: 1200 }}"
+                  class="object-cover h-full w-full"
+                  alt=""
+                >
+              </div>
+            {% endunless %}
+
           </div>
         </div>
-        {% comment %}
-          <div class="swiper-slide border border-[#BEC0C2] h-[480px] overflow-hidden rounded-sm">
-            <div class="grid grid-cols-3 h-full">
-              <div style="padding: 40px;" class="col-span-1">
-                <div class="flex items-start flex-col h-full justify-end">
-                  <p class="                text-[16px] text-[#414042]! font-medium">The Indutry's #1 Source</p>
-                  <h2 class="                text-[50px] text-[#414042]! my-2 leading-[56px] font-bold">
-                    Cultivation SuperStore
-                  </h2>
-                  <p class="                text-[16px] text-[#414042]! mb-5!">10,000+ Items At Your Fingertips</p>
-                  <a
-                    href="#"
-                    class="
-                      block bg-[#006A2E] text
-                      -[16px] font-medium w-full py-2.5! rounded-sm text-center text-white! hover:bg-[#005723] transition
-                    "
-                    >Get In Touch</a
-                  >
-                </div>
-              </div>
-              <div class="col-span-2">
-                <img src="{{ 'hero-banner.webp' | asset_url }}" class="object-cover h-full w-full" alt="">
-              </div>
-            </div>
-          </div>
-        {% endcomment %}
+        {% endfor %}
+
       </div>
     </div>
   </div>
 </div>
+
+{% schema %}
+ {
+  "name": "Hero Swiper",
+  "settings": [
+    {
+      "type": "color",
+      "id": "section_bg",
+      "label": "Section background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Slide border color",
+      "default": "#BEC0C2"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#414042"
+    },
+    {
+      "type": "color",
+      "id": "button_bg",
+      "label": "Button background",
+      "default": "#006A2E"
+    },
+    {
+      "type": "color",
+      "id": "button_hover",
+      "label": "Button hover background",
+      "default": "#005723"
+    },
+    {
+      "type": "color",
+      "id": "button_text",
+      "label": "Button text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "content_padding",
+      "label": "Content padding",
+      "min": 20,
+      "max": 80,
+      "step": 4,
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "label": "Margin top",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "label": "Margin bottom",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 40
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "reverse_layout",
+          "label": "Reverse image & content",
+          "default": false
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Slide image"
+        },
+        {
+          "type": "text",
+          "id": "tagline",
+          "label": "Top text",
+          "default": "The Industry's #1 Source"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Cultivation SuperStore"
+        },
+        {
+          "type": "text",
+          "id": "subheading",
+          "label": "Subheading",
+          "default": "10,000+ Items At Your Fingertips"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button text",
+          "default": "Get In Touch"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero Swiper",
+      "blocks": [
+        {
+          "type": "slide"
+        }
+      ]
+    }
+  ]
+}
+
+{% endschema %}
+
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {

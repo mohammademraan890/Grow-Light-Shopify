@@ -20,11 +20,26 @@
     "top-products-sec": {
       "type": "home-top-products",
       "settings": {}
+    },
+    "pricing-banner": {
+      "type": "pricing-banner",
+      "settings": {}
+    },
+    "home-brands": {
+      "type": "home-brands",
+      "settings": {}
+    },
+    "home-services": {
+      "type": "home-services-sec",
+      "settings": {}
     }
   },
   "order": [
     "main",
     "category-section",
-    "top-products-sec"
+    "top-products-sec",
+    "pricing-banner",
+    "home-brands",
+    "home-services"
   ]
 }
