@@ -12,18 +12,6 @@
     "main": {
       "type": "home-hero-sec",
       "blocks": {
-        "slide_Qae4Qa": {
-          "type": "slide",
-          "settings": {
-            "reverse_layout": true,
-            "image": "shopify://shop_images/Banner_image_900x_0dc5c26a-2b0b-416e-bdd5-a91f0125583a.webp",
-            "tagline": "The Industry's #1 Source",
-            "heading": "Cultivation SuperStore",
-            "subheading": "10,000+ Items At Your Fingertips",
-            "button_label": "Get In Touch",
-            "button_link": ""
-          }
-        },
         "slide_qGyTna": {
           "type": "slide",
           "settings": {
@@ -38,7 +26,6 @@
         }
       },
       "block_order": [
-        "slide_Qae4Qa",
         "slide_qGyTna"
       ],
       "settings": {
