@@ -191,6 +191,48 @@
     "home-brands": {
       "type": "home-brands",
       "blocks": {
+        "brand_qcTMNM": {
+          "type": "brand",
+          "settings": {
+            "brand_name": "",
+            "collection": "carson-technology"
+          }
+        },
+        "brand_rGLGeE": {
+          "type": "brand",
+          "settings": {
+            "brand_name": "",
+            "collection": "current-culture"
+          }
+        },
+        "brand_eNirgi": {
+          "type": "brand",
+          "settings": {
+            "brand_name": "",
+            "collection": "gavita"
+          }
+        },
+        "brand_jkGwfj": {
+          "type": "brand",
+          "settings": {
+            "brand_name": "",
+            "collection": "growpros"
+          }
+        },
+        "brand_MCApWK": {
+          "type": "brand",
+          "settings": {
+            "brand_name": "",
+            "collection": "netafim"
+          }
+        },
+        "brand_n7thmd": {
+          "type": "brand",
+          "settings": {
+            "brand_name": "",
+            "collection": "trolmaster"
+          }
+        },
         "brand_rWaedG": {
           "type": "brand",
           "settings": {
@@ -277,6 +319,12 @@
         }
       },
       "block_order": [
+        "brand_qcTMNM",
+        "brand_rGLGeE",
+        "brand_eNirgi",
+        "brand_jkGwfj",
+        "brand_MCApWK",
+        "brand_n7thmd",
         "brand_rWaedG",
         "brand_zqCPKL",
         "brand_jteLQh",
