@@ -26,43 +26,41 @@
     gap: {{ section.settings.grid_gap }}px;
   }
 
-  .brand-card {
-    aspect-ratio: 16 / 9;
-  }
 {%- endstyle -%}
+<div class="custom-container">
+  <div class="brand-grid-{{ section.id }} section-{{ section.id }}-padding">
+    {% if section.settings.title != blank %}
+      <h2 class="brand-heading font-bold text-gray-800">
+        {{ section.settings.title }}
+      </h2>
+    {% endif %}
 
-<div class="brand-grid-{{ section.id }} section-{{ section.id }}-padding px-4 max-w-7xl mx-auto">
-  {% if section.settings.title != blank %}
-    <h2 class="brand-heading font-bold text-gray-800">
-      {{ section.settings.title }}
-    </h2>
-  {% endif %}
+    <div class="brand-grid-layout grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
+      {% for block in section.blocks %}
+        {%- assign brand_collection = collections[block.settings.collection] -%}
 
-  <div class="brand-grid-layout grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
-    {% for block in section.blocks %}
-      {%- assign brand_collection = collections[block.settings.collection] -%}
-      
-      <a href="{{ brand_collection.url | default: '#' }}" 
-         class="brand-card group flex items-center justify-center p-4 border border-gray-200 rounded-sm hover:shadow-md transition-shadow duration-300 min-h-[120px] bg-white hover:border-[#006A2E]"
-         {{ block.shopify_attributes }}>
-        
-        {% if brand_collection.image != blank %}
-          <img 
-            src="{{ brand_collection.image | image_url: width: 300 }}" 
-            alt="{{ brand_collection.title }}"
-            class="max-h-10 w-full object-contain transition-all duration-300"
-            loading="lazy"
-          >
-        {% else %}
-          <span class="text-center font-semibold text-gray-600 group-hover:text-black">
-            {{ block.settings.brand_name | default: brand_collection.title | default: "Brand" }}
-          </span>
-        {% endif %}
-      </a>
-    {% endfor %}
+        <a
+          href="{{ brand_collection.url | default: '#' }}"
+          class="brand-card group flex items-center justify-center border border-gray-200 rounded-sm duration-300 min-h-[120px] bg-white hover:border-[#006A2E]"
+          {{ block.shopify_attributes }}
+        >
+          {% if brand_collection.image != blank %}
+            <img
+              src="{{ brand_collection.image | image_url: width: 300 }}"
+              alt="{{ brand_collection.title }}"
+              class="max-h-10 w-full object-contain transition-all duration-300"
+              loading="lazy"
+            >
+          {% else %}
+            <span class="text-center font-semibold text-gray-600 group-hover:text-black">
+              {{ block.settings.brand_name | default: brand_collection.title | default: 'Brand' }}
+            </span>
+          {% endif %}
+        </a>
+      {% endfor %}
+    </div>
   </div>
 </div>
-
 {% schema %}
 {
   "name": "Brand Grid",

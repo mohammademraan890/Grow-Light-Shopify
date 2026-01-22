@@ -48,7 +48,7 @@
   }
 {%- endstyle -%}
 
-<div class="{% if section.settings.full_width %}w-full{% else %}max-w-7xl mx-auto px-4{% endif %} my-8">
+<div class="{% if section.settings.full_width %}w-full{% else %}custom-container {% endif %} my-8">
   <div class="section-{{ section.id }}-wrapper section-{{ section.id }}-padding rounded-md overflow-hidden relative">
     
     {% comment %} Layout Logic: flex-row or flex-row-reverse {% endcomment %}

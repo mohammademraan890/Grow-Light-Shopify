@@ -43,7 +43,7 @@
 
 
   <div class="my-5">
-    {% assign collection = collections['top-sell-products'] %}
+    {% assign collection = collections['best-seller-products'] %}
 
     <div class="swiper py-10 relative" id="products-swiper">
       <div
@@ -60,10 +60,10 @@
         {% if collection %}
           {% for product in collection.products %}
             <div
-              class="swiper-slide w-[260px]"
+              class="swiper-slide w-[260px]!"
               data-tags="{{ product.tags | join: ',' | downcase }}"
             >
-              <div class="w-[260px] border border-transparent hover:border-[#0000001f] rounded-md p-2">
+              <div class="w-[260px]! border border-transparent hover:border-[#0000001f] rounded-md p-2">
                 <div class="relative bg-[#FAFAFA] rounded-md flex items-center justify-center">
                   <img
                     src="{{ product.featured_image | image_url: width: 300 }}"

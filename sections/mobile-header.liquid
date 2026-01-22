@@ -1,0 +1,162 @@
+{%- style -%}
+  .icon-header-{{ section.id }} {
+    background-color: {{ section.settings.bg_color }};
+    padding: {{ section.settings.padding_v }}px 0;
+    border-bottom: 1px solid {{ section.settings.border_color }};
+  }
+
+
+
+  .header-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    text-decoration: none;
+    color: {{ section.settings.text_color }};
+    transition: color 0.3s ease;
+  }
+
+  .header-item:hover {
+    color: {{ section.settings.accent_color }};
+  }
+
+  .icon-box svg, .icon-box img {
+    width: {{ section.settings.icon_size }}px;
+    height: {{ section.settings.icon_size }}px;
+    margin-bottom: 8px;
+    fill: currentColor;
+  }
+
+  .logo-box img {
+    max-width: {{ section.settings.logo_width }}px;
+    height: auto;
+  }
+
+  .text-main {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.2;
+  }
+
+  .text-sub {
+    font-size: 12px;
+    opacity: 0.6;
+    margin-top: 2px;
+  }
+
+  @media (max-width: 768px) {
+    .header-grid-container {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .logo-box { order: -1; grid-column: span 3; margin-bottom: 10px; }
+  }
+{%- endstyle -%}
+
+<header class="icon-header-{{ section.id }}">
+  <div class="custom-container">
+    <div class="header-grid-container flex items-center justify-between">
+      <a href="{{ section.settings.link_1 }}" class="header-item">
+        <div class="icon-box">{{ section.settings.icon_1 }}</div>
+        <span class="text-main">{{ section.settings.text_1_main }}</span>
+        <span class="text-sub">{{ section.settings.text_1_sub }}</span>
+      </a>
+
+      <a href="{{ section.settings.link_2 }}" class="header-item">
+        <div class="icon-box">{{ section.settings.icon_2 }}</div>
+        <span class="text-main">{{ section.settings.text_2_main }}</span>
+        <span class="text-sub">{{ section.settings.text_2_sub }}</span>
+      </a>
+
+      <div class="logo-box flex justify-center">
+        <a href="/">
+          {% if section.settings.logo != blank %}
+            <img src="{{ section.settings.logo | image_url: width: 300 }}" alt="{{ shop.name }}">
+          {% else %}
+            <span class="text-xl font-bold">LOGO</span>
+          {% endif %}
+        </a>
+      </div>
+
+      <a href="{{ section.settings.link_4 }}" class="header-item">
+        <div class="icon-box">{{ section.settings.icon_4 }}</div>
+        <span class="text-main">{{ section.settings.text_4_main }}</span>
+        <span class="text-sub">{{ section.settings.text_4_sub }}</span>
+      </a>
+
+      <a href="{{ section.settings.link_5 }}" class="header-item">
+        <div class="icon-box">{{ section.settings.icon_5 }}</div>
+        <span class="text-main">{{ section.settings.text_5_main }}</span>
+        <span class="text-sub">{{ section.settings.text_5_sub }}</span>
+      </a>
+    </div>
+
+    
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "Exact Icon Header",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Global Styles"
+    },
+    { "type": "color", "id": "bg_color", "label": "Background", "default": "#ffffff" },
+    { "type": "color", "id": "text_color", "label": "Text/Icon Color", "default": "#454545" },
+    { "type": "color", "id": "accent_color", "label": "Hover Color", "default": "#006A2E" },
+    { "type": "color", "id": "border_color", "label": "Bottom Border", "default": "#E9E9E9" },
+    { "type": "range", "id": "icon_size", "label": "Icon Size", "min": 20, "max": 50, "default": 30, "unit": "px" },
+    { "type": "range", "id": "logo_width", "label": "Logo Width", "min": 50, "max": 100, "default": 80, "unit": "px" },
+    {
+      "type": "range",
+      "id": "padding_v",
+      "label": "Vertical Spacing",
+      "min": 10,
+      "max": 60,
+      "default": 30,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Center Logo"
+    },
+    { "type": "image_picker", "id": "logo", "label": "Logo Image" },
+    {
+      "type": "header",
+      "content": "Column 1 (Far Left)"
+    },
+    { "type": "html", "id": "icon_1", "label": "SVG Icon 1" },
+    { "type": "text", "id": "text_1_main", "label": "Main Text", "default": "Search" },
+    { "type": "text", "id": "text_1_sub", "label": "Sub Text", "default": "Menu" },
+    // { "type": "url", "id": "link_1", "label": "Link 1" },
+    {
+      "type": "header",
+      "content": "Column 2 (Left Inner)"
+    },
+    { "type": "html", "id": "icon_2", "label": "SVG Icon 2" },
+    { "type": "text", "id": "text_2_main", "label": "Main Text", "default": "Search" },
+    { "type": "text", "id": "text_2_sub", "label": "Sub Text", "default": "link url" },
+    { "type": "url", "id": "link_2", "label": "Link 2" },
+    {
+      "type": "header",
+      "content": "Column 4 (Right Inner)"
+    },
+    { "type": "html", "id": "icon_4", "label": "SVG Icon 4" },
+    { "type": "text", "id": "text_4_main", "label": "Main Text", "default": "Contact" },
+    { "type": "text", "id": "text_4_sub", "label": "Sub Text", "default": "link text" },
+    { "type": "url", "id": "link_4", "label": "Link 4" },
+    {
+      "type": "header",
+      "content": "Column 5 (Far Right)"
+    },
+    { "type": "html", "id": "icon_5", "label": "SVG Icon 5" },
+    { "type": "text", "id": "text_5_main", "label": "Main Text", "default": "My cart" },
+    { "type": "text", "id": "text_5_sub", "label": "Sub Text", "default": "link url" },
+    { "type": "url", "id": "link_5", "label": "Link 5" }
+  ],
+  "presets": [{ "name": "Exact Icon Header" }]
+}
+{% endschema %}

@@ -1,213 +1,251 @@
 {%- style -%}
-  :root {
-    --header-bg: {{ section.settings.header_bg }};
-    --header-border: {{ section.settings.header_border }};
-    --nav-border: {{ section.settings.nav_border }};
-    --text-color: {{ section.settings.text_color }};
-    --accent-color: {{ section.settings.accent_color }};
-    --bottom-bg: {{ section.settings.bottom_bg }};
-    
-    /* ✅ Bottom header variables (FIX) */
-    --bottom-bg: {{ section.settings.bottom_bg }};
-    --bottom-text: {{ section.settings.bottom_text }};
-    --bottom-link: {{ section.settings.bottom_link }};
-  }
+     :root {
+       --header-bg: {{ section.settings.header_bg }};
+       --header-border: {{ section.settings.header_border }};
+       --nav-border: {{ section.settings.nav_border }};
+       --text-color: {{ section.settings.text_color }};
+       --accent-color: {{ section.settings.accent_color }};
+       --bottom-bg: {{ section.settings.bottom_bg }};
 
+       /* ✅ Bottom header variables (FIX) */
+       --bottom-bg: {{ section.settings.bottom_bg }};
+       --bottom-text: {{ section.settings.bottom_text }};
+       --bottom-link: {{ section.settings.bottom_link }};
+     }
+
+     .site-header {
+       background: var(--header-bg);
+       color: var(--text-color);
+     }
+
+     .header-top-inner {
+       border-bottom: 1px solid var(--header-border);
+     }
+
+     .nav-menu {
+       border-bottom: 1px solid var(--nav-border);
+     }
+
+    .header-btm {
+       background: var(--bottom-bg);
+       color: var(--bottom-text);
+       position: relative;
+     }
+
+     .header-btm a {
+       color: var(--bottom-link) !important;
+     }
+
+     /* Swiper arrows */
+     .btm-swiper .swiper-button-prev,
+     .btm-swiper .swiper-button-next {
+       color: #000;
+       width: 28px;
+       height: 28px;
+     }
+
+     .btm-swiper .swiper-button-prev::after,
+     .btm-swiper .swiper-button-next::after {
+       font-size: 18px;
+       font-weight: bold;
+     }
+
+     /* Desktop: disable swiper layout */
+     @media (min-width: 768px) {
+       .btm-swiper {
+         overflow: visible;
+       }
+       .btm-swiper .swiper-wrapper {
+         display: grid;
+         grid-template-columns: repeat(2, 1fr);
+         transform: none !important;
+       }
+       .btm-swiper .swiper-slide {
+         width: auto !important;
+       }
+       .btm-swiper .swiper-button-prev,
+       .btm-swiper .swiper-button-next {
+         display: none;
+       }
+     }
+     /* Scroll animation helpers */
+  /* HEADER BASE */
+  /* HEADER BASE */
   .site-header {
-    background: var(--header-bg);
-    color: var(--text-color);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
   }
 
-  .header-top-inner {
-    border-bottom: 1px solid var(--header-border);
-  }
-
+  /* NAV MENU ALWAYS FIXED */
   .nav-menu {
-    border-bottom: 1px solid var(--nav-border);
+    position: sticky;
+    top: 0;
+    background: var(--header-bg);
+    z-index: 50;
+    transition: box-shadow 0.3s ease;
   }
 
- .header-btm {
-    background: var(--bottom-bg);
-    color: var(--bottom-text);
-    position: relative;
+  /* Animate hide sections */
+  .header-top-inner,
+  .header-btm {
+    transition: opacity 0.35s ease, transform 0.35s ease, max-height 0.35s ease;
+    transform: translateY(0);
+    opacity: 1;
+    max-height: 300px;
+    overflow: hidden;
   }
 
-  .header-btm a {
-    color: var(--bottom-link) !important;
+  /* COLLAPSED STATE */
+  .site-header.is-collapsed .header-top-inner,
+  .site-header.is-collapsed .header-btm {
+    opacity: 0;
+    transform: translateY(-20px);
+    max-height: 0;
+    pointer-events: none;
+    padding: 0 !important;
   }
 
-  /* Swiper arrows */
-  .btm-swiper .swiper-button-prev,
-  .btm-swiper .swiper-button-next {
-    color: #000;
-    width: 28px;
-    height: 28px;
+  /* Nav shadow when collapsed */
+  .site-header.is-collapsed .nav-menu {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
   }
-
-  .btm-swiper .swiper-button-prev::after,
-  .btm-swiper .swiper-button-next::after {
-    font-size: 18px;
-    font-weight: bold;
-  }
-
-  /* Desktop: disable swiper layout */
-  @media (min-width: 768px) {
-    .btm-swiper {
-      overflow: visible;
-    }
-    .btm-swiper .swiper-wrapper {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      transform: none !important;
-    }
-    .btm-swiper .swiper-slide {
-      width: auto !important;
-    }
-    .btm-swiper .swiper-button-prev,
-    .btm-swiper .swiper-button-next {
-      display: none;
-    }
-  }
-
 {%- endstyle -%}
-
-<header class="site-header top-0 left-0 right-0 bg-white">
-  {%- if section.settings.show_top_bar -%}
-    <div class="header-top-inner">
-      <div class="custom-container">
-        <div class="flex items-center gap-10">
-          {%- if section.settings.logo_position == 'left' -%}
-            <div class="header-logo">
-              <img
-                src="{{ 'grow-light-logo.webp' | asset_url }}"
-                alt="{{ shop.name }}"
-                width="{{ section.settings.logo_width }}"
-              >
-            </div>
-          {%- endif -%}
-
-          <div class="header-left flex flex-col gap-[20px] w-full">
-            <!-- TOP INFO BAR -->
-            <div class="border-b py-[10px] flex justify-between text-[12px] items-center w-full">
-              <div class="flex items-center gap-5">
-                <a href="mailto:support@growlightheaven.com" class="header-link"> support@growlightheaven.com </a>
-                <a href="tel:9142196983" class="header-link"> (914) 219-6983 </a>
-                <span>Mon-Fri: 9AM - 5PM EST</span>
-              </div>
-
-              <div class="flex items-center gap-5">
-                <a href="#" class="header-link">Commercial Pricing</a>
-                <a href="#" class="header-link">Get Rebates</a>
-                <a href="#" class="header-link">Facility Design</a>
-              </div>
-            </div>
-
-            <!-- SEARCH + ICONS -->
-            <div class="flex items-center mb-4 gap-10">
-              <div class="w-full flex items-center gap-2 border border-[#959595] rounded-sm focus-within:shadow-[0_0_0_3px_#4140421a]">
-                <input
-                  placeholder="What are you looking for?"
-                  class="w-full py-2.5 px-5 text-[14px] focus:outline-none"
-                  type="text"
+<div class="h-[230px]">
+  <header class="site-header fixed z-100  top-0 left-0 right-0 bg-white">
+    {%- if section.settings.show_top_bar -%}
+      <div class="header-top-inner">
+        <div class="custom-container">
+          <div class="flex items-center gap-10">
+            {%- if section.settings.logo_position == 'left' -%}
+              <div class="header-logo">
+                <img
+                  src="{{ 'grow-light-logo.webp' | asset_url }}"
+                  alt="{{ shop.name }}"
+                  width="{{ section.settings.logo_width }}"
                 >
-                <button class="w-[40px] flex items-center justify-center cursor-pointer">
-                  {% render 'svg-icons', name: 'search-icon' %}
-                </button>
+              </div>
+            {%- endif -%}
+
+            <div class="header-left flex flex-col gap-[20px] w-full">
+              <!-- TOP INFO BAR -->
+              <div class="border-b py-[10px] flex justify-between text-[12px] items-center w-full">
+                <div class="flex items-center gap-5">
+                  <a href="mailto:support@growlightheaven.com" class="header-link"> support@growlightheaven.com </a>
+                  <a href="tel:9142196983" class="header-link"> (914) 219-6983 </a>
+                  <span>Mon-Fri: 9AM - 5PM EST</span>
+                </div>
+
+                <div class="flex items-center gap-5">
+                  <a href="#" class="header-link">Commercial Pricing</a>
+                  <a href="#" class="header-link">Get Rebates</a>
+                  <a href="#" class="header-link">Facility Design</a>
+                </div>
               </div>
 
-              <div class="flex items-center gap-10 text-[12px]">
-                <a href="#" class="flex items-center flex-col group">
-                  {% render 'svg-icons', name: 'user-icon', icon_class: 'fill-[#414042] group-hover:fill-[#006A2E]' %}
-                  <span class="group-hover:underline whitespace-nowrap">Sign In</span>
-                </a>
-                <a href="#" class="flex items-center flex-col group">
-                  {% render 'svg-icons',
-                    name: 'wishlist-icon',
-                    icon_class: 'fill-[#414042] group-hover:fill-[#006A2E]'
-                  %}
-                  <span class="group-hover:underline whitespace-nowrap">My Wishlist</span>
-                </a>
-                <a href="#" class="flex items-center flex-col group">
-                  {% render 'svg-icons', name: 'cart-icon', icon_class: 'fill-[#414042] group-hover:fill-[#006A2E]' %}
-                  <span class="group-hover:underline whitespace-nowrap">My Cart</span>
-                </a>
+              <!-- SEARCH + ICONS -->
+              <div class="flex items-center mb-4 gap-10">
+                <div class="w-full flex items-center gap-2 border border-[#959595] rounded-sm focus-within:shadow-[0_0_0_3px_#4140421a]">
+                  <input
+                    placeholder="What are you looking for?"
+                    class="w-full py-2.5 px-5 text-[14px] focus:outline-none"
+                    type="text"
+                  >
+                  <button class="w-[40px] flex items-center justify-center cursor-pointer">
+                    {% render 'svg-icons', name: 'search-icon' %}
+                  </button>
+                </div>
+
+                <div class="flex items-center gap-10 text-[12px]">
+                  <a href="#" class="flex items-center flex-col group">
+                    {% render 'svg-icons', name: 'user-icon', icon_class: 'fill-[#414042] group-hover:fill-[#006A2E]' %}
+                    <span class="group-hover:underline whitespace-nowrap">Sign In</span>
+                  </a>
+                  <a href="#" class="flex items-center flex-col group">
+                    {% render 'svg-icons',
+                      name: 'wishlist-icon',
+                      icon_class: 'fill-[#414042] group-hover:fill-[#006A2E]'
+                    %}
+                    <span class="group-hover:underline whitespace-nowrap">My Wishlist</span>
+                  </a>
+                  <a href="#" class="flex items-center flex-col group">
+                    {% render 'svg-icons', name: 'cart-icon', icon_class: 'fill-[#414042] group-hover:fill-[#006A2E]' %}
+                    <span class="group-hover:underline whitespace-nowrap">My Cart</span>
+                  </a>
+                </div>
               </div>
             </div>
+
+            {%- if section.settings.logo_position == 'right' -%}
+              <div class="header-logo">
+                <img
+                  src="{{ 'grow-light-logo.webp' | asset_url }}"
+                  alt="{{ shop.name }}"
+                  width="{{ section.settings.logo_width }}"
+                >
+              </div>
+            {%- endif -%}
           </div>
+        </div>
+      </div>
+    {%- endif -%}
 
-          {%- if section.settings.logo_position == 'right' -%}
-            <div class="header-logo">
-              <img
-                src="{{ 'grow-light-logo.webp' | asset_url }}"
-                alt="{{ shop.name }}"
-                width="{{ section.settings.logo_width }}"
-              >
+    <!-- NAVIGATION -->
+    <div class="nav-menu bg-white">
+      <div class="custom-container">
+        <ul class="flex items-center justify-between text-[16px] font-medium text-[#414042]">
+          {% for link in linklists['nav-menu'].links %}
+            <li>
+              <a href="{{ link.url }}" class="block px-2 py-3 hover:text-[#006A2E]! transition-colors duration-200">
+                {{ link.title }}
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+
+    {%- if section.settings.show_bottom_bar -%}
+      <div class="header-btm py-2.5">
+        <div class="custom-container relative">
+          <div class="swiper btm-swiper" id="bottomBarSwiper">
+            <div class="swiper-wrapper text-center">
+              <div class="swiper-slide">
+                <p class="text-[16px] font-medium">
+                  {{ section.settings.bottom_title_1 }}
+                </p>
+                <p class="text-[14px]">
+                  {{ section.settings.bottom_text_1 }}
+                  <a href="tel:{{ section.settings.bottom_phone_1 | replace: ' ', '' }}">
+                    {{ section.settings.bottom_phone_1 }}
+                  </a>
+                </p>
+              </div>
+
+              <div class="swiper-slide">
+                <p class="text-[16px] font-medium">
+                  {{ section.settings.bottom_title_2 }}
+                </p>
+                <p class="text-[14px]">
+                  {{ section.settings.bottom_text_2 }}
+                  <a href="tel:{{ section.settings.bottom_phone_2 | replace: ' ', '' }}">
+                    {{ section.settings.bottom_phone_2 }}
+                  </a>
+                </p>
+              </div>
             </div>
-          {%- endif -%}
+
+            <!-- Arrows -->
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+          </div>
         </div>
       </div>
-    </div>
-  {%- endif -%}
-
-  <!-- NAVIGATION -->
-  <div class="nav-menu bg-white">
-    <div class="custom-container">
-      <ul class="flex items-center justify-between text-[16px] font-medium text-[#414042]">
-        {% for link in linklists['nav-menu'].links %}
-          <li>
-            <a href="{{ link.url }}" class="block px-2 py-3 hover:text-[#006A2E]! transition-colors duration-200">
-              {{ link.title }}
-            </a>
-          </li>
-        {% endfor %}
-      </ul>
-    </div>
-  </div>
-
-{%- if section.settings.show_bottom_bar -%}
-<div class="header-btm py-2.5">
-  <div class="custom-container relative">
-
-    <div class="swiper btm-swiper" id="bottomBarSwiper">
-      <div class="swiper-wrapper text-center">
-
-        <div class="swiper-slide">
-          <p class="text-[16px] font-medium">
-            {{ section.settings.bottom_title_1 }}
-          </p>
-          <p class="text-[14px]">
-            {{ section.settings.bottom_text_1 }}
-            <a href="tel:{{ section.settings.bottom_phone_1 | replace: ' ', '' }}">
-              {{ section.settings.bottom_phone_1 }}
-            </a>
-          </p>
-        </div>
-
-        <div class="swiper-slide">
-          <p class="text-[16px] font-medium">
-            {{ section.settings.bottom_title_2 }}
-          </p>
-          <p class="text-[14px]">
-            {{ section.settings.bottom_text_2 }}
-            <a href="tel:{{ section.settings.bottom_phone_2 | replace: ' ', '' }}">
-              {{ section.settings.bottom_phone_2 }}
-            </a>
-          </p>
-        </div>
-
-      </div>
-
-      <!-- Arrows -->
-      <div class="swiper-button-prev"></div>
-      <div class="swiper-button-next"></div>
-    </div>
-
-  </div>
+    {%- endif -%}
+  </header>
 </div>
-{%- endif -%}
-
-</header>
-
 {% schema %}
 {
   "name": "Custom Header",
@@ -352,12 +390,12 @@
           loop: true,
           autoplay: {
             delay: 3000,
-            disableOnInteraction: false
+            disableOnInteraction: false,
           },
           navigation: {
             nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev'
-          }
+            prevEl: '.swiper-button-prev',
+          },
         });
       }
 
@@ -372,3 +410,27 @@
   });
 </script>
 
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const header = document.querySelector('.site-header');
+
+    let lastScrollY = window.scrollY;
+    const triggerOffset = 100;
+
+    window.addEventListener('scroll', () => {
+      const currentScrollY = window.scrollY;
+
+      // Scroll DOWN
+      if (currentScrollY > lastScrollY && currentScrollY > triggerOffset) {
+        header.classList.add('is-collapsed');
+      }
+
+      // Scroll UP (anywhere on page)
+      if (currentScrollY < lastScrollY) {
+        header.classList.remove('is-collapsed');
+      }
+
+      lastScrollY = currentScrollY;
+    });
+  });
+</script>
