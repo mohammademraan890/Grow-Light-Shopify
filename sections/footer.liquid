@@ -1,22 +1,102 @@
-<footer class="footer-custom border-t border-gray-200" style="
-  background-color: {{ section.settings.bg_color }};
-  padding-top: {{ section.settings.padding_top }}px;
-  padding-bottom: {{ section.settings.padding_bottom }}px;
-">
-  <div class="max-w-7xl mx-auto px-4 lg:px-8">
-    <div class="grid grid-cols-1 lg:grid-cols-6 gap-8">
-      
-      <div class="lg:col-span-3">
+<style>
+  .footer-accordion {
+    display: none;
+  }
+
+  @media (max-width: 767px) {
+    .footer-accordion {
+      display: block;
+    }
+
+    .footer-desktop-menu {
+      display: none;
+    }
+  }
+
+  .accordion-item {
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  .accordion-button {
+    width: 100%;
+    padding: 16px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: none;
+    border: none;
+    text-align: left;
+    font-size: 15px;
+    color: #1f2937;
+    cursor: pointer;
+  }
+
+  .accordion-button:hover {
+    text-decoration: underline;
+  }
+
+  .accordion-icon {
+    transition: transform 0.3s ease;
+  }
+
+  .accordion-icon.open {
+    transform: rotate(180deg);
+  }
+
+  .accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+
+  .accordion-content.open {
+    max-height: 500px;
+    padding-bottom: 16px;
+  }
+
+  .accordion-content ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .accordion-content li {
+    margin-bottom: 12px;
+  }
+
+  .accordion-content a {
+    color: #6b7280;
+    text-decoration: none;
+    font-size: 14px;
+  }
+
+  .accordion-content a:hover {
+    text-decoration: underline;
+  }
+</style>
+
+<footer
+  class="footer-custom border-t border-gray-200"
+  style="
+    background-color: {{ section.settings.bg_color }};
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  "
+>
+  <div class="custom-container">
+    <div class="grid grid-cols-1 md:grid-cols-4 xl:grid-cols-6 gap-8">
+      <!-- DESKTOP MENU COLUMN -->
+      <div class="footer-desktop-menu md:col-span-3 xl:col-span-3">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-y-10 gap-x-4">
           {% for link in linklists[section.settings.menu].links %}
             <div>
-              <a href="{{ link.url }}" class="footer-heading flex items-center mb-4">
+              <a href="{{ link.url }}" class="footer-heading flex items-center gap-1">
                 {{ link.title }}
-                {% comment %} <span class="ml-1 text-[10px]">{% render 'icon-chevron-right' %}</span> {% endcomment %}
+                {% render 'svg-icons', name: 'chevron-right', icon_class: 'w-4 h-4' %}
               </a>
 
               {% if link.links.size > 0 %}
-                <ul class="space-y-2">
+                <ul>
                   {% for child in link.links %}
                     <li>
                       <a href="{{ child.url }}" class="footer-link">
@@ -31,21 +111,69 @@
         </div>
       </div>
 
-      <div class="lg:col-span-1">
+      <!-- MOBILE ACCORDION MENU -->
+      <div class="footer-accordion md:col-span-3 xl:col-span-3">
+        {% for link in linklists[section.settings.menu].links %}
+          <div class="accordion-item">
+            <button
+              class="accordion-button"
+              onclick="toggleAccordion(this)"
+              type="button"
+            >
+              <span>{{ link.title }}</span>
+              <svg class="accordion-icon w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </button>
+
+            {% if link.links.size > 0 %}
+              <div class="accordion-content">
+                <ul>
+                  {% for child in link.links %}
+                    <li>
+                      <a href="{{ child.url }}">
+                        {{ child.title }}
+                      </a>
+                    </li>
+                  {% endfor %}
+                </ul>
+              </div>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+
+      <!-- MIDDLE COLUMN (Shows below accordions on mobile) -->
+      <div class="md:col-span-1 xl:col-span-1 order-2 md:order-none">
         {% if section.settings.middle_column_text != blank %}
-           <div class="prose prose-sm text-gray-600">
-             {{ section.settings.middle_column_text }}
-           </div>
+          <div class="prose prose-sm text-gray-600">
+            {{ section.settings.middle_column_text }}
+          </div>
         {% endif %}
       </div>
 
-      <div class="lg:col-span-2">
+      <!-- NEWSLETTER COLUMN -->
+      <div
+        class="
+          md:col-span-4
+          xl:col-span-2
+          order-3
+          md:order-last
+          xl:order-none
+        "
+      >
         <div class="newsletter-card border border-gray-200 p-8 rounded-sm">
-          <h2 class="text-[26px] font-bold text-gray-800 mb-3 leading-tight">{{ section.settings.newsletter_title }}</h2>
-          <p class="text-[15px] text-gray-600 mb-8">{{ section.settings.newsletter_text }}</p>
+          <h2 class="text-[26px] font-bold text-gray-800 mb-3 leading-tight">
+            {{ section.settings.newsletter_title }}
+          </h2>
 
-          {% form 'customer', class: 'flex gap-0 mb-8' %}
+          <p class="text-[15px] text-gray-600 mb-8">
+            {{ section.settings.newsletter_text }}
+          </p>
+
+          {% form 'customer', class: 'flex gap-2 mb-8' %}
             <input type="hidden" name="contact[tags]" value="newsletter">
+
             <input
               type="email"
               name="contact[email]"
@@ -53,58 +181,110 @@
               class="flex-1 border border-gray-300 px-4 py-3 text-[14px] focus:outline-none focus:border-green-700 rounded-l-sm"
               required
             >
+
             <button
               type="submit"
-              class="bg-[{{ section.settings.accent_color }}] text-white px-6 py-3 font-bold text-[14px] hover:brightness-110 transition-colors rounded-r-sm"
+              class="text-white px-6 py-3 font-bold text-[14px] hover:brightness-110 transition-colors rounded-r-sm"
+              style="background-color: {{ section.settings.accent_color }};"
             >
               Subscribe
             </button>
           {% endform %}
 
-          <div class="flex items-center flex-wrap gap-4 text-gray-700">
-            {%- if section.settings.show_social -%}
+          <!-- SOCIAL -->
+          <div class="flex items-center flex-wrap gap-4">
+            {% if section.settings.show_social %}
               <div class="flex gap-4 items-center">
-                 {% comment %} {% render 'social-icons' %} </div> {% endcomment %}
-            {%- endif -%}
-            
+                {% for block in section.blocks %}
+                  {% if block.type == 'social_icon' and block.settings.icon != blank %}
+                    <a
+                      href="{{ block.settings.link }}"
+                      class="social-icon"
+                      {% if block.settings.link != blank %}
+                        target="_blank" rel="noopener"
+                      {% endif %}
+                    >
+                      <img
+                        src="{{ block.settings.icon | image_url: width: 40 }}"
+                        alt="Social Icon"
+                        loading="lazy"
+                      >
+                    </a>
+                  {% endif %}
+                {% endfor %}
+              </div>
+            {% endif %}
+
             {% if section.settings.social_handle != blank %}
-              <span class="text-[14px] font-medium text-gray-500">/{{ section.settings.social_handle }}</span>
+              <span class="text-[14px] font-medium text-gray-500"> /{{ section.settings.social_handle }} </span>
             {% endif %}
           </div>
         </div>
       </div>
-
     </div>
   </div>
 </footer>
 
 <style>
-  .footer-heading {
-    font-size: 16px;
-    font-weight: 600;
-    color: {{ section.settings.heading_color }};
-    transition: color 0.2s;
-  }
-  .footer-heading:hover {
-    color: {{ section.settings.accent_color }};
-    text-decoration: underline;
-  }
-  .footer-link {
-    font-size: 14px;
-    color: {{ section.settings.link_color }};
-    display: block;
-    transition: color 0.2s;
-  }
-  .footer-link:hover {
-    color: {{ section.settings.accent_color }};
-    text-decoration: underline;
-  }
-  /* Newsletter Button Fix */
-  .newsletter-card button {
-    background-color: {{ section.settings.accent_color }};
-  }
-</style>
+      .footer-heading, footer.footer-custom ul strong {
+        font-size: 16px;
+        font-weight: 500;
+        color: {{ section.settings.heading_color }};
+        transition: color 0.2s;
+      }
+      .footer-heading:hover {
+        text-decoration: underline;
+      }
+      .footer-heading {
+      margin-bottom: {{ section.settings.footer_heading_spacing }}px;
+    }
 
+    .footer-link {
+      margin-top: {{ section.settings.footer_link_spacing }}px;
+    }
+
+    /* Newsletter spacing */
+    .newsletter-card h2,
+    .newsletter-card p,
+    .newsletter-card form {
+      margin-bottom: {{ section.settings.newsletter_spacing }}px;
+    }
+
+      .footer-link,   footer.footer-custom ul a {
+        font-size: 14px;
+        color: {{ section.settings.link_color }};
+        margin-top: 8px;
+        display: block;
+        transition: color 0.2s;
+      }
+      @media (max-width: 767px) {
+      footer.footer-custom .prose ul{
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      footer.footer-custom .prose ul li:first-child{
+        display: none;
+      }
+    }
+      .footer-link:hover, footer.footer-custom ul a:hover {
+        text-decoration: underline;
+      }
+      /* Newsletter Button Fix */
+      .newsletter-card button {
+        background-color: {{ section.settings.accent_color }};
+      }
+      .social-icon img {
+    width: 100%;
+    height: 100%;
+    max-width: 20px;
+    object-fit: contain;
+    transition: filter 0.3s ease, transform 0.3s ease;
+  }
+
+  .social-icon:hover img {
+    filter: grayscale(100%);
+      }
+</style>
 
 {% schema %}
 {
@@ -172,18 +352,18 @@
       "type": "color",
       "id": "heading_color",
       "label": "Heading Color",
-      "default": "#1f2937"
+      "default": "#8B898B"
     },
     {
       "type": "color",
       "id": "link_color",
       "label": "Link Color",
-      "default": "#4b5563"
+      "default": "#8B898B"
     },
     {
       "type": "color",
       "id": "accent_color",
-      "label": "Accent Color (Green)",
+      "label": "Button Color (Green)",
       "default": "#006A2E"
     },
     {
@@ -205,7 +385,83 @@
       "unit": "px",
       "label": "Padding Bottom",
       "default": 32
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "footer_heading_spacing",
+      "label": "Space below heading",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "footer_link_spacing",
+      "label": "Space between links",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "newsletter_spacing",
+      "label": "Space between newsletter elements",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 16
     }
-  ]
+  ],
+  "blocks": [
+    {
+      "type": "social_icon",
+      "name": "Social Icon",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Social Icon Image"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Social Link"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 10
 }
 {% endschema %}
+
+<script>
+  function toggleAccordion(button) {
+    const accordionItem = button.parentElement;
+    const content = accordionItem.querySelector('.accordion-content');
+    const icon = button.querySelector('.accordion-icon');
+
+    // Close all other accordions
+    const allAccordions = document.querySelectorAll('.accordion-item');
+    allAccordions.forEach((item) => {
+      if (item !== accordionItem) {
+        const otherContent = item.querySelector('.accordion-content');
+        const otherIcon = item.querySelector('.accordion-icon');
+        otherContent.classList.remove('open');
+        otherIcon.classList.remove('open');
+      }
+    });
+
+    // Toggle current accordion
+    content.classList.toggle('open');
+    icon.classList.toggle('open');
+  }
+</script>

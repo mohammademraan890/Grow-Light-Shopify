@@ -18,7 +18,179 @@
 }
 
 </style>
+<style>
+  /* Modal Overlay */
+  .quick-view-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
 
+  .quick-view-overlay.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+  }
+
+  /* Modal Container */
+  .quick-view-modal {
+    background: white;
+    border-radius: 8px;
+    max-width: 900px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+    position: relative;
+  }
+
+  .quick-view-overlay.active .quick-view-modal {
+    transform: scale(1);
+  }
+
+  /* Close Button */
+  .modal-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: white;
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
+
+  .modal-close:hover {
+    background: #f3f4f6;
+  }
+
+  /* Main Image */
+  .main-image-container {
+    background: #FAFAFA;
+    border-radius: 8px;
+    overflow: hidden;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .main-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  /* Thumbnail Swiper */
+  .thumbnail-swiper {
+    margin-top: 12px;
+  }
+
+  .thumbnail-swiper .swiper-slide {
+    width: 70px;
+    height: 70px;
+    border: 2px solid #e5e7eb;
+    border-radius: 4px;
+    cursor: pointer;
+    overflow: hidden;
+    transition: border-color 0.2s;
+    background: #FAFAFA;
+  }
+
+  .thumbnail-swiper .swiper-slide:hover {
+    border-color: #006A2E;
+  }
+
+  .thumbnail-swiper .swiper-slide-thumb-active {
+    border-color: #006A2E;
+  }
+
+  .thumbnail-swiper .swiper-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  /* Color Variants */
+  .color-option {
+    padding: 8px 16px;
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 14px;
+  }
+
+  .color-option:hover {
+    border-color: #006A2E;
+  }
+
+  .color-option.active {
+    background-color: #2B2B2B;
+    color: white;
+    border-color: #2B2B2B;
+  }
+
+  /* Quantity Selector */
+  .quantity-selector {
+    display: flex;
+    align-items: center;
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+    overflow: hidden;
+    width: fit-content;
+  }
+
+  .quantity-btn {
+    background: white;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 18px;
+    transition: background 0.2s;
+  }
+
+  .quantity-btn:hover {
+    background: #f3f4f6;
+  }
+
+  .quantity-input {
+    border: none;
+    width: 60px;
+    text-align: center;
+    font-size: 16px;
+    padding: 8px 0;
+    border-left: 1px solid #d1d5db;
+    border-right: 1px solid #d1d5db;
+  }
+
+  .quantity-input:focus {
+    outline: none;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .quick-view-modal {
+      width: 95%;
+      max-height: 95vh;
+    }
+  }
+</style>
 <div class="custom-container mt-20!">
   <div class="flex item-center justify-between">
     <h1 class="text-[24px] font-bold text-[#414042] mb-4">Browse Top Sellers</h1>
@@ -43,8 +215,7 @@
 
 
   <div class="my-5">
-    {% assign collection = collections['best-seller-products'] %}
-
+    
     <div class="swiper py-10 relative" id="products-swiper">
       <div
         class="
@@ -52,50 +223,61 @@
           rounded-full cursor-pointer w-[40px] h-[40px]
           flex items-center justify-center bg-white shadow-xl
         "
-      >
+        >
         {% render 'svg-icons', name: 'right-arrow', icon_class: 'w-[20px] h-[20px] rotate-180' %}
-      </div>
-
-      <div class="swiper-wrapper">
-        {% if collection %}
-          {% for product in collection.products %}
-            <div
-              class="swiper-slide w-[260px]!"
-              data-tags="{{ product.tags | join: ',' | downcase }}"
+        </div>
+        
+      {% assign collection = collections['best-seller-products'] %}
+<div class="swiper-wrapper">
+  {% if collection %}
+    {% for product in collection.products %}
+      <div
+        class="swiper-slide w-[260px]!"
+        data-tags="{{ product.tags | join: ',' | downcase }}"
+      >
+        <div class="w-[260px]! border border-transparent hover:border-[#0000001f] rounded-md p-2">
+          <div class="relative bg-[#FAFAFA] rounded-md flex items-center justify-center">
+            <img
+              src="{{ product.featured_image | image_url: width: 300 }}"
+              alt="{{ product.title }}"
+              class="object-contain h-auto w-full"
             >
-              <div class="w-[260px]! border border-transparent hover:border-[#0000001f] rounded-md p-2">
-                <div class="relative bg-[#FAFAFA] rounded-md flex items-center justify-center">
-                  <img
-                    src="{{ product.featured_image | image_url: width: 300 }}"
-                    alt="{{ product.title }}"
-                    class="object-contain h-auto w-full"
-                  >
-                </div>
+          </div>
 
-                <div class="mt-4">
-                  <p class="text-[18px] font-semibold text-[#2B2B2B]">
-                    {{ product.price | money }}
-                  </p>
+          <div class="mt-4">
+            <p class="text-[18px] font-semibold text-[#2B2B2B]">
+              {{ product.price | money }}
+            </p>
 
-                  {% if product.compare_at_price > product.price %}
-                    <p class="text-[14px] text-[#9B9B9B] line-through">
-                      {{ product.compare_at_price | money }}
-                    </p>
-                  {% endif %}
-                </div>
+            {% if product.compare_at_price > product.price %}
+              <p class="text-[14px] text-[#9B9B9B] line-through">
+                {{ product.compare_at_price | money }}
+              </p>
+            {% endif %}
+          </div>
 
-                <p class="mt-2 text-[14px] leading-[20px] text-[#414042]">
-                  {{ product.title }}
-                </p>
+          <p class="mt-2 text-[14px] leading-[20px] text-[#414042]">
+            {{ product.title }}
+          </p>
 
-                <button class="mt-4 w-full bg-[#006A2E] text-white text-[14px] font-medium py-2 rounded-sm">
-                  Quick View
-                </button>
-              </div>
-            </div>
-          {% endfor %}
-        {% endif %}
+          <button 
+            class="quick-view-btn mt-4 w-full bg-[#006A2E] text-white text-[14px] font-medium py-2 rounded-sm hover:bg-[#005025] transition-colors"
+            data-product-id="{{ product.id }}"
+            data-product-title="{{ product.title }}"
+            data-product-price="{{ product.price | money }}"
+            data-product-compare-price="{{ product.compare_at_price | money }}"
+            data-product-url="{{ product.url }}"
+            data-product-images='{{ product.images | map: "src" | json }}'
+            data-product-variants='{{ product.variants | json }}'
+          >
+            Quick View
+          </button>
+        </div>
       </div>
+    {% endfor %}
+  {% endif %}
+</div>
+
 
       <div
         class="
@@ -105,6 +287,79 @@
         "
       >
         {% render 'svg-icons', name: 'right-arrow', icon_class: 'w-[20px] h-[20px]' %}
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="quick-view-overlay" id="quickViewModal">
+  <div class="quick-view-modal">
+    <button class="modal-close" onclick="closeQuickView()">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M12 4L4 12M4 4L12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </button>
+
+    <div class="grid md:grid-cols-2 gap-6 p-6 md:p-8">
+      <!-- Left Column - Images -->
+      <div>
+        <!-- Main Image Swiper -->
+        <div class="swiper main-swiper">
+          <div class="swiper-wrapper main-image-container">
+            <!-- Main images will be inserted here -->
+          </div>
+        </div>
+        
+        <!-- Thumbnail Swiper -->
+        <div class="swiper thumbnail-swiper">
+          <div class="swiper-wrapper">
+            <!-- Thumbnails will be inserted here -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column - Product Details -->
+      <div>
+        <h2 class="text-[24px] md:text-[28px] font-semibold text-[#2B2B2B] mb-2" id="modalProductTitle"></h2>
+        
+        <div class="flex items-center gap-3 mb-4">
+          <p class="text-[24px] font-bold text-[#2B2B2B]" id="modalProductPrice"></p>
+          <p class="text-[18px] text-[#9B9B9B] line-through" id="modalProductComparePrice"></p>
+        </div>
+
+        <!-- Color Variants -->
+        <div class="mb-6" id="colorVariantsSection" style="display: none;">
+          <label class="block text-[14px] font-medium text-[#414042] mb-2">Color</label>
+          <div class="flex flex-wrap gap-2" id="colorVariants">
+            <!-- Color options will be inserted here -->
+          </div>
+        </div>
+
+        <!-- Quantity Selector -->
+        <div class="mb-6">
+          <label class="block text-[14px] font-medium text-[#414042] mb-2">Quantity</label>
+          <div class="quantity-selector">
+            <button class="quantity-btn" onclick="decrementQuantity()">−</button>
+            <input type="number" class="quantity-input" id="quantityInput" value="1" min="1">
+            <button class="quantity-btn" onclick="incrementQuantity()">+</button>
+          </div>
+        </div>
+
+        <!-- Add to Cart Button -->
+        <button class="w-full bg-[#006A2E] text-white text-[16px] font-medium py-3 rounded-sm hover:bg-[#005025] transition-colors mb-3">
+          Add to Cart
+        </button>
+
+        <!-- View Full Details -->
+        <a href="#" id="viewFullDetailsLink" class="block w-full text-center border border-[#006A2E] text-[#006A2E] text-[16px] font-medium py-3 rounded-sm hover:bg-[#006A2E] hover:text-white transition-colors">
+          View Full Details →
+        </a>
+
+        <!-- Norton Badge (if applicable) -->
+        <div class="mt-6 flex justify-center">
+          <img src="https://via.placeholder.com/200x50?text=Norton+Badge" alt="Norton Shopping Guarantee" class="h-10">
+        </div>
       </div>
     </div>
   </div>
@@ -216,3 +471,181 @@ document.addEventListener('DOMContentLoaded', function () {
 }
 
 {% endschema %}
+
+
+
+<script>
+  let currentProductData = null;
+  let mainSwiper = null;
+  let thumbnailSwiper = null;
+
+  // Initialize Swiper instances
+  function initializeSwipers() {
+    // Destroy existing instances if they exist
+    if (thumbnailSwiper) thumbnailSwiper.destroy();
+    if (mainSwiper) mainSwiper.destroy();
+
+    // Initialize thumbnail swiper
+    thumbnailSwiper = new Swiper('.thumbnail-swiper', {
+      spaceBetween: 8,
+      slidesPerView: 'auto',
+      freeMode: true,
+      watchSlidesProgress: true,
+    });
+
+    // Initialize main swiper
+    mainSwiper = new Swiper('.main-swiper', {
+      spaceBetween: 10,
+      thumbs: {
+        swiper: thumbnailSwiper
+      }
+    });
+  }
+
+  // Open Quick View
+  document.addEventListener('DOMContentLoaded', function() {
+    const quickViewButtons = document.querySelectorAll('.quick-view-btn');
+    
+    quickViewButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        const productData = {
+          id: this.dataset.productId,
+          title: this.dataset.productTitle,
+          price: this.dataset.productPrice,
+          comparePrice: this.dataset.productComparePrice,
+          url: this.dataset.productUrl,
+          images: JSON.parse(this.dataset.productImages),
+          variants: JSON.parse(this.dataset.productVariants)
+        };
+        
+        openQuickView(productData);
+      });
+    });
+  });
+
+  function openQuickView(productData) {
+    currentProductData = productData;
+    const modal = document.getElementById('quickViewModal');
+    
+    // Populate product details
+    document.getElementById('modalProductTitle').textContent = productData.title;
+    document.getElementById('modalProductPrice').textContent = productData.price;
+    document.getElementById('viewFullDetailsLink').href = productData.url;
+    
+    // Handle compare price
+    const comparePriceEl = document.getElementById('modalProductComparePrice');
+    if (productData.comparePrice && productData.comparePrice !== '$0.00') {
+      comparePriceEl.textContent = productData.comparePrice;
+      comparePriceEl.style.display = 'block';
+    } else {
+      comparePriceEl.style.display = 'none';
+    }
+    
+    // Load images
+    loadProductImages(productData.images);
+    
+    // Load color variants if available
+    loadColorVariants(productData.variants);
+    
+    // Reset quantity
+    document.getElementById('quantityInput').value = 1;
+    
+    // Show modal with animation
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeQuickView() {
+    const modal = document.getElementById('quickViewModal');
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  // Close on overlay click
+  document.getElementById('quickViewModal').addEventListener('click', function(e) {
+    if (e.target === this) {
+      closeQuickView();
+    }
+  });
+
+  // Close on Escape key
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      closeQuickView();
+    }
+  });
+
+  function loadProductImages(images) {
+    const mainWrapper = document.querySelector('.main-swiper .swiper-wrapper');
+    const thumbnailWrapper = document.querySelector('.thumbnail-swiper .swiper-wrapper');
+    
+    if (images && images.length > 0) {
+      // Clear existing slides
+      mainWrapper.innerHTML = '';
+      thumbnailWrapper.innerHTML = '';
+      
+      // Create main image slides
+      images.forEach((imageSrc) => {
+        const mainSlide = document.createElement('div');
+        mainSlide.className = 'swiper-slide';
+        mainSlide.innerHTML = `
+          <div class="main-image-container">
+            <img src="${imageSrc}" alt="${currentProductData.title}">
+          </div>
+        `;
+        mainWrapper.appendChild(mainSlide);
+        
+        // Create thumbnail slides
+        const thumbSlide = document.createElement('div');
+        thumbSlide.className = 'swiper-slide';
+        thumbSlide.innerHTML = `<img src="${imageSrc}" alt="Thumbnail">`;
+        thumbnailWrapper.appendChild(thumbSlide);
+      });
+      
+      // Initialize or update Swiper
+      initializeSwipers();
+    }
+  }
+
+  function loadColorVariants(variants) {
+    const colorSection = document.getElementById('colorVariantsSection');
+    const colorContainer = document.getElementById('colorVariants');
+    
+    // Extract unique colors from variants
+    const colors = [...new Set(variants.map(v => v.option1).filter(Boolean))];
+    
+    if (colors.length > 1) {
+      colorSection.style.display = 'block';
+      colorContainer.innerHTML = '';
+      
+      colors.forEach((color, index) => {
+        const colorBtn = document.createElement('button');
+        colorBtn.className = 'color-option' + (index === 0 ? ' active' : '');
+        colorBtn.textContent = color;
+        colorBtn.onclick = () => selectColor(colorBtn);
+        colorContainer.appendChild(colorBtn);
+      });
+    } else {
+      colorSection.style.display = 'none';
+    }
+  }
+
+  function selectColor(colorBtn) {
+    document.querySelectorAll('.color-option').forEach(btn => {
+      btn.classList.remove('active');
+    });
+    colorBtn.classList.add('active');
+  }
+
+  function incrementQuantity() {
+    const input = document.getElementById('quantityInput');
+    input.value = parseInt(input.value) + 1;
+  }
+
+  function decrementQuantity() {
+    const input = document.getElementById('quantityInput');
+    if (parseInt(input.value) > 1) {
+      input.value = parseInt(input.value) - 1;
+    }
+  }
+</script>
