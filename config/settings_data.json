@@ -8,5 +8,32 @@
  * ------------------------------------------------------------
  */
 {
-  "current": {}
+  "current": {
+    "sections": {
+      "header-top": {
+        "type": "header-top",
+        "settings": {
+          "show_top_bar": true,
+          "show_bottom_bar": true,
+          "logo_position": "left",
+          "logo_width": 100,
+          "header_bg": "#ffffff",
+          "header_border": "#e9e9e9",
+          "nav_border": "#006a2e",
+          "text_color": "#414042",
+          "accent_color": "#006a2e",
+          "bottom_bg": "#f4f4f4",
+          "bottom_text": "#414042",
+          "bottom_link": "#36895a",
+          "bottom_title_1": "Commercial Grower?",
+          "bottom_text_1": "For commercial pricing:",
+          "bottom_phone_1": "(914) 219-6983",
+          "bottom_title_2": "Facility Design Assistance",
+          "bottom_text_2": "Everything from A-Z.",
+          "bottom_phone_2": "Get in touch"
+        }
+      }
+    },
+    "content_for_index": []
+  }
 }
