@@ -103,6 +103,66 @@
     },
     "top-products-sec": {
       "type": "home-top-products",
+      "blocks": {
+        "filter_3Xkck8": {
+          "type": "filter",
+          "settings": {
+            "label": "Freeze Dryers",
+            "tag": "Freeze Dryers"
+          }
+        },
+        "filter_X7eUza": {
+          "type": "filter",
+          "settings": {
+            "label": "Quest Dehumidifier",
+            "tag": "Quest Dehumidifier"
+          }
+        },
+        "filter_Lh6nED": {
+          "type": "filter",
+          "settings": {
+            "label": "Floraflex",
+            "tag": "Floraflex"
+          }
+        },
+        "filter_iiqCUR": {
+          "type": "filter",
+          "settings": {
+            "label": "Centurion Pro",
+            "tag": "Centurion Pro"
+          }
+        },
+        "filter_bAnyFn": {
+          "type": "filter",
+          "settings": {
+            "label": "Dosatron",
+            "tag": "Dosatron"
+          }
+        },
+        "filter_awaiyB": {
+          "type": "filter",
+          "settings": {
+            "label": "GrowOnix",
+            "tag": "GrowOnix"
+          }
+        },
+        "filter_6TWhBk": {
+          "type": "filter",
+          "settings": {
+            "label": "TrolMaster",
+            "tag": "TrolMaster"
+          }
+        }
+      },
+      "block_order": [
+        "filter_3Xkck8",
+        "filter_X7eUza",
+        "filter_Lh6nED",
+        "filter_iiqCUR",
+        "filter_bAnyFn",
+        "filter_awaiyB",
+        "filter_6TWhBk"
+      ],
       "settings": {}
     },
     "pricing-banner": {
