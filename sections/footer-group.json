@@ -14,8 +14,18 @@
     "footer": {
       "type": "footer",
       "settings": {
-        "menu": "",
-        "show_payment_icons": true
+        "menu": "footer-menu",
+        "middle_column_text": "<ul><li><strong>GrowLight Heaven</strong></li><li><a href=\"/collections/frontpage\" title=\"Home page\">Who We Are</a></li><li><a href=\"/collections/frontpage\" title=\"Home page\">Commercial Pricing</a></li><li><a href=\"/collections/across-international\" title=\"Across International\">Facility Design</a></li><li><a href=\"/collections/frontpage\" title=\"Home page\">Get Rebates</a></li><li><a href=\"/collections/frontpage\" title=\"Home page\">Get Financing</a></li><li><a href=\"/collections/frontpage\" title=\"Home page\">Coupon Codes</a></li><li><a href=\"/collections/frontpage\" title=\"Home page\">Shipping and Returns</a></li><li><a href=\"/collections/frontpage\" title=\"Home page\">Price Guarantee</a></li><li><a href=\"/collections/frontpage\" title=\"Home page\">Privacy Policy</a></li><li><a href=\"/collections/frontpage\" title=\"Home page\">Terms of Service</a><br/><br/></li></ul>",
+        "newsletter_title": "Deals, Inspiration and Trends",
+        "newsletter_text": "Get it first. Sign up now for up-to-the-minute offers, sales and news.",
+        "show_social": true,
+        "social_handle": "GrowLightHeaven",
+        "bg_color": "#ffffff",
+        "heading_color": "#1f2937",
+        "link_color": "#4b5563",
+        "accent_color": "#006a2e",
+        "padding_top": 64,
+        "padding_bottom": 32
       }
     }
   },
