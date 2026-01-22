@@ -42,6 +42,52 @@
     },
     "category-section": {
       "type": "home-category-sec",
+      "blocks": {
+        "collection_iJ7MiX": {
+          "type": "collection",
+          "settings": {
+            "collection": "hvac-equipment"
+          }
+        },
+        "collection_XP4E6L": {
+          "type": "collection",
+          "settings": {
+            "collection": "commercial-fans"
+          }
+        },
+        "collection_Hnc7Tk": {
+          "type": "collection",
+          "settings": {
+            "collection": "grow-room-co2-devices"
+          }
+        },
+        "collection_NCghPe": {
+          "type": "collection",
+          "settings": {
+            "collection": "benches-and-racks"
+          }
+        },
+        "collection_UCrdwg": {
+          "type": "collection",
+          "settings": {
+            "collection": "harvest-equipment"
+          }
+        },
+        "collection_KqEnjc": {
+          "type": "collection",
+          "settings": {
+            "collection": "extraction-equipment"
+          }
+        }
+      },
+      "block_order": [
+        "collection_iJ7MiX",
+        "collection_XP4E6L",
+        "collection_Hnc7Tk",
+        "collection_NCghPe",
+        "collection_UCrdwg",
+        "collection_KqEnjc"
+      ],
       "settings": {
         "heading": "Shop By Category",
         "heading_color": "#414042",
