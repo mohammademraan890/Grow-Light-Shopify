@@ -1,32 +1,43 @@
-<style>
-  #mySwiper,
-  #mySwiper * {
-    user-select: none;
-    -webkit-user-select: none;
-    -ms-user-select: none;
-
-    -webkit-touch-callout: none;
-  }
-
-  #mySwiper img {
-    pointer-events: none;
-  }
-</style>
-
 {%- style -%}
+  /* ===============================
+     HERO SWIPER VARIABLES
+  ================================ */
   .hero-swiper-section {
+    /* Desktop */
+    --heading-size: 50px;
+    --text-size: 16px;
+    --content-padding: {{ section.settings.content_padding }}px;
+
+    /* Mobile */
+    --mobile-heading-size: {{ section.settings.mobile_heading_size }}px;
+    --mobile-text-size: {{ section.settings.mobile_text_size }}px;
+    --mobile-content-padding: {{ section.settings.mobile_content_padding }}px;
+    --mobile-spacing: {{ section.settings.mobile_spacing }}px;
+
     margin-top: {{ section.settings.margin_top }}px;
     margin-bottom: {{ section.settings.margin_bottom }}px;
     background: {{ section.settings.section_bg }};
   }
 
+  /* ===============================
+     DESKTOP STYLES
+  ================================ */
   .hero-slide {
     border-color: {{ section.settings.border_color }};
   }
 
   .hero-content {
-    padding: {{ section.settings.content_padding }}px;
+    padding: var(--content-padding);
     color: {{ section.settings.text_color }};
+  }
+
+  .hero-content h2 {
+    font-size: var(--heading-size);
+    line-height: 1.1;
+  }
+
+  .hero-content p {
+    font-size: var(--text-size);
   }
 
   .hero-btn {
@@ -37,90 +48,118 @@
   .hero-btn:hover {
     background: {{ section.settings.button_hover }};
   }
-{%- endstyle -%}
-{%- style -%}
+
+  /* ===============================
+     MOBILE STYLES (<768px)
+  ================================ */
   @media (max-width: 767px) {
+    /* Layout */
     .hero-slide .grid {
       grid-template-columns: 1fr;
     }
 
-    /* Image always first */
     .hero-slide img {
       order: 1;
       height: auto;
     }
 
-    /* Content always second */
     .hero-content {
       order: 2;
+      padding: var(--mobile-content-padding);
+    }
+
+    /* Typography */
+    .hero-content h2 {
+      font-size: var(--mobile-heading-size);
+      line-height: 1.2;
+    }
+
+    .hero-content p {
+      font-size: var(--mobile-text-size);
+    }
+
+    /* Vertical spacing */
+    .hero-content > div > * + * {
+      margin-top: var(--mobile-spacing);
     }
   }
 {%- endstyle -%}
+
+<style>
+  /* Disable image drag / text select for swiper */
+  #mySwiper,
+  #mySwiper * {
+    user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    -webkit-touch-callout: none;
+  }
+
+  #mySwiper img {
+    pointer-events: none;
+  }
+</style>
 
 
 <div class="hero-swiper-section bg-white">
   <div class="custom-container">
     <div id="mySwiper" class="swiper">
       <div class="swiper-wrapper">
-
         {% for block in section.blocks %}
-        <div class="swiper-slide hero-slide border overflow-hidden rounded-sm" {{ block.shopify_attributes }}>
-          <div class="grid grid-cols-3 h-full ">
+          <div class="swiper-slide hero-slide border overflow-hidden rounded-sm" {{ block.shopify_attributes }}>
+            <div class="grid grid-cols-3 h-full ">
+              {% if block.settings.reverse_layout %}
+                <!-- IMAGE -->
+                <div class="col-span-2">
+                  <img
+                    src="{{ block.settings.image | image_url: width: 1200 }}"
+                    class="object-cover h-full w-full"
+                    alt=""
+                  >
+                </div>
+              {% endif %}
 
-            {% if block.settings.reverse_layout %}
-              <!-- IMAGE -->
-              <div class="col-span-2">
-                <img
-                  src="{{ block.settings.image | image_url: width: 1200 }}"
-                  class="object-cover h-full w-full"
-                  alt=""
-                >
+              <!-- CONTENT -->
+              <div class="col-span-1 hero-content">
+                <div class="flex flex-col h-full justify-end">
+                  <p class="text-[16px] font-medium">
+                    {{ block.settings.tagline }}
+                  </p>
+                  <h2 class="text-[50px] my-2 leading-[56px] font-bold">
+                    {{ block.settings.heading }}
+                  </h2>
+                  <p class="text-[16px] mb-5">
+                    {{ block.settings.subheading }}
+                  </p>
+                  <a
+                    href="{{ block.settings.button_link }}"
+                    class="hero-btn block text-[16px] font-medium w-full py-2.5 rounded-sm text-center transition"
+                  >
+                    {{ block.settings.button_label }}
+                  </a>
+                </div>
               </div>
-            {% endif %}
 
-            <!-- CONTENT -->
-            <div class="col-span-1 hero-content">
-              <div class="flex flex-col h-full justify-end">
-                <p class="text-[16px] font-medium">
-                  {{ block.settings.tagline }}
-                </p>
-                <h2 class="text-[50px] my-2 leading-[56px] font-bold">
-                  {{ block.settings.heading }}
-                </h2>
-                <p class="text-[16px] mb-5">
-                  {{ block.settings.subheading }}
-                </p>
-                <a
-                  href="{{ block.settings.button_link }}"
-                  class="hero-btn block text-[16px] font-medium w-full py-2.5 rounded-sm text-center transition"
-                >
-                  {{ block.settings.button_label }}
-                </a>
-              </div>
+              {% unless block.settings.reverse_layout %}
+                <!-- IMAGE -->
+                <div class="col-span-2">
+                  <img
+                    src="{{ block.settings.image | image_url: width: 1200 }}"
+                    class="object-cover h-full w-full"
+                    alt=""
+                  >
+                </div>
+              {% endunless %}
             </div>
-
-            {% unless block.settings.reverse_layout %}
-              <!-- IMAGE -->
-              <div class="col-span-2">
-                <img
-                  src="{{ block.settings.image | image_url: width: 1200 }}"
-                  class="object-cover h-full w-full"
-                  alt=""
-                >
-              </div>
-            {% endunless %}
-
           </div>
-        </div>
         {% endfor %}
-
       </div>
     </div>
   </div>
 </div>
 
 {% schema %}
- {
+{
   "name": "Hero Swiper",
   "settings": [
     {
@@ -185,6 +224,46 @@
       "max": 100,
       "step": 5,
       "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Mobile Styles (<768px)"
+    },
+    {
+      "type": "range",
+      "id": "mobile_heading_size",
+      "label": "Mobile heading size",
+      "min": 20,
+      "max": 40,
+      "step": 2,
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "mobile_text_size",
+      "label": "Mobile text size",
+      "min": 12,
+      "max": 18,
+      "step": 1,
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "mobile_content_padding",
+      "label": "Mobile content padding",
+      "min": 12,
+      "max": 40,
+      "step": 4,
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "mobile_spacing",
+      "label": "Mobile vertical spacing",
+      "min": 8,
+      "max": 30,
+      "step": 2,
+      "default": 12
     }
   ],
   "blocks": [
@@ -246,9 +325,7 @@
     }
   ]
 }
-
 {% endschema %}
-
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {

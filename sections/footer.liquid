@@ -1,0 +1,211 @@
+<footer class="footer-custom border-t border-gray-200" style="
+  background-color: {{ section.settings.bg_color }};
+  padding-top: {{ section.settings.padding_top }}px;
+  padding-bottom: {{ section.settings.padding_bottom }}px;
+">
+  <div class="max-w-7xl mx-auto px-4 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-6 gap-8">
+      
+      <div class="lg:col-span-3">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-y-10 gap-x-4">
+          {% for link in linklists[section.settings.menu].links %}
+            <div>
+              <a href="{{ link.url }}" class="footer-heading flex items-center mb-4">
+                {{ link.title }}
+                {% comment %} <span class="ml-1 text-[10px]">{% render 'icon-chevron-right' %}</span> {% endcomment %}
+              </a>
+
+              {% if link.links.size > 0 %}
+                <ul class="space-y-2">
+                  {% for child in link.links %}
+                    <li>
+                      <a href="{{ child.url }}" class="footer-link">
+                        {{ child.title }}
+                      </a>
+                    </li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="lg:col-span-1">
+        {% if section.settings.middle_column_text != blank %}
+           <div class="prose prose-sm text-gray-600">
+             {{ section.settings.middle_column_text }}
+           </div>
+        {% endif %}
+      </div>
+
+      <div class="lg:col-span-2">
+        <div class="newsletter-card border border-gray-200 p-8 rounded-sm">
+          <h2 class="text-[26px] font-bold text-gray-800 mb-3 leading-tight">{{ section.settings.newsletter_title }}</h2>
+          <p class="text-[15px] text-gray-600 mb-8">{{ section.settings.newsletter_text }}</p>
+
+          {% form 'customer', class: 'flex gap-0 mb-8' %}
+            <input type="hidden" name="contact[tags]" value="newsletter">
+            <input
+              type="email"
+              name="contact[email]"
+              placeholder="Enter email address..."
+              class="flex-1 border border-gray-300 px-4 py-3 text-[14px] focus:outline-none focus:border-green-700 rounded-l-sm"
+              required
+            >
+            <button
+              type="submit"
+              class="bg-[{{ section.settings.accent_color }}] text-white px-6 py-3 font-bold text-[14px] hover:brightness-110 transition-colors rounded-r-sm"
+            >
+              Subscribe
+            </button>
+          {% endform %}
+
+          <div class="flex items-center flex-wrap gap-4 text-gray-700">
+            {%- if section.settings.show_social -%}
+              <div class="flex gap-4 items-center">
+                 {% comment %} {% render 'social-icons' %} </div> {% endcomment %}
+            {%- endif -%}
+            
+            {% if section.settings.social_handle != blank %}
+              <span class="text-[14px] font-medium text-gray-500">/{{ section.settings.social_handle }}</span>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer-heading {
+    font-size: 16px;
+    font-weight: 600;
+    color: {{ section.settings.heading_color }};
+    transition: color 0.2s;
+  }
+  .footer-heading:hover {
+    color: {{ section.settings.accent_color }};
+    text-decoration: underline;
+  }
+  .footer-link {
+    font-size: 14px;
+    color: {{ section.settings.link_color }};
+    display: block;
+    transition: color 0.2s;
+  }
+  .footer-link:hover {
+    color: {{ section.settings.accent_color }};
+    text-decoration: underline;
+  }
+  /* Newsletter Button Fix */
+  .newsletter-card button {
+    background-color: {{ section.settings.accent_color }};
+  }
+</style>
+
+
+{% schema %}
+{
+  "name": "Custom Footer",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Navigation"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Footer Menu",
+      "default": "footer"
+    },
+    {
+      "type": "header",
+      "content": "Middle Column"
+    },
+    {
+      "type": "richtext",
+      "id": "middle_column_text",
+      "label": "Middle Column Content",
+      "info": "Leave empty to keep space blank"
+    },
+    {
+      "type": "header",
+      "content": "Newsletter Box"
+    },
+    {
+      "type": "text",
+      "id": "newsletter_title",
+      "label": "Heading",
+      "default": "Deals, Inspiration and Trends"
+    },
+    {
+      "type": "textarea",
+      "id": "newsletter_text",
+      "label": "Subtext",
+      "default": "Get it first. Sign up now for up-to-the-minute offers, sales and news."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_social",
+      "label": "Show Social Icons",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "social_handle",
+      "label": "Social Handle Text",
+      "default": "GrowLightHeaven"
+    },
+    {
+      "type": "header",
+      "content": "Styling & Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#1f2937"
+    },
+    {
+      "type": "color",
+      "id": "link_color",
+      "label": "Link Color",
+      "default": "#4b5563"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent Color (Green)",
+      "default": "#006A2E"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 32
+    }
+  ]
+}
+{% endschema %}

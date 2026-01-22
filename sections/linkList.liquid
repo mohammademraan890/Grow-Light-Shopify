@@ -1,0 +1,114 @@
+{%- style -%}
+  .link-list-{{ section.id }} {
+    padding: {{ section.settings.padding }}px;
+  }
+
+  .link-list-{{ section.id }} ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .link-list-{{ section.id }} li + li {
+    margin-top: {{ section.settings.item_spacing }}px;
+  }
+
+  .link-list-{{ section.id }} a {
+    color: {{ section.settings.link_color }};
+    text-decoration: none;
+    font-size: {{ section.settings.font_size }}px;
+    transition: color 0.2s ease;
+  }
+
+  .link-list-{{ section.id }} a:hover {
+    color: {{ section.settings.link_hover_color }};
+  }
+{%- endstyle -%}
+
+<div class="link-list-{{ section.id }}">
+  <ul>
+    {% for block in section.blocks %}
+      <li {{ block.shopify_attributes }}>
+        <a href="{{ block.settings.url }}">
+          {{ block.settings.label }}
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+</div>
+
+{% schema %}
+{
+  "name": "Link List",
+  "settings": [
+    {
+      "type": "range",
+      "id": "padding",
+      "label": "Section Padding",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "item_spacing",
+      "label": "Space Between Links",
+      "min": 4,
+      "max": 30,
+      "step": 2,
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "font_size",
+      "label": "Font Size",
+      "min": 12,
+      "max": 22,
+      "step": 1,
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "link_color",
+      "label": "Link Color",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "link_hover_color",
+      "label": "Link Hover Color",
+      "default": "#006A2E"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "link",
+      "name": "Link",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Link Text",
+          "default": "Link label"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Link URL"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Link List",
+      "blocks": [
+        { "type": "link" },
+        { "type": "link" },
+        { "type": "link" }
+      ]
+    }
+  ]
+}
+{% endschema %}
