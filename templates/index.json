@@ -190,6 +190,106 @@
     },
     "home-brands": {
       "type": "home-brands",
+      "blocks": {
+        "brand_rWaedG": {
+          "type": "brand",
+          "settings": {
+            "brand_name": "",
+            "collection": ""
+          }
+        },
+        "brand_zqCPKL": {
+          "type": "brand",
+          "settings": {
+            "brand_name": "",
+            "collection": ""
+          }
+        },
+        "brand_jteLQh": {
+          "type": "brand",
+          "settings": {
+            "brand_name": "",
+            "collection": ""
+          }
+        },
+        "brand_Pp8RTM": {
+          "type": "brand",
+          "settings": {
+            "brand_name": "",
+            "collection": ""
+          }
+        },
+        "brand_9fJPNN": {
+          "type": "brand",
+          "settings": {
+            "brand_name": "",
+            "collection": ""
+          }
+        },
+        "brand_DKV4pD": {
+          "type": "brand",
+          "settings": {
+            "brand_name": "",
+            "collection": ""
+          }
+        },
+        "brand_jPK739": {
+          "type": "brand",
+          "settings": {
+            "brand_name": "",
+            "collection": ""
+          }
+        },
+        "brand_YKmrKt": {
+          "type": "brand",
+          "settings": {
+            "brand_name": "",
+            "collection": ""
+          }
+        },
+        "brand_DXmFkY": {
+          "type": "brand",
+          "settings": {
+            "brand_name": "",
+            "collection": ""
+          }
+        },
+        "brand_8JyzmL": {
+          "type": "brand",
+          "settings": {
+            "brand_name": "",
+            "collection": ""
+          }
+        },
+        "brand_CCPQjr": {
+          "type": "brand",
+          "settings": {
+            "brand_name": "",
+            "collection": ""
+          }
+        },
+        "brand_mzWqgf": {
+          "type": "brand",
+          "settings": {
+            "brand_name": "",
+            "collection": ""
+          }
+        }
+      },
+      "block_order": [
+        "brand_rWaedG",
+        "brand_zqCPKL",
+        "brand_jteLQh",
+        "brand_Pp8RTM",
+        "brand_9fJPNN",
+        "brand_DKV4pD",
+        "brand_jPK739",
+        "brand_YKmrKt",
+        "brand_DXmFkY",
+        "brand_8JyzmL",
+        "brand_CCPQjr",
+        "brand_mzWqgf"
+      ],
       "settings": {
         "title": "Over 200 Brands Stocked and Shipped Nationwide",
         "heading_size_desktop": 24,
