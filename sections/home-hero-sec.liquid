@@ -38,6 +38,24 @@
     background: {{ section.settings.button_hover }};
   }
 {%- endstyle -%}
+{%- style -%}
+  @media (max-width: 767px) {
+    .hero-slide .grid {
+      grid-template-columns: 1fr;
+    }
+
+    /* Image always first */
+    .hero-slide img {
+      order: 1;
+      height: auto;
+    }
+
+    /* Content always second */
+    .hero-content {
+      order: 2;
+    }
+  }
+{%- endstyle -%}
 
 
 <div class="hero-swiper-section bg-white">

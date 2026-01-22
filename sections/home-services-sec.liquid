@@ -37,9 +37,9 @@
   }
 {%- endstyle -%}
 
-<div class="section-{{ section.id }}-padding px-4">
-  <div class="max-w-7xl mx-auto">
-    <div class="flex justify-center items-center gap-8 md:gap-12 lg:gap-16">
+<div class="section-{{ section.id }}-padding md:px-4 px-0">
+  <div class="custom-container">
+    <div class="flex justify-between items-start flex-col md:items-center md:flex-row gap-6 lg:gap-12 xl:gap-16">
       {% for block in section.blocks %}
         <div class="service-item-{{ section.id }} flex items-center gap-4 group" {{ block.shopify_attributes }}>
           
