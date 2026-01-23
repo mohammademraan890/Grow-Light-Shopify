@@ -1,60 +1,269 @@
 {%- style -%}
-  .icon-header-{{ section.id }} {
-    background-color: {{ section.settings.bg_color }};
-    padding: {{ section.settings.padding_v }}px 0;
-    border-bottom: 1px solid {{ section.settings.border_color }};
+    :root {
+      --mobile-header-bg: {{ section.settings.bg_color }};
+      --mobile-text-color: {{ section.settings.text_color }};
+      --mobile-accent-color: {{ section.settings.accent_color }};
+      --mobile-border-color: {{ section.settings.border_color }};
+      --mobile-bottom-bg: {{ section.settings.mobile_bottom_bg }};
+      --mobile-bottom-text: {{ section.settings.mobile_bottom_text }};
+      --mobile-bottom-link: {{ section.settings.mobile_bottom_link }};
+    }
+
+    .icon-header-{{ section.id }} {
+      background-color: var(--mobile-header-bg);
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 50;
+    }
+  .header-grid-container {
+      border-bottom: 1px solid var(--mobile-border-color);
+    }
+    .header-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      text-decoration: none;
+      color: var(--mobile-text-color);
+      transition: color 0.3s ease;
+    }
+
+    .header-item:hover {
+      color: var(--mobile-accent-color);
+    }
+
+    .icon-box svg, .icon-box img {
+      width: {{ section.settings.icon_size }}px;
+      height: {{ section.settings.icon_size }}px;
+      margin-bottom: 8px;
+      fill: currentColor;
+    }
+
+    .logo-box img {
+      max-width: {{ section.settings.logo_width }}px;
+      height: auto;
+    }
+
+    .text-sub {
+      font-size: 12px;
+      margin-top: 2px;
+    }
+
+    /* Hamburger Menu Icon */
+    .menu-icon {
+      width: 24px;
+      height: 18px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      cursor: pointer;
+    }
+
+    .menu-icon-bar {
+      width: 100%;
+      height: 2px;
+      background-color: currentColor;
+      transition: all 0.3s ease;
+      transform-origin: center;
+    }
+
+    .menu-icon.active .menu-icon-bar:nth-child(1) {
+      transform: translateY(8px) rotate(45deg);
+    }
+
+    .menu-icon.active .menu-icon-bar:nth-child(2) {
+      opacity: 0;
+    }
+
+    .menu-icon.active .menu-icon-bar:nth-child(3) {
+      transform: translateY(-8px) rotate(-45deg);
+    }
+
+    /* Mobile Bottom Header */
+    .mobile-header-bottom {
+      background: var(--mobile-bottom-bg);
+      color: var(--mobile-bottom-text);
+      position: relative;
+      transition: opacity 0.35s ease, transform 0.35s ease, max-height 0.35s ease;
+      transform: translateY(0);
+      opacity: 1;
+      max-height: 200px;
+      overflow: hidden;
+    }
+
+    .mobile-header-bottom a {
+      color: var(--mobile-bottom-link) !important;
+    }
+
+    /* Mobile header collapsed state */
+    .icon-header-{{ section.id }}.is-collapsed .mobile-header-bottom {
+      opacity: 0;
+      transform: translateY(-30px);
+      max-height: 0;
+      pointer-events: none;
+    }
+  .mobile-btm-swiper{
+    padding: 10px 0 !important;
   }
+    /* Mobile bottom swiper arrows */
+    .mobile-btm-swiper .swiper-button-prev,
+    .mobile-btm-swiper .swiper-button-next {
+      color: #000;
+      width: 28px;
+      height: 28px;
+    }
 
+    .mobile-btm-swiper .swiper-button-prev::after,
+    .mobile-btm-swiper .swiper-button-next::after {
+      font-size: 18px;
+      font-weight: bold;
+    }
 
+    /* Sidebar Styles */
+    .sidebar-overlay {
+      position: fixed;
+      top: calc({{ section.settings.padding_v }}px * 2 + 74px);
+      left: 0;
+      width: 100%;
+      height: calc(100% - ({{ section.settings.padding_v }}px * 2 + 74px));
+      background-color: rgba(0, 0, 0, 0.5);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+      z-index: 98;
+      overflow: hidden !important;
+    }
 
-  .header-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    text-decoration: none;
-    color: {{ section.settings.text_color }};
-    transition: color 0.3s ease;
-  }
+    .sidebar-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
 
-  .header-item:hover {
-    color: {{ section.settings.accent_color }};
-  }
+    .sidebar-container {
+      position: fixed;
+      top: calc({{ section.settings.padding_v }}px * 2 + 74px);
+      left: -100%;
+      width: 100%;
+      max-width: 400px;
+      height: calc(100% - ({{ section.settings.padding_v }}px * 2 + 74px));
+      background-color: #fff;
+      transition: left 0.3s ease;
+      z-index: 99;
+      overflow: hidden;
+    }
 
-  .icon-box svg, .icon-box img {
-    width: {{ section.settings.icon_size }}px;
-    height: {{ section.settings.icon_size }}px;
-    margin-bottom: 8px;
-    fill: currentColor;
-  }
+    .sidebar-container.active {
+      left: 0;
+    }
 
-  .logo-box img {
-    max-width: {{ section.settings.logo_width }}px;
-    height: auto;
-  }
+    .sidebar-panel {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #fff;
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
 
+    .sidebar-panel.active {
+      transform: translateX(0);
+    }
 
-  .text-sub {
-    font-size: 12px;
-    margin-top: 2px;
-  }
+    .sidebar-header {
+      display: flex;
+      align-items: center;
+      padding: 20px;
+      border-bottom: 1px solid #e5e5e5;
+      background-color: #fff;
+      z-index: 1;
+    }
 
-  
+    .sidebar-close,
+    .sidebar-back {
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      font-size: 16px;
+      color: #333;
+    }
+
+    .sidebar-close svg,
+    .sidebar-back svg {
+      width: 24px;
+      height: 24px;
+      margin-right: 8px;
+    }
+
+    .sidebar-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .sidebar-content {
+      flex: 1;
+      padding: 0;
+    }
+
+    .sidebar-menu {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .sidebar-menu-item {
+      border-bottom: 1px solid #e5e5e5;
+    }
+
+    .sidebar-menu-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      text-decoration: none;
+      color: #333;
+      font-size: 15px;
+      transition: background-color 0.2s ease;
+    }
+
+    .sidebar-menu-link:hover {
+      background-color: #f5f5f5;
+    }
+
+    .sidebar-menu-link svg {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+    }
+
+    .sidebar-menu-text {
+      flex: 1;
+    }
 {%- endstyle -%}
 
-<header class="icon-header-{{ section.id }}">
-  <div class="custom-container">
-    <div class="header-grid-container flex items-center justify-between">
-      <button class="header_mobile-button cursor-pointer flex items-center flex-col" data-open-menu="" role="button">
-        {% comment %} <div class="burger">
-          <span class="menu-toggle-bar menu-toggle-bar-top"></span>
-          <span class="menu-toggle-bar menu-toggle-bar-middle"></span>
-          <span class="menu-toggle-bar menu-toggle-bar-bottom"></span>
-        </div> {% endcomment %}
+<header class="icon-header-{{ section.id }}" id="mobileHeader">
+  <div class="custom-container ">
+    <div class="header-grid-container py-3 flex items-center justify-between">
+      <button class="header_mobile-button cursor-pointer flex items-center flex-col" id="menuToggle" role="button">
         <div class="icon-box">
-          {% render 'svg-icons', name: 'menu-icon' %}
+          <div class="menu-icon" id="menuIcon">
+            <span class="menu-icon-bar"></span>
+            <span class="menu-icon-bar"></span>
+            <span class="menu-icon-bar"></span>
+          </div>
         </div>
-        <span class="text-sub">Menu</span>
+        <span class="text-sub mt-2!">Menu</span>
       </button>
 
       <a href="{{ section.settings.link_2 }}" class="header-item">
@@ -83,11 +292,273 @@
       </a>
     </div>
   </div>
+
+  {%- if section.settings.show_mobile_bottom -%}
+    <div class="mobile-header-bottom ">
+      <div class="custom-container relative">
+        <div class="swiper mobile-btm-swiper" id="mobileBottomSwiper">
+          <div class="swiper-wrapper text-center">
+            <div class="swiper-slide">
+              <p class="text-[16px] font-medium">
+                {{ section.settings.mobile_bottom_title_1 }}
+              </p>
+              <p class="text-[14px]">
+                {{ section.settings.mobile_bottom_text_1 }}
+                <a href="tel:{{ section.settings.mobile_bottom_phone_1 | replace: ' ', '' }}">
+                  {{ section.settings.mobile_bottom_phone_1 }}
+                </a>
+              </p>
+            </div>
+
+            <div class="swiper-slide">
+              <p class="text-[16px] font-medium">
+                {{ section.settings.mobile_bottom_title_2 }}
+              </p>
+              <p class="text-[14px]">
+                {{ section.settings.mobile_bottom_text_2 }}
+                <a href="tel:{{ section.settings.mobile_bottom_phone_2 | replace: ' ', '' }}">
+                  {{ section.settings.mobile_bottom_phone_2 }}
+                </a>
+              </p>
+            </div>
+          </div>
+
+          <!-- Arrows -->
+          <div class="swiper-button-prev"></div>
+          <div class="swiper-button-next"></div>
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
 </header>
+
+<!-- Sidebar Overlay -->
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<!-- Sidebar Container -->
+<div class="sidebar-container" id="sidebarContainer">
+  <!-- Main Menu Panel -->
+  <div class="sidebar-panel active" id="mainPanel">
+    <div class="sidebar-header hidden!">
+      <button class="sidebar-close" id="sidebarClose">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+        <span>Menu</span>
+      </button>
+    </div>
+    <div class="sidebar-content">
+      <ul class="sidebar-menu">
+        {% for link in linklists['nav-menu'].links %}
+          <li class="sidebar-menu-item">
+            {% if link.links.size > 0 %}
+              <a href="javascript:void(0)" class="sidebar-menu-link" data-submenu="{{ link.handle }}">
+                <span class="sidebar-menu-text">{{ link.title }}</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M9 5l7 7-7 7"/>
+                </svg>
+              </a>
+            {% else %}
+              <a href="{{ link.url }}" class="sidebar-menu-link">
+                <span class="sidebar-menu-text">{{ link.title }}</span>
+              </a>
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+      {% render 'sidebar-footer' %}
+    </div>
+  </div>
+
+  <!-- Submenu Panels -->
+  {% for link in linklists['nav-menu'].links %}
+    {% if link.links.size > 0 %}
+      <div class="sidebar-panel" id="panel-{{ link.handle }}">
+        <div class="sidebar-header">
+          <button class="sidebar-back" data-back="{{ link.handle }}">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M15 19l-7-7 7-7"/>
+            </svg>
+            <span class="sidebar-title">{{ link.title }}</span>
+          </button>
+        </div>
+        <div class="sidebar-content">
+          <ul class="sidebar-menu">
+            {% for child_link in link.links %}
+              <li class="sidebar-menu-item">
+                {% if child_link.links.size > 0 %}
+                  <a
+                    href="javascript:void(0)"
+                    class="sidebar-menu-link"
+                    data-submenu="{{ link.handle }}-{{ child_link.handle }}"
+                  >
+                    <span class="sidebar-menu-text">{{ child_link.title }}</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M9 5l7 7-7 7"/>
+                    </svg>
+                  </a>
+                {% else %}
+                  <a href="{{ child_link.url }}" class="sidebar-menu-link">
+                    <span class="sidebar-menu-text">{{ child_link.title }}</span>
+                  </a>
+                {% endif %}
+              </li>
+            {% endfor %}
+          </ul>
+          {% render 'sidebar-footer' %}
+        </div>
+      </div>
+
+      <!-- Grand Child Panels -->
+      {% for child_link in link.links %}
+        {% if child_link.links.size > 0 %}
+          <div class="sidebar-panel" id="panel-{{ link.handle }}-{{ child_link.handle }}">
+            <div class="sidebar-header">
+              <button class="sidebar-back" data-back="{{ link.handle }}-{{ child_link.handle }}">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M15 19l-7-7 7-7"/>
+                </svg>
+                <span class="sidebar-title">{{ child_link.title }}</span>
+              </button>
+            </div>
+            <div class="sidebar-content">
+              <ul class="sidebar-menu">
+                {% for grandchild_link in child_link.links %}
+                  <li class="sidebar-menu-item">
+                    <a href="{{ grandchild_link.url }}" class="sidebar-menu-link">
+                      <span class="sidebar-menu-text">{{ grandchild_link.title }}</span>
+                    </a>
+                  </li>
+                {% endfor %}
+              </ul>
+                {% render 'sidebar-footer' %}
+
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+  {% endfor %}
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const menuToggle = document.getElementById('menuToggle');
+    const menuIcon = document.getElementById('menuIcon');
+    const sidebarContainer = document.getElementById('sidebarContainer');
+    const sidebarOverlay = document.getElementById('sidebarOverlay');
+    const sidebarClose = document.getElementById('sidebarClose');
+    const mobileHeader = document.getElementById('mobileHeader');
+
+    // Swiper initialization for mobile bottom bar
+    let mobileBottomSwiper;
+
+    function initMobileBottomSwiper() {
+      if (!mobileBottomSwiper) {
+        mobileBottomSwiper = new Swiper('#mobileBottomSwiper', {
+          slidesPerView: 1,
+          loop: true,
+          autoplay: {
+            delay: 3000,
+            disableOnInteraction: false,
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+           breakpoints: {
+    768: {
+      slidesPerView: 2,
+      spaceBetween: 32,
+      allowTouchMove: false,   // disables swipe on desktop
+    }
+  }
+        });
+      }
+    }
+
+    // Initialize swiper if bottom bar is enabled
+    {% if section.settings.show_mobile_bottom %}
+      initMobileBottomSwiper();
+    {% endif %}
+
+    // Scroll behavior for collapsing bottom bar
+    let lastScrollY = window.scrollY;
+    const triggerOffset = 100;
+
+    window.addEventListener('scroll', () => {
+      const currentScrollY = window.scrollY;
+
+      // Scroll DOWN
+      if (currentScrollY > lastScrollY && currentScrollY > triggerOffset) {
+        mobileHeader.classList.add('is-collapsed');
+      }
+
+      // Scroll UP
+      if (currentScrollY < lastScrollY) {
+        mobileHeader.classList.remove('is-collapsed');
+      }
+
+      lastScrollY = currentScrollY;
+    });
+
+    // Open sidebar
+    menuToggle.addEventListener('click', function() {
+      sidebarContainer.classList.toggle('active');
+      sidebarOverlay.classList.toggle('active');
+      menuIcon.classList.toggle('active');
+    });
+
+    // Close sidebar
+    function closeSidebar() {
+      sidebarContainer.classList.remove('active');
+      sidebarOverlay.classList.remove('active');
+      menuIcon.classList.remove('active');
+
+      // Reset all panels after animation
+      setTimeout(() => {
+        const allPanels = document.querySelectorAll('.sidebar-panel');
+        allPanels.forEach(panel => {
+          if (panel.id !== 'mainPanel') {
+            panel.classList.remove('active');
+          }
+        });
+      }, 300);
+    }
+
+    sidebarClose.addEventListener('click', closeSidebar);
+    sidebarOverlay.addEventListener('click', closeSidebar);
+
+    // Handle submenu links
+    const submenuLinks = document.querySelectorAll('[data-submenu]');
+    submenuLinks.forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const panelId = this.getAttribute('data-submenu');
+        const targetPanel = document.getElementById('panel-' + panelId);
+        if (targetPanel) {
+          targetPanel.classList.add('active');
+        }
+      });
+    });
+
+    // Handle back buttons
+    const backButtons = document.querySelectorAll('[data-back]');
+    backButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        const panelId = this.getAttribute('data-back');
+        const currentPanel = document.getElementById('panel-' + panelId);
+        if (currentPanel) {
+          currentPanel.classList.remove('active');
+        }
+      });
+    });
+  });
+</script>
 
 {% schema %}
 {
-  "name": "Exact Icon Header",
+  "name": "Mobile Icon Header",
   "settings": [
     {
       "type": "header",
@@ -108,35 +579,102 @@
       "default": 30,
       "unit": "px"
     },
+
     {
       "type": "header",
       "content": "Center Logo"
     },
     { "type": "image_picker", "id": "logo", "label": "Logo Image" },
-    
-    // { "type": "url", "id": "link_1", "label": "Link 1" },
+
     {
       "type": "header",
       "content": "Column 2 (Left Inner)"
     },
     { "type": "html", "id": "icon_2", "label": "SVG Icon 2" },
-    { "type": "text", "id": "text_2_sub", "label": "Sub Text", "default": "link url" },
+    { "type": "text", "id": "text_2_sub", "label": "Sub Text", "default": "Search" },
     { "type": "url", "id": "link_2", "label": "Link 2" },
+
     {
       "type": "header",
       "content": "Column 4 (Right Inner)"
     },
     { "type": "html", "id": "icon_4", "label": "SVG Icon 4" },
-    { "type": "text", "id": "text_4_sub", "label": "Sub Text", "default": "link text" },
+    { "type": "text", "id": "text_4_sub", "label": "Sub Text", "default": "Contact" },
     { "type": "url", "id": "link_4", "label": "Link 4" },
+
     {
       "type": "header",
       "content": "Column 5 (Far Right)"
     },
     { "type": "html", "id": "icon_5", "label": "SVG Icon 5" },
-    { "type": "text", "id": "text_5_sub", "label": "Sub Text", "default": "link url" },
-    { "type": "url", "id": "link_5", "label": "Link 5" }
+    { "type": "text", "id": "text_5_sub", "label": "Sub Text", "default": "My Cart" },
+    { "type": "url", "id": "link_5", "label": "Link 5" },
+
+    {
+      "type": "header",
+      "content": "Mobile Bottom Bar Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_mobile_bottom",
+      "label": "Show Mobile Bottom Bar",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "mobile_bottom_bg",
+      "label": "Mobile Bottom Bar Background",
+      "default": "#F4F4F4"
+    },
+    {
+      "type": "color",
+      "id": "mobile_bottom_text",
+      "label": "Mobile Bottom Bar Text Color",
+      "default": "#414042"
+    },
+    {
+      "type": "color",
+      "id": "mobile_bottom_link",
+      "label": "Mobile Bottom Bar Link Color",
+      "default": "#36895A"
+    },
+    {
+      "type": "text",
+      "id": "mobile_bottom_title_1",
+      "label": "Mobile Slide 1 Title",
+      "default": "Commercial Grower?"
+    },
+    {
+      "type": "text",
+      "id": "mobile_bottom_text_1",
+      "label": "Mobile Slide 1 Text",
+      "default": "For commercial pricing:"
+    },
+    {
+      "type": "text",
+      "id": "mobile_bottom_phone_1",
+      "label": "Mobile Slide 1 Phone",
+      "default": "(914) 219-6983"
+    },
+    {
+      "type": "text",
+      "id": "mobile_bottom_title_2",
+      "label": "Mobile Slide 2 Title",
+      "default": "Need Help?"
+    },
+    {
+      "type": "text",
+      "id": "mobile_bottom_text_2",
+      "label": "Mobile Slide 2 Text",
+      "default": "Contact us:"
+    },
+    {
+      "type": "text",
+      "id": "mobile_bottom_phone_2",
+      "label": "Mobile Slide 2 Phone",
+      "default": "(914) 219-6983"
+    }
   ],
-  "presets": [{ "name": "Exact Icon Header" }]
+  "presets": [{ "name": "Mobile Icon Header" }]
 }
 {% endschema %}

@@ -193,14 +193,95 @@
     {%- endif -%}
 
     <!-- NAVIGATION -->
-    <div class="nav-menu bg-white">
+    <div class="nav-menu bg-white relative">
       <div class="custom-container">
         <ul class="flex items-center justify-between text-[16px] font-medium text-[#414042]">
           {% for link in linklists['nav-menu'].links %}
-            <li>
-              <a href="{{ link.url }}" class="block px-2 py-3 hover:text-[#006A2E]! transition-colors duration-200">
+            <li class=" group">
+              <!-- Parent link -->
+              <a
+                href="{{ link.url }}"
+                class="block px-2 py-3 hover:text-[#006A2E] transition-colors duration-200"
+              >
                 {{ link.title }}
               </a>
+
+              {% if link.links != blank %}
+                <!-- Mega Menu -->
+                <div
+                  class="
+                    absolute left-0 top-full w-screen bg-white border-t border-[#006A2E]
+                    opacity-0 invisible group-hover:opacity-100 group-hover:visible
+                    transition-all duration-200 z-50 shadow-lg
+                  "
+                >
+                  <div class="custom-container py-8!">
+                    <div class="grid grid-cols-1 md:grid-cols-6 gap-8">
+                      <div class="md:col-span-4 grid grid-cols-1 md:grid-cols-4 gap-8">
+                        {% for child in link.links %}
+                          <div>
+                            <a
+                              href="{{ child.url }}"
+                              class="block text-[16px]! font-medium! text-[#414042]! mb-1 hover:underline!"
+                            >
+                              {{ child.title }}
+                            </a>
+                            {% if child.links != blank %}
+                              <ul class="space-y-2">
+                                {% for grandchild in child.links %}
+                                  <li>
+                                    <a
+                                      href="{{ grandchild.url }}"
+                                      class="text-[14px] font-normal! text-[#414042] hover:underline!"
+                                    >
+                                      {{ grandchild.title }}
+                                    </a>
+                                  </li>
+                                {% endfor %}
+                              </ul>
+                            {% endif %}
+                          </div>
+                        {% endfor %}
+                      </div>
+
+                      <div class="md:col-span-2">
+                        {% for block in section.blocks %}
+                          {% assign menu_item_handle = link.title | handle %}
+                          {% assign target_menu_handle = block.settings.menu_item | handle %}
+
+                          {% if menu_item_handle == target_menu_handle %}
+                            {% assign featured_col = block.settings.collection %}
+                            {% if featured_col != blank %}
+                              <a
+                                href="{{ featured_col.url }}"
+                                class=" relative block w-full h-full overflow-hidden"
+                              >
+                                {% if featured_col.featured_image %}
+                                  <img
+                                    src="{{ featured_col.featured_image | image_url: width: 600 }}"
+                                    alt="{{ featured_col.title }}"
+                                    class="absolute  w-full h-full object-contain"
+                                  >
+                                {% else %}
+                                  <div class="absolute inset-0 bg-gray-200 flex items-center justify-center">
+                                    No Image
+                                  </div>
+                                {% endif %}
+
+                                <div class="absolute inset-0 flex items-center justify-center p-4">
+                                  <h3 class="text-[#414042] text-[15px] font-normal  text-center leading-tight tracking-wider">
+                                    {{ featured_col.title }}
+                                  </h3>
+                                </div>
+                              </a>
+                            {% endif %}
+                          {% endif %}
+                        {% endfor %}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              {% endif %}
             </li>
           {% endfor %}
         </ul>
@@ -369,6 +450,25 @@
       "id": "bottom_phone_2",
       "label": "Slide 2 phone",
       "default": "(914) 219-6983"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "mega_menu_featured",
+      "name": "Mega Menu Promotion",
+      "settings": [
+        {
+          "type": "text",
+          "id": "menu_item",
+          "label": "Menu Item Name",
+          "info": "Type the exact name of the parent link this image should appear under (e.g. 'Shop')"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Featured Collection"
+        }
+      ]
     }
   ],
   "presets": [
