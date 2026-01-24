@@ -190,10 +190,49 @@
     }
   }
 </style>
+
+<style>
+  /* Navigation visibility */
+  .ts-prev.swiper-button-disabled,
+  .ts-next.swiper-button-disabled {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .ts-prev,
+  .ts-next {
+    transition: opacity 0.3s ease;
+  }
+
+  /* Progress Bar Scoped to Top Sellers */
+  .ts-progress-bar {
+    width: 100%;
+    height: 4px;
+    background-color: #e9e9e9;
+    border-radius: 2px;
+    margin-top: 30px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .ts-progress-thumb {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background-color: #414042;
+    border-radius: 2px;
+    /* Using transform for performance, but the calculation is fixed below */
+    transition: transform 0.5s ease;
+    width: 0; /* Set dynamically by JS */
+  }
+</style>
 <div class="custom-container mt-20!">
   <div class="flex item-center justify-between">
     <h1 class="text-[24px] font-bold text-[#414042] mb-4">Browse Top Sellers</h1>
-    <a href="#" class="text-[#006A2E]">Shop all > </a>
+    <a href="#" class="text-[#006A2E]! hidden md:flex items-center"
+      >Shop all {% render 'svg-icons', name: 'chevron-right', icon_class: 'w-[20px] h-[20px] stroke-[#006A2E]' %}
+    </a>
   </div>
 
   <div class="swiper" id="filter-btn-swiper">
@@ -212,16 +251,18 @@
 
   <div class="my-5">
     <div class="swiper py-10 relative" id="products-swiper">
-      <div
-        class="
-          prev-swiper-button absolute left-0 top-1/2 -translate-y-1/2 z-10
-          rounded-full cursor-pointer w-[40px] h-[40px]
-          flex items-center justify-center bg-white shadow-xl
-        "
-      >
-        {% render 'svg-icons', name: 'right-arrow', icon_class: 'w-[20px] h-[20px] rotate-180' %}
-      </div>
-
+      {% if section.settings.show_navigation %}
+        <div
+          class="
+            ts-prev
+            prev-swiper-button absolute left-0 top-1/2 -translate-y-1/2 z-10
+            rounded-full cursor-pointer w-[40px] h-[40px]
+            flex items-center justify-center bg-white shadow-xl
+          "
+        >
+          {% render 'svg-icons', name: 'right-arrow', icon_class: 'w-[20px] h-[20px] rotate-180' %}
+        </div>
+      {% endif %}
       {% assign collection = collections['best-seller-products'] %}
       <div class="swiper-wrapper">
         {% if collection %}
@@ -256,29 +297,39 @@
                 </p>
 
                 <button
-                  class="quick-view-btn mt-4 w-full bg-[#006A2E] text-white text-[14px] font-medium py-2 rounded-sm hover:bg-[#005025] transition-colors"
+                  class="quick-view-btn relative group mt-4 w-full bg-[#006A2E] text-white text-[14px] font-medium py-2 rounded-sm hover:bg-[#005025] transition-colors"
                   data-product-handle="{{ product.handle }}"
                   data-product-price="{{ product.price | money }}"
                   data-product-compare-price="{% if product.compare_at_price > product.price %}{{ product.compare_at_price | money }}{% endif %}"
                 >
                   Quick View
+                  <div
+                    class="btn-overlay absolute  bg-white z-10 w-full h-full top-0 left-0 opacity-0 scale-30 rounded-sm group-hover:scale-100 group-hover:opacity-30 duration-500 transition-all"
+                  ></div>
                 </button>
               </div>
             </div>
           {% endfor %}
         {% endif %}
       </div>
-
-      <div
-        class="
-          next-swiper-button absolute right-0 top-1/2 -translate-y-1/2 z-10
-          rounded-full cursor-pointer w-[40px] h-[40px]
-          flex items-center justify-center bg-white shadow-xl
-        "
-      >
-        {% render 'svg-icons', name: 'right-arrow', icon_class: 'w-[20px] h-[20px]' %}
-      </div>
+      {% if section.settings.show_navigation %}
+        <div
+          class="
+            ts-next
+            next-swiper-button absolute right-0 top-1/2 -translate-y-1/2 z-10
+            rounded-full cursor-pointer w-[40px] h-[40px]
+            flex items-center justify-center bg-white shadow-xl
+          "
+        >
+          {% render 'svg-icons', name: 'right-arrow', icon_class: 'w-[20px] h-[20px]' %}
+        </div>
+      {% endif %}
     </div>
+    {% if section.settings.show_progress_bar %}
+      <div class="ts-progress-bar">
+        <div class="ts-progress-thumb" id="tsProgressThumb"></div>
+      </div>
+    {% endif %}
   </div>
 </div>
 
@@ -365,19 +416,64 @@
   document.addEventListener('DOMContentLoaded', function () {
     const filterSwiper = new Swiper('#filter-btn-swiper', {
       slidesPerView: 'auto',
+
       spaceBetween: 10,
+
       freeMode: true,
     });
+    const tsThumb = document.getElementById('tsProgressThumb');
 
     const productSwiper = new Swiper('#products-swiper', {
       slidesPerView: 'auto',
       spaceBetween: 16,
+      watchOverflow: true,
       navigation: {
-        nextEl: '.next-swiper-button',
-        prevEl: '.prev-swiper-button',
+        nextEl: '.ts-next',
+        prevEl: '.ts-prev',
+        disabledClass: 'swiper-button-disabled',
+      },
+      on: {
+        init: function () {
+          updateTsProgress(this);
+        },
+        // 'setTranslate' catches dragging, 'slideChange' catches arrows
+        setTranslate: function () {
+          updateTsProgress(this);
+        },
+        breakpoint: function () {
+          updateTsProgress(this);
+        },
       },
     });
 
+    function updateTsProgress(swiperInstance) {
+      if (!tsThumb) return;
+
+      // Filtered slides might be hidden, we only count visible ones
+      const visibleSlidesCount = swiperInstance.slides.filter((slide) => slide.style.display !== 'none').length;
+      if (visibleSlidesCount <= 1) {
+        tsThumb.parentElement.style.display = 'none';
+        return;
+      } else {
+        tsThumb.parentElement.style.display = 'block';
+      }
+
+      // Calculate width based on the current view
+      const swiperWidth = swiperInstance.width;
+      const totalContentWidth = swiperInstance.virtualSize;
+      const thumbWidthPercent = Math.max((swiperWidth / totalContentWidth) * 100, 10);
+
+      tsThumb.style.width = thumbWidthPercent + '%';
+
+      // Move thumb
+      const progress = Math.min(Math.max(swiperInstance.progress, 0), 1);
+      const moveableSpace = 100 / thumbWidthPercent - 1;
+      const moveX = progress * moveableSpace * 100;
+
+      tsThumb.style.transform = `translateX(${moveX}%)`;
+    }
+
+    // FILTER LOGIC INTEGRATION
     const filterButtons = document.querySelectorAll('.filter-btn');
     const productSlides = document.querySelectorAll('#products-swiper .swiper-slide');
 
@@ -386,7 +482,8 @@
         const tags = slide.dataset.tags || '';
         slide.style.display = tags.includes(filter) ? '' : 'none';
       });
-      productSwiper.update();
+      productSwiper.update(); // This triggers the 'update' event above
+      productSwiper.slideTo(0); // Reset to start on filter
     }
 
     filterButtons.forEach((btn) => {
@@ -397,7 +494,6 @@
       });
     });
 
-    // 🔥 AUTO APPLY FIRST FILTER ON LOAD
     if (filterButtons.length) {
       applyFilter(filterButtons[0].dataset.filter);
     }
@@ -407,6 +503,24 @@
 {% schema %}
 {
   "name": "Top Sellers with Filters",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Visibility Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_navigation",
+      "label": "Show Navigation Arrows",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_progress_bar",
+      "label": "Show Progress Bar",
+      "default": true
+    }
+  ],
   "blocks": [
     {
       "type": "filter",
@@ -488,7 +602,7 @@
       slidesPerView: 'auto',
       loop: false,
     });
-    
+
     // Link swipers
     mainSwiper.controller.control = thumbnailSwiper;
     thumbnailSwiper.controller.control = mainSwiper;
@@ -511,29 +625,29 @@
   // Event listeners
   document.addEventListener('DOMContentLoaded', function () {
     console.log('DOM loaded - setting up quick view');
-    
+
     // Use event delegation
-    document.addEventListener('click', async function(e) {
+    document.addEventListener('click', async function (e) {
       if (e.target.closest('.quick-view-btn')) {
         e.preventDefault();
         e.stopPropagation();
-        
+
         const button = e.target.closest('.quick-view-btn');
         const productHandle = button.dataset.productHandle;
-        
+
         console.log('Fetching product:', productHandle);
-        
+
         // Show loading state
         const modal = document.getElementById('quickViewModal');
         modal.classList.add('active');
         document.body.style.overflow = 'hidden';
-        
+
         // Display loading message
         document.getElementById('modalProductTitle').textContent = 'Loading...';
-        
+
         // Fetch product data
         const productData = await fetchProductData(productHandle);
-        
+
         if (productData) {
           openQuickView(productData, button);
         } else {
@@ -546,14 +660,14 @@
 
   function openQuickView(productData, button) {
     console.log('Opening quick view for:', productData);
-    
+
     currentProductData = productData;
-    
+
     // Populate product info
     document.getElementById('modalProductTitle').textContent = productData.title;
     document.getElementById('modalProductPrice').textContent = formatMoney(productData.price);
     document.getElementById('viewFullDetailsLink').href = `/products/${productData.handle}`;
-    
+
     // Handle compare price
     const comparePriceEl = document.getElementById('modalProductComparePrice');
     if (productData.compare_at_price && productData.compare_at_price > productData.price) {
@@ -562,13 +676,13 @@
     } else {
       comparePriceEl.style.display = 'none';
     }
-    
+
     // Load images - FIXED THIS
     loadProductImages(productData);
-    
+
     // Load variants
     loadColorVariants(productData.variants);
-    
+
     // Reset quantity
     document.getElementById('quantityInput').value = 1;
   }
@@ -581,7 +695,7 @@
     thumbWrapper.innerHTML = '';
 
     console.log('Product images:', productData.images);
-    
+
     // Check if images exist and have the right structure
     if (!productData.images || productData.images.length === 0) {
       console.error('No images found for product');
@@ -602,10 +716,10 @@
       productData.images.forEach((image, index) => {
         // Handle different image formats (could be string or object)
         const imageSrc = typeof image === 'string' ? image : image.src;
-        const imageAlt = (typeof image === 'object' && image.alt) ? image.alt : productData.title;
-        
+        const imageAlt = typeof image === 'object' && image.alt ? image.alt : productData.title;
+
         console.log(`Image ${index}:`, imageSrc);
-        
+
         const mainSlide = document.createElement('div');
         mainSlide.className = 'swiper-slide';
         mainSlide.innerHTML = `<div class="main-image-container"><img src="${imageSrc}" alt="${imageAlt}" class="w-full h-full object-contain"></div>`;
@@ -621,7 +735,7 @@
     // Initialize swipers after a small delay to ensure DOM is updated
     setTimeout(() => {
       initializeSwipers();
-      
+
       // Bind thumbnail clicks
       document.querySelectorAll('.thumbnail-swiper .swiper-slide').forEach((slide, index) => {
         slide.addEventListener('click', () => {
@@ -696,12 +810,12 @@
     const modal = document.getElementById('quickViewModal');
     modal.classList.remove('active');
     document.body.style.overflow = '';
-    
+
     // Clear content
     document.getElementById('modalProductTitle').textContent = '';
     document.getElementById('modalProductPrice').textContent = '';
     document.getElementById('modalProductComparePrice').style.display = 'none';
-    
+
     const mainWrapper = document.querySelector('.main-swiper .swiper-wrapper');
     const thumbWrapper = document.querySelector('.thumbnail-swiper .swiper-wrapper');
     if (mainWrapper) mainWrapper.innerHTML = '';

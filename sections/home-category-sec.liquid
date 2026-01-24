@@ -1,61 +1,98 @@
 {%- style -%}
-  .shop-category-section {
-    padding-top: {{ section.settings.section_padding_top }}px;
-    padding-bottom: {{ section.settings.section_padding_bottom }}px;
-  }
-
-  .shop-category-heading {
-    font-size: {{ section.settings.heading_size }}px;
-    margin-bottom: {{ section.settings.heading_spacing }}px;
-    color: {{ section.settings.heading_color }};
-  }
-
-  .shop-category-grid {
-    gap: {{ section.settings.card_gap }}px;
-  }
-
-  .shop-category-card {
-    border: 1px solid #E9E9E9;
-    border-radius: 2px;
-    background: #fff;
-    overflow: hidden;
-  }
-
-  .shop-category-title {
-    padding: {{ section.settings.title_padding_y }}px 0;
-    font-size: {{ section.settings.title_size }}px;
-    color: {{ section.settings.title_color }};
-    border-top: 1px solid #E9E9E9;
-    text-align: center;
-    font-weight: 500;
-  }
-
-  @media (min-width: 768px) {
-    .shop-category-swiper {
-      display: none;
+    .shop-category-section {
+      padding-top: {{ section.settings.section_padding_top }}px;
+      padding-bottom: {{ section.settings.section_padding_bottom }}px;
     }
-  }
 
-  @media (max-width: 767px) {
-    .shop-category-grid-wrapper {
-      display: none;
+    .shop-category-heading {
+      font-size: {{ section.settings.heading_size }}px;
+      margin-bottom: {{ section.settings.heading_spacing }}px;
+      color: {{ section.settings.heading_color }};
+      font-weight: 600; 
     }
+
+    .shop-category-grid {
+      gap: {{ section.settings.card_gap }}px;
+    }
+
+    .shop-category-card {
+      border: 1px solid #E9E9E9;
+      border-radius: 2px;
+      background: #fff;
+      overflow: hidden;
+    }
+    .shop-category-card:hover,.shop-category-card:hover .shop-category-title {
+      border-color: #006A2E;  
+    }
+    .shop-category-title {
+      padding: {{ section.settings.title_padding_y }}px 0;
+      font-size: {{ section.settings.title_size }}px;
+      color: {{ section.settings.title_color }};
+      border-top: 1px solid #E9E9E9;
+      text-align: center;
+      font-weight: 500;
+    }
+
+    @media (min-width: 768px) {
+      .shop-category-swiper {
+        display: none;
+      }
+    }
+
+    @media (max-width: 767px) {
+      .shop-category-grid-wrapper {
+        display: none;
+      }
+    }
+
+    .shop-category-swiper .swiper {
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .shop-category-swiper .swiper-slide {
+      height: auto;
+    }
+
+    /* Custom Progress Bar Styles */
+   /* Custom Progress Bar Styles */
+  /* Custom Progress Bar Styles */
+   .custom-progress-bar {
+     width: 100%;
+     height: 4px;
+     background-color: #E9E9E9;
+     border-radius: 2px;
+     margin-top: 20px;
+     position: relative;
+     overflow: hidden;
+   }
+
+   .custom-progress-thumb {
+     position: absolute;
+     top: 0;
+     left: 0;
+     height: 100%;
+     background-color: #414042;
+     border-radius: 2px;
+     /* Using transform for performance, but the calculation is fixed below */
+     transition: transform 0.5s ease;
+     width: 0; /* Set dynamically by JS */
+   }
+  .shop-category-section .prev-swiper-button.swiper-button-disabled,
+ .shop-category-section .next-swiper-button.swiper-button-disabled {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
   }
-  .shop-category-swiper .swiper {
-  width: 100%;
-  overflow: hidden;
-}
 
-.shop-category-swiper .swiper-slide {
-  height: auto;
-}
-
+ .shop-category-section .prev-swiper-button,
+ .shop-category-section .next-swiper-button {
+    transition: opacity 0.3s ease;
+  }
 {%- endstyle -%}
-
 
 <div class="shop-category-section">
   <div class="custom-container">
-
     <h2 class="shop-category-heading">
       {{ section.settings.heading }}
     </h2>
@@ -93,58 +130,69 @@
     </div>
 
     <!-- MOBILE SWIPER -->
-   <div class="shop-category-swiper relative">
-  
-  <!-- LEFT ARROW -->
-  <div class="prev-swiper-button absolute left-0 top-1/2 -translate-y-1/2 z-10
-    rounded-full cursor-pointer w-[40px] h-[40px]
-    flex items-center justify-center bg-white shadow-xl">
-    {% render 'svg-icons', name: 'right-arrow', icon_class: 'w-[20px] h-[20px] rotate-180' %}
-  </div>
-
-  <!-- RIGHT ARROW -->
-  <div class="next-swiper-button absolute right-0 top-1/2 -translate-y-1/2 z-10
-    rounded-full cursor-pointer w-[40px] h-[40px]
-    flex items-center justify-center bg-white shadow-xl">
-    {% render 'svg-icons', name: 'right-arrow', icon_class: 'w-[20px] h-[20px]' %}
-  </div>
-
-  <div class="swiper" id="shopCategorySwiper">
-    <div class="swiper-wrapper">
-      {% for block in section.blocks %}
-        {% assign collection = block.settings.collection %}
-        <div class="swiper-slide">
-          <a href="{{ collection.url | default: '#' }}" class="shop-category-card block">
-            
-            {% if collection != blank and collection.image %}
-              <img
-                src="{{ collection.image | image_url: width: 300 }}"
-                alt="{{ collection.title }}"
-                class="w-full"
-              >
-            {% else %}
-              <img
-                src="{{ 'collection-placeholder.png' | asset_url }}"
-                alt="Placeholder"
-                class="w-full"
-              >
-            {% endif %}
-
-            <div class="shop-category-title">
-              {{ collection.title | default: 'Collection title' }}
-            </div>
-          </a>
+    <div class="shop-category-swiper relative">
+      <!-- LEFT ARROW -->
+      {% if section.settings.show_navigation %}
+        <div
+          class="
+            prev-swiper-button absolute left-0 top-1/2 -translate-y-1/2 z-10
+            rounded-full cursor-pointer w-[40px] h-[40px]
+            flex items-center justify-center bg-white shadow-xl
+          "
+        >
+          {% render 'svg-icons', name: 'right-arrow', icon_class: 'w-[20px] h-[20px] rotate-180' %}
         </div>
-      {% endfor %}
+
+        <!-- RIGHT ARROW -->
+        <div
+          class="
+            next-swiper-button absolute right-0 top-1/2 -translate-y-1/2 z-10
+            rounded-full cursor-pointer w-[40px] h-[40px]
+            flex items-center justify-center bg-white shadow-xl
+          "
+        >
+          {% render 'svg-icons', name: 'right-arrow', icon_class: 'w-[20px] h-[20px]' %}
+        </div>
+      {% endif %}
+
+      <div class="swiper" id="shopCategorySwiper">
+        <div class="swiper-wrapper">
+          {% for block in section.blocks %}
+            {% assign collection = block.settings.collection %}
+            <div class="swiper-slide">
+              <a href="{{ collection.url | default: '#' }}" class="shop-category-card block">
+                {% if collection != blank and collection.image %}
+                  <img
+                    src="{{ collection.image | image_url: width: 300 }}"
+                    alt="{{ collection.title }}"
+                    class="w-full"
+                  >
+                {% else %}
+                  <img
+                    src="{{ 'collection-placeholder.png' | asset_url }}"
+                    alt="Placeholder"
+                    class="w-full"
+                  >
+                {% endif %}
+
+                <div class="shop-category-title">
+                  {{ collection.title | default: 'Collection title' }}
+                </div>
+              </a>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- CUSTOM PROGRESS BAR -->
+      {% if section.settings.show_progress_bar %}
+        <div class="custom-progress-bar">
+          <div class="custom-progress-thumb" id="progressThumb"></div>
+        </div>
+      {% endif %}
     </div>
   </div>
 </div>
-
-
-  </div>
-</div>
-
-
 
 {% schema %}
 {
@@ -230,6 +278,22 @@
       "max": 20,
       "step": 1,
       "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Visibility Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_navigation",
+      "label": "Show navigation arrows",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_progress_bar",
+      "label": "Show progress bar",
+      "default": true
     }
   ],
   "blocks": [
@@ -248,40 +312,64 @@
   "presets": [
     {
       "name": "Shop by Category",
-      "blocks": [
-        { "type": "collection" },
-        { "type": "collection" },
-        { "type": "collection" },
-        { "type": "collection" }
-      ]
+      "blocks": [{ "type": "collection" }, { "type": "collection" }, { "type": "collection" }, { "type": "collection" }]
     }
   ]
 }
-
-
 {% endschema %}
-
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    new Swiper('#shopCategorySwiper', {
-      slidesPerView: 3,
+    const swiper = new Swiper('#shopCategorySwiper', {
+      slidesPerView: 1.2, // Offset shows next slide on mobile
       spaceBetween: 16,
+      watchOverflow: true,
       navigation: {
         nextEl: '.next-swiper-button',
-        prevEl: '.prev-swiper-button'
+        prevEl: '.prev-swiper-button',
       },
       breakpoints: {
-        0: {
-          slidesPerView: 1
+        480: { slidesPerView: 2 },
+        768: { slidesPerView: 3 },
+      },
+      on: {
+        init: function () {
+          updateProgressBar(this);
         },
-        480: {
-          slidesPerView: 2
+        // 'setTranslate' catches dragging, 'slideChange' catches arrows
+        setTranslate: function () {
+          updateProgressBar(this);
         },
-        768: {
-          slidesPerView: 3
-        }
-      }
+        breakpoint: function () {
+          updateProgressBar(this);
+        },
+      },
     });
+
+    function updateProgressBar(swiperInstance) {
+      const progressThumb = document.getElementById('progressThumb');
+      if (!progressThumb) return;
+
+      const totalSlides = swiperInstance.slides.length;
+      const slidesPerView = swiperInstance.params.slidesPerView;
+
+      // 1. Calculate thumb width percentage
+      // If we see 3 out of 10 slides, thumb is 30% wide
+      const thumbWidth = (slidesPerView / totalSlides) * 100;
+      progressThumb.style.width = thumbWidth + '%';
+
+      // 2. Get the Swiper progress (0 to 1)
+      // Swiper.progress is the most reliable way to track the position
+      const progress = swiperInstance.progress;
+
+      // 3. Calculate move distance
+      // We move the thumb across the REMAINING width of the track
+      // Formula: progress * (TrackWidth - ThumbWidth)
+      // Since translateX(100%) = 1 thumb width, we use the ratio below:
+      const totalMoveableWidth = 100 / thumbWidth - 1;
+      const moveX = progress * totalMoveableWidth * 100;
+
+      progressThumb.style.transform = `translateX(${moveX}%)`;
+    }
   });
 </script>

@@ -250,156 +250,129 @@
     .sidebar-menu-text {
       flex: 1;
     }
+     @media (min-width: 1200px) {
+    .mobile-header-wrapper {
+      display: none;
+    }
+    .mobile-header-cont{
+      height: 0 !important;
+    }
+  }
+  .mobile-header-cont{
+    height: 180px;
+  }
 {%- endstyle -%}
-
-<header class="icon-header-{{ section.id }}" id="mobileHeader">
-  <div class="custom-container ">
-    <div class="header-grid-container py-3 flex items-center justify-between">
-      <button class="header_mobile-button cursor-pointer flex items-center flex-col" id="menuToggle" role="button">
-        <div class="icon-box">
-          <div class="menu-icon" id="menuIcon">
-            <span class="menu-icon-bar"></span>
-            <span class="menu-icon-bar"></span>
-            <span class="menu-icon-bar"></span>
-          </div>
-        </div>
-        <span class="text-sub mt-2!">Menu</span>
-      </button>
-
-      <a href="{{ section.settings.link_2 }}" class="header-item">
-        <div class="icon-box">{{ section.settings.icon_2 }}</div>
-        <span class="text-sub">{{ section.settings.text_2_sub }}</span>
-      </a>
-
-      <div class="logo-box flex justify-center">
-        <a href="/">
-          {% if section.settings.logo != blank %}
-            <img src="{{ section.settings.logo | image_url: width: 300 }}" alt="{{ shop.name }}">
-          {% else %}
-            <span class="text-xl font-bold">LOGO</span>
-          {% endif %}
-        </a>
-      </div>
-
-      <a href="{{ section.settings.link_4 }}" class="header-item">
-        <div class="icon-box">{{ section.settings.icon_4 }}</div>
-        <span class="text-sub">{{ section.settings.text_4_sub }}</span>
-      </a>
-
-      <a href="{{ section.settings.link_5 }}" class="header-item">
-        <div class="icon-box">{{ section.settings.icon_5 }}</div>
-        <span class="text-sub">{{ section.settings.text_5_sub }}</span>
-      </a>
-    </div>
-  </div>
-
-  {%- if section.settings.show_mobile_bottom -%}
-    <div class="mobile-header-bottom ">
-      <div class="custom-container relative">
-        <div class="swiper mobile-btm-swiper" id="mobileBottomSwiper">
-          <div class="swiper-wrapper text-center">
-            <div class="swiper-slide">
-              <p class="text-[16px] font-medium">
-                {{ section.settings.mobile_bottom_title_1 }}
-              </p>
-              <p class="text-[14px]">
-                {{ section.settings.mobile_bottom_text_1 }}
-                <a href="tel:{{ section.settings.mobile_bottom_phone_1 | replace: ' ', '' }}">
-                  {{ section.settings.mobile_bottom_phone_1 }}
-                </a>
-              </p>
+<div class="mobile-header-cont">
+  <div class="mobile-header-wrapper">
+    <header class="icon-header-{{ section.id }}" id="mobileHeader">
+      <div class="custom-container ">
+        <div class="header-grid-container py-3 flex items-center justify-between">
+          <button class="header_mobile-button cursor-pointer flex items-center flex-col" id="menuToggle" role="button">
+            <div class="icon-box">
+              <div class="menu-icon" id="menuIcon">
+                <span class="menu-icon-bar"></span>
+                <span class="menu-icon-bar"></span>
+                <span class="menu-icon-bar"></span>
+              </div>
             </div>
+            <span class="text-sub mt-2!">Menu</span>
+          </button>
 
-            <div class="swiper-slide">
-              <p class="text-[16px] font-medium">
-                {{ section.settings.mobile_bottom_title_2 }}
-              </p>
-              <p class="text-[14px]">
-                {{ section.settings.mobile_bottom_text_2 }}
-                <a href="tel:{{ section.settings.mobile_bottom_phone_2 | replace: ' ', '' }}">
-                  {{ section.settings.mobile_bottom_phone_2 }}
-                </a>
-              </p>
-            </div>
+          <a href="{{ section.settings.link_2 }}" class="header-item">
+            <div class="icon-box">{{ section.settings.icon_2 }}</div>
+            <span class="text-sub">{{ section.settings.text_2_sub }}</span>
+          </a>
+
+          <div class="logo-box flex justify-center">
+            <a href="/">
+              {% if section.settings.logo != blank %}
+                <img src="{{ section.settings.logo | image_url: width: 300 }}" alt="{{ shop.name }}">
+              {% else %}
+                <span class="text-xl font-bold">LOGO</span>
+              {% endif %}
+            </a>
           </div>
 
-          <!-- Arrows -->
-          <div class="swiper-button-prev"></div>
-          <div class="swiper-button-next"></div>
+          <a href="{{ section.settings.link_4 }}" class="header-item">
+            <div class="icon-box">{{ section.settings.icon_4 }}</div>
+            <span class="text-sub">{{ section.settings.text_4_sub }}</span>
+          </a>
+
+          <a href="{{ section.settings.link_5 }}" class="header-item">
+            <div class="icon-box">{{ section.settings.icon_5 }}</div>
+            <span class="text-sub">{{ section.settings.text_5_sub }}</span>
+          </a>
         </div>
       </div>
-    </div>
-  {%- endif -%}
-</header>
 
-<!-- Sidebar Overlay -->
-<div class="sidebar-overlay" id="sidebarOverlay"></div>
+      {%- if section.settings.show_mobile_bottom -%}
+        <div class="mobile-header-bottom ">
+          <div class="custom-container relative">
+            <div class="swiper mobile-btm-swiper" id="mobileBottomSwiper">
+              <div class="swiper-wrapper text-center">
+                <div class="swiper-slide">
+                  <p class="text-[16px] font-medium">
+                    {{ section.settings.mobile_bottom_title_1 }}
+                  </p>
+                  <p class="text-[14px]">
+                    {{ section.settings.mobile_bottom_text_1 }}
+                    <a href="tel:{{ section.settings.mobile_bottom_phone_1 | replace: ' ', '' }}">
+                      {{ section.settings.mobile_bottom_phone_1 }}
+                    </a>
+                  </p>
+                </div>
 
-<!-- Sidebar Container -->
-<div class="sidebar-container" id="sidebarContainer">
-  <!-- Main Menu Panel -->
-  <div class="sidebar-panel active" id="mainPanel">
-    <div class="sidebar-header hidden!">
-      <button class="sidebar-close" id="sidebarClose">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M6 18L18 6M6 6l12 12"/>
-        </svg>
-        <span>Menu</span>
-      </button>
-    </div>
-    <div class="sidebar-content">
-      <ul class="sidebar-menu">
-        {% for link in linklists['nav-menu'].links %}
-          <li class="sidebar-menu-item">
-            {% if link.links.size > 0 %}
-              <a href="javascript:void(0)" class="sidebar-menu-link" data-submenu="{{ link.handle }}">
-                <span class="sidebar-menu-text">{{ link.title }}</span>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M9 5l7 7-7 7"/>
-                </svg>
-              </a>
-            {% else %}
-              <a href="{{ link.url }}" class="sidebar-menu-link">
-                <span class="sidebar-menu-text">{{ link.title }}</span>
-              </a>
-            {% endif %}
-          </li>
-        {% endfor %}
-      </ul>
-      {% render 'sidebar-footer' %}
-    </div>
-  </div>
+                <div class="swiper-slide">
+                  <p class="text-[16px] font-medium">
+                    {{ section.settings.mobile_bottom_title_2 }}
+                  </p>
+                  <p class="text-[14px]">
+                    {{ section.settings.mobile_bottom_text_2 }}
+                    <a href="tel:{{ section.settings.mobile_bottom_phone_2 | replace: ' ', '' }}">
+                      {{ section.settings.mobile_bottom_phone_2 }}
+                    </a>
+                  </p>
+                </div>
+              </div>
 
-  <!-- Submenu Panels -->
-  {% for link in linklists['nav-menu'].links %}
-    {% if link.links.size > 0 %}
-      <div class="sidebar-panel" id="panel-{{ link.handle }}">
-        <div class="sidebar-header">
-          <button class="sidebar-back" data-back="{{ link.handle }}">
+              <!-- Arrows -->
+              <div class="swiper-button-prev"></div>
+              <div class="swiper-button-next"></div>
+            </div>
+          </div>
+        </div>
+      {%- endif -%}
+    </header>
+
+    <!-- Sidebar Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Sidebar Container -->
+    <div class="sidebar-container" id="sidebarContainer">
+      <!-- Main Menu Panel -->
+      <div class="sidebar-panel active" id="mainPanel">
+        <div class="sidebar-header hidden!">
+          <button class="sidebar-close" id="sidebarClose">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M15 19l-7-7 7-7"/>
+              <path d="M6 18L18 6M6 6l12 12"/>
             </svg>
-            <span class="sidebar-title">{{ link.title }}</span>
+            <span>Menu</span>
           </button>
         </div>
         <div class="sidebar-content">
           <ul class="sidebar-menu">
-            {% for child_link in link.links %}
+            {% for link in linklists['nav-menu'].links %}
               <li class="sidebar-menu-item">
-                {% if child_link.links.size > 0 %}
-                  <a
-                    href="javascript:void(0)"
-                    class="sidebar-menu-link"
-                    data-submenu="{{ link.handle }}-{{ child_link.handle }}"
-                  >
-                    <span class="sidebar-menu-text">{{ child_link.title }}</span>
+                {% if link.links.size > 0 %}
+                  <a href="javascript:void(0)" class="sidebar-menu-link" data-submenu="{{ link.handle }}">
+                    <span class="sidebar-menu-text">{{ link.title }}</span>
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                       <path d="M9 5l7 7-7 7"/>
                     </svg>
                   </a>
                 {% else %}
-                  <a href="{{ child_link.url }}" class="sidebar-menu-link">
-                    <span class="sidebar-menu-text">{{ child_link.title }}</span>
+                  <a href="{{ link.url }}" class="sidebar-menu-link">
+                    <span class="sidebar-menu-text">{{ link.title }}</span>
                   </a>
                 {% endif %}
               </li>
@@ -409,38 +382,77 @@
         </div>
       </div>
 
-      <!-- Grand Child Panels -->
-      {% for child_link in link.links %}
-        {% if child_link.links.size > 0 %}
-          <div class="sidebar-panel" id="panel-{{ link.handle }}-{{ child_link.handle }}">
+      <!-- Submenu Panels -->
+      {% for link in linklists['nav-menu'].links %}
+        {% if link.links.size > 0 %}
+          <div class="sidebar-panel" id="panel-{{ link.handle }}">
             <div class="sidebar-header">
-              <button class="sidebar-back" data-back="{{ link.handle }}-{{ child_link.handle }}">
+              <button class="sidebar-back" data-back="{{ link.handle }}">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M15 19l-7-7 7-7"/>
                 </svg>
-                <span class="sidebar-title">{{ child_link.title }}</span>
+                <span class="sidebar-title">{{ link.title }}</span>
               </button>
             </div>
             <div class="sidebar-content">
               <ul class="sidebar-menu">
-                {% for grandchild_link in child_link.links %}
+                {% for child_link in link.links %}
                   <li class="sidebar-menu-item">
-                    <a href="{{ grandchild_link.url }}" class="sidebar-menu-link">
-                      <span class="sidebar-menu-text">{{ grandchild_link.title }}</span>
-                    </a>
+                    {% if child_link.links.size > 0 %}
+                      <a
+                        href="javascript:void(0)"
+                        class="sidebar-menu-link"
+                        data-submenu="{{ link.handle }}-{{ child_link.handle }}"
+                      >
+                        <span class="sidebar-menu-text">{{ child_link.title }}</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <path d="M9 5l7 7-7 7"/>
+                        </svg>
+                      </a>
+                    {% else %}
+                      <a href="{{ child_link.url }}" class="sidebar-menu-link">
+                        <span class="sidebar-menu-text">{{ child_link.title }}</span>
+                      </a>
+                    {% endif %}
                   </li>
                 {% endfor %}
               </ul>
-                {% render 'sidebar-footer' %}
-
+              {% render 'sidebar-footer' %}
             </div>
           </div>
+
+          <!-- Grand Child Panels -->
+          {% for child_link in link.links %}
+            {% if child_link.links.size > 0 %}
+              <div class="sidebar-panel" id="panel-{{ link.handle }}-{{ child_link.handle }}">
+                <div class="sidebar-header">
+                  <button class="sidebar-back" data-back="{{ link.handle }}-{{ child_link.handle }}">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M15 19l-7-7 7-7"/>
+                    </svg>
+                    <span class="sidebar-title">{{ child_link.title }}</span>
+                  </button>
+                </div>
+                <div class="sidebar-content">
+                  <ul class="sidebar-menu">
+                    {% for grandchild_link in child_link.links %}
+                      <li class="sidebar-menu-item">
+                        <a href="{{ grandchild_link.url }}" class="sidebar-menu-link">
+                          <span class="sidebar-menu-text">{{ grandchild_link.title }}</span>
+                        </a>
+                      </li>
+                    {% endfor %}
+                  </ul>
+                  {% render 'sidebar-footer' %}
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
         {% endif %}
       {% endfor %}
-    {% endif %}
-  {% endfor %}
+    </div>
+  </div>
 </div>
-
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     const menuToggle = document.getElementById('menuToggle');

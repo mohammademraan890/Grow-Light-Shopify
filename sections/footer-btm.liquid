@@ -1,0 +1,437 @@
+{%- style -%}
+    .custom-footer-{{ section.id }} {
+      position: relative;
+      background-color: {{ section.settings.bg_color }};
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+      border-top: 1px solid {{ section.settings.border_color }};
+    }
+    @media (max-width: 767px) {
+      .custom-footer-{{ section.id }} {
+
+            border-top: none;
+
+      }
+    }
+    .custom-footer-{{ section.id }} h4 {
+      color: {{ section.settings.heading_color }};
+      font-size: {{ section.settings.heading_size }}px;
+      margin-bottom: 4px;
+    }
+    .custom-footer-{{ section.id }} .column-text {
+      color: {{ section.settings.text_color }};
+      font-size: {{ section.settings.text_size }}px;
+    }
+    .custom-footer-{{ section.id }} .bottom-bar-wrapper {
+      border-top: 1px solid {{ section.settings.border_color }};
+      color: {{ section.settings.bottom_text_color }};
+      margin-top: {{ section.settings.margin_top_bottom_bar }}px;
+      padding-top: 20px;
+    }
+    .payment-icon-container {
+      /* height: 32px; */
+      /* padding: 4px 8px; */
+      display: flex;
+      align-items: center;
+      border: 1px solid #e5e7eb;
+      border-radius: 4px;
+      background: #fff;
+    }
+    .author-logo-wrapper svg {
+      height: 14px; /* Adjust based on your logo design */
+      width: auto;
+      display: inline-block;
+      vertical-align: middle;
+    }
+    .svg-wrapper svg {
+      height: 20px;
+      width: auto;
+      display: block;
+    }
+    /* Trust Section Styling */
+    .footer-trust-container {
+      position: absolute;
+      right: 104px;
+      top: -141px;
+      max-width: 235px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      /* margin-left: auto; */
+      margin-bottom: 43px;
+      height: 300px;
+  }
+    .footer-trust-container-2 {
+
+      max-width: 250px;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      /* margin-left: auto; */
+      /* height: 300px; */
+  }
+    @media (max-width: 1200px) {
+      .footer-trust-container-2{
+        display: flex;
+      }
+      .footer-trust-container {
+        position: static;
+        display: none !important;
+      }
+    }
+    .footer-star-row {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 4px;
+      color: #00848e;
+      margin-bottom: 12px;
+    }
+    .footer-trust-swiper {
+      width: 100%;
+      margin-bottom: 15px;
+    }
+    .footer-trust-swiper .swiper-slide img {
+      height: 70px;
+      width: auto;
+      object-fit: contain;
+    }
+
+
+    .verified-by-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .verified-text {
+      color: #00848e;
+      font-size: 18px;
+      font-weight: 300;
+    }
+{%- endstyle -%}
+
+<footer class="custom-footer-{{ section.id }}  w-full">
+  <div class="custom-container">
+    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-8">
+      {%- for i in (1..6) -%}
+        {%- capture head_id -%}column_{{ i }}_heading{%- endcapture -%}
+        {%- capture text_id -%}column_{{ i }}_text{%- endcapture -%}
+
+        {%- if section.settings[head_id] != blank or section.settings[text_id] != blank -%}
+          <div class="flex flex-col items-center md:items-start">
+            <h4 class="uppercase font-medium tracking-wide">
+              {{ section.settings[head_id] }}
+            </h4>
+            <div class="column-text font-semibold">
+              {{ section.settings[text_id] }}
+            </div>
+          </div>
+        {%- else -%}
+          <div class="hidden lg:block"></div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+  <div class="flex items-center justify-center mt-5">
+    <div class="footer-trust-container-2">
+      <div class="footer-star-row">
+        {% for i in (1..5) %}
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+          </svg>
+        {% endfor %}
+        <span class="ml-2 font-medium">164 reviews</span>
+      </div>
+
+      <div class=" footer-trust-swiper overflow-x-scroll" id="footerTrustSwiper">
+        <div class=" flex flex-col gap-2   items-center">
+          <div class="flex item-center gap-3">
+            <img
+              src="{{ section.settings.badge_image_1 | image_url: width: 150 }}"
+              class="object-contain w-[100px]"
+              alt="Badge"
+            >
+            <img
+              src="{{ section.settings.badge_image_2 | image_url: width: 150 }}"
+              class="object-contain w-[85px]"
+              alt="Badge"
+            >
+            <img
+              src="{{ section.settings.badge_image_3 | image_url: width: 150 }}"
+              class="object-contain w-[85px]"
+              alt="Badge"
+            >
+          </div>
+          <img
+            src="{{ section.settings.badge_image_4 | image_url: width: 150 }}"
+            class="object-contain w-[85px]"
+            alt="Badge"
+          >
+        </div>
+      </div>
+
+      {% comment %}
+        <div class="flex items-center gap-3">
+          <button class="footer-badge-prev text-gray-400">
+            <svg class="w-4 h-4 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+          </button>
+          <div class="footer-badge-progress"><div id="footerBadgeThumb" class="footer-badge-thumb"></div></div>
+          <button class="footer-badge-next text-gray-400">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+          </button>
+        </div>
+      {% endcomment %}
+
+      <div class="verified-by-wrapper">
+        <span class="verified-text">Verified by</span>
+        {% if section.settings.verifier_image != blank %}
+          <img
+            src="{{ section.settings.verifier_image | image_url: width: 120 }}"
+            class="h-8 w-auto object-contain"
+          >
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  <div class="bottom-bar-wrapper">
+    <div class="custom-container">
+      <div class="bottom-bar relative flex flex-col md:flex-row items-center space-y-6 md:space-y-0 text-sm">
+        <div class="flex-1 order-3 md:order-1">
+          &copy; {{ 'now' | date: '%Y' }}
+          {{ section.settings.copyright_text }}
+        </div>
+
+        <div class="flex-1 flex flex-wrap justify-center order-2">
+          {% for block in section.blocks %}
+            {% if block.type == 'payment_method' %}
+              <div class="payment-icon-container" {{ block.shopify_attributes }}>
+                {% if block.settings.svg_code != blank %}
+                  <div class="svg-wrapper">{{ block.settings.svg_code }}</div>
+                {% elsif block.settings.payment_image != blank %}
+                  <img src="{{ block.settings.payment_image | img_url: '120x' }}" class="h-full w-auto object-contain">
+                {% endif %}
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+
+        <div class=" flex-1 order-1 md:order-3 flex items-center gap-2">
+          <span>{{ section.settings.attribution_text }}</span>
+          <a href="{{ section.settings.author_svg_link }}" class="author-logo-wrapper">
+            {% if section.settings.author_svg_logo != blank %}
+              {{ section.settings.author_svg_logo }}
+            {% else %}
+              <span class="font-bold underline">Author</span>
+            {% endif %}
+          </a>
+        </div>
+
+        <div class="footer-trust-container">
+          <div class="footer-star-row">
+            {% for i in (1..5) %}
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+              </svg>
+            {% endfor %}
+            <span class="ml-2 font-medium">164 reviews</span>
+          </div>
+
+          <div class=" footer-trust-swiper overflow-x-scroll" id="footerTrustSwiper">
+            <div class=" flex flex-col gap-2   items-center">
+              <div class="flex item-center gap-3">
+                <img
+                  src="{{ section.settings.badge_image_1 | image_url: width: 150 }}"
+                  class="object-contain w-[85px]"
+                  alt="Badge"
+                >
+                <img
+                  src="{{ section.settings.badge_image_2 | image_url: width: 150 }}"
+                  class="object-contain w-[85px]"
+                  alt="Badge"
+                >
+                <img
+                  src="{{ section.settings.badge_image_3 | image_url: width: 150 }}"
+                  class="object-contain w-[85px]"
+                  alt="Badge"
+                >
+              </div>
+              <img
+                src="{{ section.settings.badge_image_4 | image_url: width: 150 }}"
+                class="object-contain w-[85px]"
+                alt="Badge"
+              >
+            </div>
+          </div>
+
+          {% comment %}
+            <div class="flex items-center gap-3">
+              <button class="footer-badge-prev text-gray-400">
+                <svg class="w-4 h-4 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+              </button>
+              <div class="footer-badge-progress"><div id="footerBadgeThumb" class="footer-badge-thumb"></div></div>
+              <button class="footer-badge-next text-gray-400">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+              </button>
+            </div>
+          {% endcomment %}
+
+          <div class="verified-by-wrapper">
+            <span class="verified-text">Verified by</span>
+            {% if section.settings.verifier_image != blank %}
+              <img
+                src="{{ section.settings.verifier_image | image_url: width: 120 }}"
+                class="h-8 w-auto object-contain"
+              >
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Bottom Footer",
+  "settings": [
+    { "type": "header", "content": "Colors & Styling" },
+    { "type": "color", "id": "bg_color", "label": "Background Color", "default": "#ffffff" },
+    { "type": "color", "id": "border_color", "label": "Border/Divider Color", "default": "#f3f4f6" },
+    { "type": "color", "id": "heading_color", "label": "Heading Color", "default": "#959595" },
+    { "type": "color", "id": "text_color", "label": "Column Text Color", "default": "#414042" },
+    { "type": "color", "id": "bottom_text_color", "label": "Bottom Bar Text Color", "default": "#4b5563" },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 20,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 20,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "margin_top_bottom_bar",
+      "min": 10,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Spacing Above Bottom Bar",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading Font Size",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Column Text Font Size",
+      "default": 14
+    },
+    { "type": "header", "content": "Column 1" },
+    { "type": "text", "id": "column_1_heading", "label": "Heading", "default": "Hours of Operation" },
+    { "type": "richtext", "id": "column_1_text", "label": "Text" },
+    { "type": "header", "content": "Column 2" },
+    { "type": "text", "id": "column_2_heading", "label": "Heading", "default": "Call or Text" },
+    { "type": "richtext", "id": "column_2_text", "label": "Text" },
+    { "type": "header", "content": "Column 3" },
+    { "type": "text", "id": "column_3_heading", "label": "Heading", "default": "Email Us" },
+    { "type": "richtext", "id": "column_3_text", "label": "Text" },
+    { "type": "header", "content": "Column 4" },
+    { "type": "text", "id": "column_4_heading", "label": "Heading", "default": "Custom Heading" },
+    { "type": "richtext", "id": "column_4_text", "label": "Text" },
+    { "type": "header", "content": "Column 5 (Optional)" },
+    { "type": "text", "id": "column_5_heading", "label": "Heading" },
+    { "type": "richtext", "id": "column_5_text", "label": "Text" },
+    { "type": "header", "content": "Column 6 (Optional)" },
+    { "type": "text", "id": "column_6_heading", "label": "Heading" },
+    { "type": "richtext", "id": "column_6_text", "label": "Text" },
+    { "type": "header", "content": "Bottom Bar Branding" },
+    { "type": "text", "id": "copyright_text", "label": "Copyright Name", "default": "GrowLight Hearn Heaven." },
+    { "type": "inline_richtext", "id": "attribution_text", "label": "Attribution Text", "default": "Crafted by" },
+    { "type": "textarea", "id": "author_svg_logo", "label": "Author SVG logo (Raw Code)" },
+    { "type": "url", "id": "author_svg_link", "label": "Author Link" },
+    {
+      "type": "header",
+      "content": "Trust Section Images"
+    },
+    { "type": "image_picker", "id": "badge_image_1", "label": "Golden Badge 1" },
+    { "type": "image_picker", "id": "badge_image_2", "label": "Golden Badge 2" },
+    { "type": "image_picker", "id": "badge_image_3", "label": "Golden Badge 3" },
+    { "type": "image_picker", "id": "badge_image_4", "label": "Golden Badge 4" },
+    { "type": "image_picker", "id": "verifier_image", "label": "Verifier Logo (Judge.me)" }
+  ],
+  "blocks": [
+    {
+      "type": "payment_method",
+      "name": "Payment Method",
+      "settings": [
+        { "type": "image_picker", "id": "payment_image", "label": "Payment Image" },
+        { "type": "textarea", "id": "svg_code", "label": "SVG Code" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Custom Footer" }]
+}
+{% endschema %}
+
+{% comment %}
+  <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const footerThumb = document.getElementById('footerBadgeThumb');
+    const footerSwiper = new Swiper('#footerTrustSwiper', {
+      slidesPerView: 2,
+      grid: { rows: 2, fill: 'row' }, // Matches the 2x2 grid look in image
+      spaceBetween: 10,
+      navigation: {
+        nextEl: '.footer-badge-next',
+        prevEl: '.footer-badge-prev',
+      },
+      on: {
+        init: function() { updateFooterProgress(this); },
+        slideChange: function() { updateFooterProgress(this); }
+      }
+    });
+
+    function updateFooterProgress(s) {
+      if (!footerThumb) return;
+      const width = (s.params.slidesPerView / s.slides.length) * 100;
+      footerThumb.style.width = width + '%';
+      const moveX = s.progress * (100 / (width/100) - 100);
+      footerThumb.style.transform = `translateX(${moveX}%)`;
+    }
+  });
+  </script>
+{% endcomment %}
