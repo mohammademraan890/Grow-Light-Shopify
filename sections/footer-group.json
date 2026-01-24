@@ -13,6 +13,50 @@
   "sections": {
     "footer": {
       "type": "footer",
+      "blocks": {
+        "social_icon_yjzEFU": {
+          "type": "social_icon",
+          "settings": {
+            "icon": "shopify://shop_images/icon-facebook.svg",
+            "link": ""
+          }
+        },
+        "social_icon_Q8xJaU": {
+          "type": "social_icon",
+          "settings": {
+            "icon": "shopify://shop_images/icon-twitter.svg",
+            "link": "https://www.twitter.com/"
+          }
+        },
+        "social_icon_cMr9NE": {
+          "type": "social_icon",
+          "settings": {
+            "icon": "shopify://shop_images/icon-pin.svg",
+            "link": ""
+          }
+        },
+        "social_icon_cjiwmK": {
+          "type": "social_icon",
+          "settings": {
+            "icon": "shopify://shop_images/icon-insta.svg",
+            "link": "https://www.instagram.com/"
+          }
+        },
+        "social_icon_BxjyWj": {
+          "type": "social_icon",
+          "settings": {
+            "icon": "shopify://shop_images/icon-youtube.svg",
+            "link": "https://www.youtube.com/"
+          }
+        }
+      },
+      "block_order": [
+        "social_icon_yjzEFU",
+        "social_icon_Q8xJaU",
+        "social_icon_cMr9NE",
+        "social_icon_cjiwmK",
+        "social_icon_BxjyWj"
+      ],
       "settings": {
         "menu": "footer-menu",
         "middle_column_text": "<ul><li><strong>GrowLight Heaven</strong></li><li><a href=\"/collections/frontpage\" title=\"Home page\">Who We Are</a></li><li><a href=\"/collections/frontpage\" title=\"Home page\">Commercial Pricing</a></li><li><a href=\"/collections/across-international\" title=\"Across International\">Facility Design</a></li><li><a href=\"/collections/frontpage\" title=\"Home page\">Get Rebates</a></li><li><a href=\"/collections/frontpage\" title=\"Home page\">Get Financing</a></li><li><a href=\"/collections/frontpage\" title=\"Home page\">Coupon Codes</a></li><li><a href=\"/collections/frontpage\" title=\"Home page\">Shipping and Returns</a></li><li><a href=\"/collections/frontpage\" title=\"Home page\">Price Guarantee</a></li><li><a href=\"/collections/frontpage\" title=\"Home page\">Privacy Policy</a></li><li><a href=\"/collections/frontpage\" title=\"Home page\">Terms of Service</a><br/><br/></li></ul>",
