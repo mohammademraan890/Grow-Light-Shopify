@@ -1028,6 +1028,13 @@
       }
     }
   }
+  .hover\:text-\[\#006A2E\]\! {
+    &:hover {
+      @media (hover: hover) {
+        color: #006A2E !important;
+      }
+    }
+  }
   .hover\:text-white {
     &:hover {
       @media (hover: hover) {
