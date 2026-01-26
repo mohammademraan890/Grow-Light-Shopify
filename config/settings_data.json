@@ -13,6 +13,27 @@
       "header-top": {
         "type": "header-top",
         "blocks": {
+          "mega_menu_featured_Bj8Y9U": {
+            "type": "mega_menu_featured",
+            "settings": {
+              "menu_item": "Garden Care",
+              "collection": "nitrile-gloves"
+            }
+          },
+          "mega_menu_featured_MRkbrF": {
+            "type": "mega_menu_featured",
+            "settings": {
+              "menu_item": "Growing Media",
+              "collection": "coco-grow-bags"
+            }
+          },
+          "mega_menu_featured_bkYGwe": {
+            "type": "mega_menu_featured",
+            "settings": {
+              "menu_item": "Nutrients",
+              "collection": "supplements-and-additives"
+            }
+          },
           "mega_menu_featured_Y8aBdE": {
             "type": "mega_menu_featured",
             "settings": {
@@ -29,6 +50,9 @@
           }
         },
         "block_order": [
+          "mega_menu_featured_Bj8Y9U",
+          "mega_menu_featured_MRkbrF",
+          "mega_menu_featured_bkYGwe",
           "mega_menu_featured_Y8aBdE",
           "mega_menu_featured_dm3bYy"
         ],
