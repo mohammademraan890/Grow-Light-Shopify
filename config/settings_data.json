@@ -55,6 +55,34 @@
       },
       "mobile-header": {
         "type": "mobile-header",
+        "blocks": {
+          "extra_link_9qgLjh": {
+            "type": "extra_link",
+            "settings": {
+              "link_text": "Commercial Pricing",
+              "link_url": "shopify://collections/benches-and-racks"
+            }
+          },
+          "extra_link_TMETtb": {
+            "type": "extra_link",
+            "settings": {
+              "link_text": "Get Rebates",
+              "link_url": "shopify://products/harvest-right-medium-home-freeze-dryer"
+            }
+          },
+          "extra_link_Vd6ybP": {
+            "type": "extra_link",
+            "settings": {
+              "link_text": "Facility Design",
+              "link_url": "shopify://collections/botanicare"
+            }
+          }
+        },
+        "block_order": [
+          "extra_link_9qgLjh",
+          "extra_link_TMETtb",
+          "extra_link_Vd6ybP"
+        ],
         "name": "Mobile Header",
         "settings": {
           "bg_color": "#ffffff",
