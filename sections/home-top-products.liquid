@@ -276,10 +276,10 @@
                   <img
                     src="{{ product.featured_image | image_url: width: 300 }}"
                     alt="{{ product.title }}"
-                    class="object-contain bg-red-500! h-auto w-full"
+                    class="object-contain h-auto w-full"
                   >
                   {% if product.metafields.custom.on_sale %}
-                    <span class="absolute top-1 left-1 bg-[#CC4848] text-white text-[12px] font-normal rounded-sm px-3 py-1">
+                    <span class="absolute top-1 left-1 bg-[#CC4848] text-white text-[12px] font-normal rounded-sm px-2.5 py-0.5">
                       sale
                     </span>
                   {% endif %}
@@ -298,7 +298,9 @@
                 </div>
 
                 <p class="mt-2 text-[14px] leading-[20px] text-[#414042]">
-                  {{ product.title }}
+                  {% assign title_parts = product.title | split: ' ' %}
+                  <strong>{{ title_parts[0] }}</strong>
+                  {{ title_parts | slice: 1, title_parts.size | join: ' ' }}
                 </p>
 
                 <button
@@ -430,7 +432,7 @@
 
     const productSwiper = new Swiper('#products-swiper', {
       slidesPerView: 'auto',
-      spaceBetween: 16,
+      spaceBetween: 25,
       watchOverflow: true,
       navigation: {
         nextEl: '.ts-next',

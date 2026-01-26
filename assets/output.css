@@ -686,8 +686,17 @@
   .bg-\[\#CC4848\] {
     background-color: #CC4848;
   }
+  .bg-\[\#EDF4F0\] {
+    background-color: #EDF4F0;
+  }
   .bg-\[\#FAFAFA\] {
     background-color: #FAFAFA;
+  }
+  .bg-\[\#aebfb5\] {
+    background-color: #aebfb5;
+  }
+  .bg-\[\#bee2ce\] {
+    background-color: #bee2ce;
   }
   .bg-\[CC4848\] {
     background-color: CC4848;
@@ -767,6 +776,9 @@
   .px-2 {
     padding-inline: calc(var(--spacing) * 2);
   }
+  .px-2\.5 {
+    padding-inline: calc(var(--spacing) * 2.5);
+  }
   .px-3 {
     padding-inline: calc(var(--spacing) * 3);
   }
@@ -784,6 +796,12 @@
   }
   .px-\[20px\] {
     padding-inline: 20px;
+  }
+  .py-0 {
+    padding-block: calc(var(--spacing) * 0);
+  }
+  .py-0\.5 {
+    padding-block: calc(var(--spacing) * 0.5);
   }
   .py-1 {
     padding-block: calc(var(--spacing) * 1);
