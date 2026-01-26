@@ -276,8 +276,13 @@
                   <img
                     src="{{ product.featured_image | image_url: width: 300 }}"
                     alt="{{ product.title }}"
-                    class="object-contain h-auto w-full"
+                    class="object-contain bg-red-500! h-auto w-full"
                   >
+                  {% if product.metafields.custom.on_sale %}
+                    <span class="absolute top-1 left-1 bg-[#CC4848] text-white text-[12px] font-normal rounded-sm px-3 py-1">
+                      sale
+                    </span>
+                  {% endif %}
                 </div>
 
                 <div class="mt-4">
@@ -432,7 +437,7 @@
         prevEl: '.ts-prev',
         disabledClass: 'swiper-button-disabled',
       },
-      {
+
       breakpoints: {
         320: {
           slidesPerView: 2,
@@ -443,14 +448,13 @@
           spaceBetween: 16,
         },
         768: {
-          slidesPerView: 3  ,
+          slidesPerView: 3,
           spaceBetween: 16,
         },
         1024: {
           slidesPerView: 4,
           spaceBetween: 16,
         },
-
       },
 
       on: {

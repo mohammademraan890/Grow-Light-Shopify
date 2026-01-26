@@ -121,10 +121,10 @@
 
         {%- if section.settings[head_id] != blank or section.settings[text_id] != blank -%}
           <div class="flex flex-col items-center md:items-start">
-            <h4 class="uppercase font-medium tracking-wide">
+            <h4 class="tracking-wide">
               {{ section.settings[head_id] }}
             </h4>
-            <div class="column-text font-semibold">
+            <div class="column-text font-medium">
               {{ section.settings[text_id] }}
             </div>
           </div>

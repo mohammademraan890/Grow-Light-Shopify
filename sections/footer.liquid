@@ -227,6 +227,27 @@
     </div>
   </div>
 </footer>
+<div
+  style="
+    box-shadow: rgba(22, 22, 22, 0.16) 0px 2px 4px;
+    background-color:rgb(235, 235, 235);
+    width: 60px;
+  "
+  class=" p-[13px] rounded-full fixed bottom-15 right-8 cursor-pointer z-100! hover:scale-110 transition-all duration-200"
+>
+  <img class="" src="{{"typing.png" |  asset_url}}" alt="">
+</div>
+<div
+  id="backToTop"
+  style="
+    box-shadow: rgba(22, 22, 22, 0.16) 0px 2px 4px;
+    background-color:rgb(255, 255, 255);
+    width: 35px;
+  "
+  class=" p-[11px] rounded-full fixed bottom-4 right-8 z-100! cursor-pointer"
+>
+  <img class="" src="{{"top.png" |  asset_url}}" alt="">
+</div>
 
 <style>
       .footer-heading, footer.footer-custom ul strong {
@@ -467,4 +488,24 @@
     content.classList.toggle('open');
     icon.classList.toggle('open');
   }
+
+  const backToTopBtn = document.getElementById("backToTop");
+
+// 1. Show/Hide button based on scroll position
+window.onscroll = function() {
+  if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+    backToTopBtn.style.display = "block";
+  } else {
+    backToTopBtn.style.display = "none";
+  }
+};
+
+// 2. Scroll to top on click
+backToTopBtn.onclick = function() {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth" // Makes it a nice smooth glide instead of a jump
+  });
+};
 </script>
+
