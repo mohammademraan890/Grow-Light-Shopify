@@ -1,52 +1,256 @@
-{% comment %}
-  This section is used in the product template to render product page with
-  media, content, and add-to-cart form.
+<div class="bg-(--color-background) md:py-[70px] sm:py-[55px] py-[35px]">
+  <div class="custom-container">
+    <div class="flex items-center flex-wrap justify-between md:flex-row flex-col gap-4 text-center md:text-left">
+      <div>
+        <h2 class="text-[27px] text-(--color-text-1) font-medium">Product Details</h2>
+        <p class="text-[14px] text-(--color-text-2)">Very us move be blessed multiply night</p>
+      </div>
+      <div class="flex items-center font-primary gap-3">
+        <a class="text-[14px] text-(--color-text-2)! hover:text-(--color-primary)!" href="/">Home</a>
+        <span class="text-(--color-text-2)">/</span>
+        <a class="text-[14px] text-(--color-primary)!" href="{{ product.url }}">Product Details</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% liquid
+  assign is_warranty_available = false
+  assign is_highlighted_text = false
+  assign is_material_available = false
+  assign is_care_instructions_available = false
 
-  https://shopify.dev/docs/storefronts/themes/architecture/templates/product
-{% endcomment %}
+  if product.metafields.specs.warranty != blank
+    assign is_warranty_available = true
+  endif
+  if product.metafields.badges.highlight_text != blank
+    assign is_highlighted_text = true
+  endif
+  if product.metafields.specs.material != blank
+    assign is_material_available = true
+  endif
+  if product.metafields.shopify['care-instructions'] != blank
+    assign is_care_instructions_available = true
+  endif
+%}
 
-<div class="product-images">
-  {% for image in product.images %}
-    {% render 'image', class: 'product-image', image: image %}
-  {% endfor %}
+<div class="custom-container">
+  <div class=" py-12 lg:py-16">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 font-primary">
+      <!-- LEFT: Product Image -->
+      <div class="product-gallery">
+        <!-- Main Slider -->
+        <div class="swiper main-slider h-[300px] mb-6">
+          <div class="swiper-wrapper">
+            {% for image in product.images %}
+              <div class="swiper-slide">
+                <img
+                  src="{{ image | image_url: width: 1200 }}"
+                  alt="{{ image.alt | escape }}"
+                  class="w-full h-full! object-contain"
+                  loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+                  width="{{ image.width }}"
+                  height="100%"
+                >
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+
+        <!-- Thumbnail Slider (inside main image) -->
+        {% if product.images.size > 1 %}
+          <div class="swiper thumbnail-slider">
+            <div class="swiper-wrapper">
+              {% for image in product.images %}
+                <div class="swiper-slide cursor-pointer">
+                  <img
+                    src="{{ image | image_url: width: 300 }}"
+                    alt="{{ image.alt | escape }}"
+                    loading="lazy"
+                  >
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        {% endif %}
+      </div>
+      <!-- RIGHT: Product Info -->
+      <div class="flex flex-col">
+        <!-- Title -->
+        <h1 class="text-[24px] capitalize font-medium text-(--color-text-1) mb-[10px]">
+          {{ product.title }}
+        </h1>
+
+        <!-- Price -->
+        <h2 id="variant-price" class="text-[24px] font-bold text-(--color-primary) mb-[15px]">
+          {{ product.price | money }}
+        </h2>
+
+        <!-- Category & Availability -->
+        <div class="text-[14px] text-(--color-text-1) space-y-1">
+          <p class="flex items-center">
+            <span class="w-[90px] block">Category</span>
+            <span class="text-(--color-primary)">
+              :
+              {%- for collection in product.collections limit: 1 %}
+                {{ collection.title }}
+              {% endfor %}
+            </span>
+          </p>
+          <p class="flex items-center">
+            <span class="w-[90px] block">Availability</span>
+            <span class="text-(--color-primary)">
+              : {% if product.available %}In Stock{% else %}Out of Stock{% endif %}
+            </span>
+          </p>
+       
+        <hr class="border-[#eee] border-dotted my-5">
+
+        <!-- Description -->
+        <div class="text-(--color-text-2) text-[14px] mb-[10px]">
+          {{ product.description }}
+        </div>
+
+        <!-- Quantity + Add to Cart -->
+        <!-- Quantity + Add to Cart (FIXED – works 100% in 2025) -->
+        <form action="{{ routes.cart_add_url }}" method="post" class="mt-8 space-y-6" id="add-to-cart-form">
+          <!-- Hidden input for variant ID -->
+          <!-- Change this line in your form -->
+          <input
+            type="hidden"
+            name="id"
+            id="variant-id-input"
+            value="{{ product.selected_or_first_available_variant.id | default: product.variants.first.id }}"
+          >
+
+          <!-- Hidden input for REAL quantity that Shopify reads -->
+          <input type="hidden" name="quantity" value="1" id="real-quantity">
+          <!-- Visible custom quantity selector -->
+          <div class="flex items-center space-x-4">
+            <label class=" text-[14px] text-(--color-text-2)">Quantity:</label>
+            <div class="flex items-center w-[76px] border border-[#eee]">
+              <input
+                type="text"
+                value="1"
+                readonly
+                class=" w-full text-center text-[14px] border-none focus:outline-none"
+                id="visible-quantity"
+              >
+              <div class="flex flex-col me-2">
+                <button
+                  type="button"
+                  class=" h-fit cursor-pointer  p-0 hover:bg-gray-100 transition"
+                  onclick="updateQuantity(1)"
+                >
+                  <img src="{{ "up-arrow.png" | asset_url }}" height="auto" width="18px" alt="">
+                </button>
+                <button
+                  type="button"
+                  class="cursor-pointer h-fit p-0 hover:bg-gray-100 transition"
+                  onclick="updateQuantity(-1)"
+                >
+                  <img src="{{ "down-arrow.png" | asset_url }}" height="auto" width="18px" alt="">
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Add to Cart Button -->
+          <div class="flex items-center gap-2">
+            <button
+              type="submit"
+              class="border border-(--color-primary) bg-(--color-primary) hover:bg-white hover:text-(--color-primary) w-fit px-[38px] py-2.5 uppercase text-[12px] text-white rounded-[5px] font-medium transition-colors duration-300 ease-in-out"
+              {% unless product.available %}
+                disabled
+              {% endunless %}
+            >
+              {% if product.available %} Add to Cart{% else %} Sold Out{% endif %}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
 
-<div class="product-info">
-  <h1>{{ product.title }}</h1>
-  <p>{{ product.price | money }}</p>
-  <p>{{ product.description }}</p>
-</div>
+<script>
+  // Keep both visible and hidden quantity in sync
+  function updateQuantity(change) {
+    const visibleInput = document.getElementById('visible-quantity');
+    const hiddenInput = document.getElementById('real-quantity');
 
-<div class="product-form">
-  {% form 'product', product %}
-    {% assign current_variant = product.selected_or_first_available_variant %}
+    let value = parseInt(visibleInput.value) || 1;
+    value = Math.max(1, value + change); // minimum 1
 
-    <select name="id">
-      {% for variant in product.variants %}
-        <option
-          value="{{ variant.id }}"
-          {% if variant == current_variant %}
-            selected="selected"
-          {% endif %}
-        >
-          {{ variant.title }} - {{ variant.price | money }}
-        </option>
-      {% endfor %}
-    </select>
-
-    <input type="text" name="quantity" min="1" value="1">
-
-    <input type="submit" value="Add to cart">
-    {{ form | payment_button }}
-  {% endform %}
-</div>
-
-{% schema %}
-{
-  "name": "t:general.product",
-  "settings": [],
-  "disabled_on": {
-    "groups": ["header", "footer"]
+    visibleInput.value = value;
+    hiddenInput.value = value; // This is the fix!
   }
-}
-{% endschema %}
+
+  // Example of how your form submission should look to capture properties
+  const form = document.getElementById('add-to-cart-form');
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  // Create a plain object from the form data
+  const formData = new FormData(form);
+  const data = {
+    id: formData.get('id'),
+    quantity: formData.get('quantity') || 1,
+    properties: {
+       'Warranty': formData.get('items[0][properties][Warranty]'),
+       'Material': formData.get('items[0][properties][Material]'),
+       'Highlights': formData.get('items[0][properties][Highlights]')
+    }
+  };
+
+  try {
+    const response = await fetch(window.Shopify.routes.root + 'cart/add.js', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    });
+
+    const result = await response.json();
+
+    if (response.ok) {
+      // alert('Product added to cart successfully!');
+      showToast('Product added to cart successfully!', 'success');
+      // Optional: Update your cart drawer or redirect
+      // window.location.href = '/cart'; 
+    } else {
+      console.error('Shopify Error:', result.description);
+      alert('Error: ' + result.description);
+    }
+  } catch (error) {
+    console.error('Fetch error:', error);
+  }
+});
+</script>
+
+<script>
+  // Alternative approach: Pre-organize images by color
+  document.addEventListener('DOMContentLoaded', () => {
+    // Initialize Swiper
+    const thumbnailSlider = new Swiper('.thumbnail-slider', {
+      spaceBetween: 12,
+      slidesPerView: 4,
+      freeMode: true,
+      watchSlidesProgress: true,
+      breakpoints: {
+        640: { slidesPerView: 5 },
+        768: { slidesPerView: 6 },
+        1024: { slidesPerView: 7 },
+      },
+    });
+
+    const mainSlider = new Swiper('.main-slider', {
+      loop: true,
+      spaceBetween: 10,
+      thumbs: {
+        swiper: thumbnailSlider,
+      },
+    });
+  });
+</script>

@@ -165,11 +165,11 @@
                   {% endif %}
                 </div>
 
-                <p class="mt-2 text-[14px] leading-[20px] text-[#414042]">
+                <a href="{{ product.url }}" class="mt-2 text-[14px] leading-[20px] text-[#414042]">
                   {% assign title_parts = product.title | split: ' ' %}
                   <strong>{{ title_parts[0] }}</strong>
                   {{ title_parts | slice: 1, title_parts.size | join: ' ' }}
-                </p>
+                </a>
 
                 <button
                   class="quick-view-btn relative group mt-4 w-full bg-[#006A2E] text-white text-[14px] font-medium py-2 rounded-sm hover:bg-[#005025] transition-colors"

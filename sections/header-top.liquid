@@ -125,13 +125,13 @@
         <div class="custom-container">
           <div class="flex items-center gap-10">
             {%- if section.settings.logo_position == 'left' -%}
-              <div class="header-logo">
+              <a href="/" class="header-logo rounded-full!">
                 <img
                   src="{{ 'grow-light-logo.webp' | asset_url }}"
                   alt="{{ shop.name }}"
                   width="{{ section.settings.logo_width }}"
                 >
-              </div>
+              </a>
             {%- endif -%}
 
             <div class="header-left flex flex-col gap-[20px] w-full">
@@ -175,22 +175,25 @@
                     %}
                     <span class="group-hover:underline whitespace-nowrap">My Wishlist</span>
                   </a>
-                  <a href="#" class="flex items-center flex-col group">
+                  <a href="{{ routes.cart_url }}" class="flex items-center flex-col group relative">
                     {% render 'svg-icons', name: 'cart-icon', icon_class: 'fill-[#414042] group-hover:fill-[#006A2E]' %}
                     <span class="group-hover:underline whitespace-nowrap">My Cart</span>
+                    <span class="cart-count absolute top-[-12px] right-[-5px] bg-(--color-primary) text-white text-[11px] leading-0 font-light min-h-[20px] p-1 min-w-[20px] flex items-center justify-center rounded-full">
+                      {{- cart.item_count -}}
+                    </span>
                   </a>
                 </div>
               </div>
             </div>
 
             {%- if section.settings.logo_position == 'right' -%}
-              <div class="header-logo">
+              <a href="/" class="header-logo">
                 <img
                   src="{{ 'grow-light-logo.webp' | asset_url }}"
                   alt="{{ shop.name }}"
                   width="{{ section.settings.logo_width }}"
                 >
-              </div>
+              </a>
             {%- endif -%}
           </div>
         </div>

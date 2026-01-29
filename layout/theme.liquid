@@ -3,6 +3,7 @@
   <head>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
     <link rel="icon" href="{{ 'grow-light-logo.webp' | asset_url }}" type="image/webp">
+     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     {{ 'output.css' | asset_url | stylesheet_tag }}
 
     {% # Inlined CSS Variables %}
@@ -37,6 +38,10 @@
     {{ content_for_layout }}
 
     {% sections 'footer-group' %}
+
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    {{ 'theme.js' | asset_url | script_tag }}
   </body>
 </html>
