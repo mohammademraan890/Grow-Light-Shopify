@@ -229,6 +229,9 @@
       <div class="custom-container">
         <ul class="flex items-center justify-between text-[16px] font-medium text-[#414042]">
           {% for link in linklists['nav-menu'].links %}
+            {%- comment %}<locksmith:e84f>{% endcomment -%}
+              {%- capture var %}{% render 'locksmith-variables', scope: 'subject', subject: link, subject_parent: linklists.nav-menu, variable: 'transparent' %}{% endcapture %}{% if var == "true" %}{% else %}{% continue %}{% endif -%}
+            {%- comment %}</locksmith:e84f>{% endcomment -%}
             <li class=" group">
               <!-- Parent link -->
               <a
@@ -251,6 +254,9 @@
                     <div class="grid grid-cols-1 md:grid-cols-6 gap-8">
                       <div class="md:col-span-4 grid grid-cols-1 md:grid-cols-4 gap-8">
                         {% for child in link.links %}
+                          {%- comment %}<locksmith:448c>{% endcomment -%}
+                            {%- capture var %}{% render 'locksmith-variables', scope: 'subject', subject: child, subject_parent: link, variable: 'transparent' %}{% endcapture %}{% if var == "true" %}{% else %}{% continue %}{% endif -%}
+                          {%- comment %}</locksmith:448c>{% endcomment -%}
                           <div>
                             <a
                               href="{{ child.url }}"
@@ -261,6 +267,9 @@
                             {% if child.links != blank %}
                               <ul class="space-y-2">
                                 {% for grandchild in child.links %}
+                                  {%- comment %}<locksmith:74ae>{% endcomment -%}
+                                    {%- capture var %}{% render 'locksmith-variables', scope: 'subject', subject: grandchild, subject_parent: child, variable: 'transparent' %}{% endcapture %}{% if var == "true" %}{% else %}{% continue %}{% endif -%}
+                                  {%- comment %}</locksmith:74ae>{% endcomment -%}
                                   <li>
                                     <a
                                       href="{{ grandchild.url }}"

@@ -10,6 +10,9 @@
 <div class="collection-products">
   {% paginate collection.products by 20 %}
     {% for product in collection.products %}
+      {%- comment %}<locksmith:f2d2>{% endcomment -%}
+        {%- capture var %}{% render 'locksmith-variables', scope: 'subject', subject: product, subject_parent: collection, variable: 'transparent' %}{% endcapture %}{% if var == "true" %}{% else %}{% continue %}{% endif -%}
+      {%- comment %}</locksmith:f2d2>{% endcomment -%}
       <div class="collection-product">
         {% if product.featured_image %}
           {% render 'image',

@@ -362,6 +362,9 @@
         <div class="sidebar-content">
           <ul class="sidebar-menu">
             {% for link in linklists['nav-menu'].links %}
+              {%- comment %}<locksmith:b6fc>{% endcomment -%}
+                {%- capture var %}{% render 'locksmith-variables', scope: 'subject', subject: link, subject_parent: linklists.nav-menu, variable: 'transparent' %}{% endcapture %}{% if var == "true" %}{% else %}{% continue %}{% endif -%}
+              {%- comment %}</locksmith:b6fc>{% endcomment -%}
               <li class="sidebar-menu-item">
                 {% if link.links.size > 0 %}
                   <a href="javascript:void(0)" class="sidebar-menu-link" data-submenu="{{ link.handle }}">
@@ -440,6 +443,9 @@
 
       <!-- Submenu Panels -->
       {% for link in linklists['nav-menu'].links %}
+        {%- comment %}<locksmith:3b23>{% endcomment -%}
+          {%- capture var %}{% render 'locksmith-variables', scope: 'subject', subject: link, subject_parent: linklists.nav-menu, variable: 'transparent' %}{% endcapture %}{% if var == "true" %}{% else %}{% continue %}{% endif -%}
+        {%- comment %}</locksmith:3b23>{% endcomment -%}
         {% if link.links.size > 0 %}
           <div class="sidebar-panel" id="panel-{{ link.handle }}">
             <div class="sidebar-header">
@@ -453,6 +459,9 @@
             <div class="sidebar-content">
               <ul class="sidebar-menu">
                 {% for child_link in link.links %}
+                  {%- comment %}<locksmith:b26d>{% endcomment -%}
+                    {%- capture var %}{% render 'locksmith-variables', scope: 'subject', subject: child_link, subject_parent: link, variable: 'transparent' %}{% endcapture %}{% if var == "true" %}{% else %}{% continue %}{% endif -%}
+                  {%- comment %}</locksmith:b26d>{% endcomment -%}
                   <li class="sidebar-menu-item">
                     {% if child_link.links.size > 0 %}
                       <a
@@ -535,6 +544,9 @@
 
           <!-- Grand Child Panels -->
           {% for child_link in link.links %}
+            {%- comment %}<locksmith:741f>{% endcomment -%}
+              {%- capture var %}{% render 'locksmith-variables', scope: 'subject', subject: child_link, subject_parent: link, variable: 'transparent' %}{% endcapture %}{% if var == "true" %}{% else %}{% continue %}{% endif -%}
+            {%- comment %}</locksmith:741f>{% endcomment -%}
             {% if child_link.links.size > 0 %}
               <div class="sidebar-panel" id="panel-{{ link.handle }}-{{ child_link.handle }}">
                 <div class="sidebar-header">
@@ -548,6 +560,9 @@
                 <div class="sidebar-content">
                   <ul class="sidebar-menu">
                     {% for grandchild_link in child_link.links %}
+                      {%- comment %}<locksmith:1f32>{% endcomment -%}
+                        {%- capture var %}{% render 'locksmith-variables', scope: 'subject', subject: grandchild_link, subject_parent: child_link, variable: 'transparent' %}{% endcapture %}{% if var == "true" %}{% else %}{% continue %}{% endif -%}
+                      {%- comment %}</locksmith:1f32>{% endcomment -%}
                       <li class="sidebar-menu-item">
                         <a href="{{ grandchild_link.url }}" class="sidebar-menu-link">
                           <span class="sidebar-menu-text">{{ grandchild_link.title }}</span>
