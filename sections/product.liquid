@@ -1,3 +1,14 @@
+
+<style>
+ .back-in-stock-btn {
+    background-color: #222222;
+    color: #ffffff;
+    /* height: 39px; */
+    padding: 10px 30px;
+    border-radius: 4px;
+}
+</style>
+
 <div class="bg-(--color-background) md:py-[70px] sm:py-[55px] py-[35px]">
   <div class="custom-container">
     <div class="flex items-center flex-wrap justify-between md:flex-row flex-col gap-4 text-center md:text-left">
@@ -159,7 +170,7 @@
               <button
                 type="submit"
                 class="border 
-                {% if product.available %} border-red-500 bg-red-500 hover:bg-white hover:text-red-500 {% else %}border-(--color-primary) bg-(--color-primary) hover:bg-white hover:text-(--color-primary){% endif %}
+                {% if product.available %}border-(--color-primary) bg-(--color-primary) hover:bg-white hover:text-(--color-primary) {% else %} border-red-500 bg-red-500{% endif %}
                  w-fit px-[38px] py-2.5 uppercase text-[12px] text-white rounded-[5px] font-medium transition-colors duration-300 ease-in-out"
                 {% unless product.available %}
                   disabled
