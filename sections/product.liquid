@@ -102,76 +102,100 @@
               : {% if product.available %}In Stock{% else %}Out of Stock{% endif %}
             </span>
           </p>
-       
-        <hr class="border-[#eee] border-dotted my-5">
 
-        <!-- Description -->
-        <div class="text-(--color-text-2) text-[14px] mb-[10px]">
-          {{ product.description }}
-        </div>
+          <hr class="border-[#eee] border-dotted my-5">
 
-        <!-- Quantity + Add to Cart -->
-        <!-- Quantity + Add to Cart (FIXED – works 100% in 2025) -->
-        <form action="{{ routes.cart_add_url }}" method="post" class="mt-8 space-y-6" id="add-to-cart-form">
-          <!-- Hidden input for variant ID -->
-          <!-- Change this line in your form -->
-          <input
-            type="hidden"
-            name="id"
-            id="variant-id-input"
-            value="{{ product.selected_or_first_available_variant.id | default: product.variants.first.id }}"
-          >
+          <!-- Description -->
+          <div class="text-(--color-text-2) text-[14px] mb-[10px]">
+            {{ product.description }}
+          </div>
 
-          <!-- Hidden input for REAL quantity that Shopify reads -->
-          <input type="hidden" name="quantity" value="1" id="real-quantity">
-          <!-- Visible custom quantity selector -->
-          <div class="flex items-center space-x-4">
-            <label class=" text-[14px] text-(--color-text-2)">Quantity:</label>
-            <div class="flex items-center w-[76px] border border-[#eee]">
-              <input
-                type="text"
-                value="1"
-                readonly
-                class=" w-full text-center text-[14px] border-none focus:outline-none"
-                id="visible-quantity"
-              >
-              <div class="flex flex-col me-2">
-                <button
-                  type="button"
-                  class=" h-fit cursor-pointer  p-0 hover:bg-gray-100 transition"
-                  onclick="updateQuantity(1)"
+          <!-- Quantity + Add to Cart -->
+          <!-- Quantity + Add to Cart (FIXED – works 100% in 2025) -->
+          <form action="{{ routes.cart_add_url }}" method="post" class="mt-8 space-y-6" id="add-to-cart-form">
+            <!-- Hidden input for variant ID -->
+            <!-- Change this line in your form -->
+            <input
+              type="hidden"
+              name="id"
+              id="variant-id-input"
+              value="{{ product.selected_or_first_available_variant.id | default: product.variants.first.id }}"
+            >
+
+            <!-- Hidden input for REAL quantity that Shopify reads -->
+            <input type="hidden" name="quantity" value="1" id="real-quantity">
+            <!-- Visible custom quantity selector -->
+            <div class="flex items-center space-x-4">
+              <label class=" text-[14px] text-(--color-text-2)">Quantity:</label>
+              <div class="flex items-center w-[76px] border border-[#eee]">
+                <input
+                  type="text"
+                  value="1"
+                  readonly
+                  class=" w-full text-center text-[14px] border-none focus:outline-none"
+                  id="visible-quantity"
                 >
-                  <img src="{{ "up-arrow.png" | asset_url }}" height="auto" width="18px" alt="">
-                </button>
-                <button
-                  type="button"
-                  class="cursor-pointer h-fit p-0 hover:bg-gray-100 transition"
-                  onclick="updateQuantity(-1)"
-                >
-                  <img src="{{ "down-arrow.png" | asset_url }}" height="auto" width="18px" alt="">
-                </button>
+                <div class="flex flex-col me-2">
+                  <button
+                    type="button"
+                    class=" h-fit cursor-pointer  p-0 hover:bg-gray-100 transition"
+                    onclick="updateQuantity(1)"
+                  >
+                    <img src="{{ "up-arrow.png" | asset_url }}" height="auto" width="18px" alt="">
+                  </button>
+                  <button
+                    type="button"
+                    class="cursor-pointer h-fit p-0 hover:bg-gray-100 transition"
+                    onclick="updateQuantity(-1)"
+                  >
+                    <img src="{{ "down-arrow.png" | asset_url }}" height="auto" width="18px" alt="">
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
 
-          <!-- Add to Cart Button -->
-          <div class="flex items-center gap-2">
-            <button
-              type="submit"
-              class="border border-(--color-primary) bg-(--color-primary) hover:bg-white hover:text-(--color-primary) w-fit px-[38px] py-2.5 uppercase text-[12px] text-white rounded-[5px] font-medium transition-colors duration-300 ease-in-out"
-              {% unless product.available %}
-                disabled
-              {% endunless %}
-            >
-              {% if product.available %} Add to Cart{% else %} Sold Out{% endif %}
-            </button>
-          </div>
-        </form>
+            <!-- Add to Cart Button -->
+            <div class="flex items-center gap-2">
+              <button
+                type="submit"
+                class="border border-(--color-primary) bg-(--color-primary) hover:bg-white hover:text-(--color-primary) w-fit px-[38px] py-2.5 uppercase text-[12px] text-white rounded-[5px] font-medium transition-colors duration-300 ease-in-out"
+                {% unless product.available %}
+                  disabled
+                {% endunless %}
+              >
+                {% if product.available %} Add to Cart{% else %} Sold Out{% endif %}
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   </div>
 </div>
-
+{% schema %}
+  {
+    "name": "Product Page",
+       "blocks": [
+      {
+      "type": "button",
+      "name": "Notification Menu Image",
+      "settings": [
+        {
+          "type": "text",
+          "id": "menu_item",
+          "label": "Menu Item Name",
+          "info": "Type the exact name of the parent link this image should appear under (e.g. 'Shop')"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Featured Collection"
+        }
+      ]
+    }
+  ],
+  }
+{% endschema %}
 <script>
   // Keep both visible and hidden quantity in sync
   function updateQuantity(change) {
@@ -188,45 +212,45 @@
   // Example of how your form submission should look to capture properties
   const form = document.getElementById('add-to-cart-form');
 
-form.addEventListener('submit', async (e) => {
-  e.preventDefault();
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
 
-  // Create a plain object from the form data
-  const formData = new FormData(form);
-  const data = {
-    id: formData.get('id'),
-    quantity: formData.get('quantity') || 1,
-    properties: {
-       'Warranty': formData.get('items[0][properties][Warranty]'),
-       'Material': formData.get('items[0][properties][Material]'),
-       'Highlights': formData.get('items[0][properties][Highlights]')
-    }
-  };
-
-  try {
-    const response = await fetch(window.Shopify.routes.root + 'cart/add.js', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
+    // Create a plain object from the form data
+    const formData = new FormData(form);
+    const data = {
+      id: formData.get('id'),
+      quantity: formData.get('quantity') || 1,
+      properties: {
+        Warranty: formData.get('items[0][properties][Warranty]'),
+        Material: formData.get('items[0][properties][Material]'),
+        Highlights: formData.get('items[0][properties][Highlights]'),
       },
-      body: JSON.stringify(data)
-    });
+    };
 
-    const result = await response.json();
+    try {
+      const response = await fetch(window.Shopify.routes.root + 'cart/add.js', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
 
-    if (response.ok) {
-      // alert('Product added to cart successfully!');
-      showToast('Product added to cart successfully!', 'success');
-      // Optional: Update your cart drawer or redirect
-      // window.location.href = '/cart'; 
-    } else {
-      console.error('Shopify Error:', result.description);
-      alert('Error: ' + result.description);
+      const result = await response.json();
+
+      if (response.ok) {
+        // alert('Product added to cart successfully!');
+        showToast('Product added to cart successfully!', 'success');
+        // Optional: Update your cart drawer or redirect
+        // window.location.href = '/cart';
+      } else {
+        console.error('Shopify Error:', result.description);
+        alert('Error: ' + result.description);
+      }
+    } catch (error) {
+      console.error('Fetch error:', error);
     }
-  } catch (error) {
-    console.error('Fetch error:', error);
-  }
-});
+  });
 </script>
 
 <script>

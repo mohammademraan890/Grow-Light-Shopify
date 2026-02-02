@@ -164,10 +164,34 @@
                 </div>
 
                 <div class="flex items-center gap-10 text-[12px]">
-                  <a href="#" class="flex items-center flex-col group">
-                    {% render 'svg-icons', name: 'user-icon', icon_class: 'fill-[#414042] group-hover:fill-[#006A2E]' %}
-                    <span class="group-hover:underline whitespace-nowrap">Sign In</span>
-                  </a>
+                  {% if customer %}
+                    <a href="{{ routes.account_url }}" class="flex items-center flex-col group">
+                      {% render 'svg-icons',
+                        name: 'user-icon',
+                        icon_class: 'fill-[#414042] group-hover:fill-[#006A2E]'
+                      %}
+                      <span class="group-hover:underline whitespace-nowrap">Profile</span>
+                    </a>
+
+                    <a href="{{ routes.account_logout_url }}" class="flex items-center flex-col group">
+                      <img
+                        src="{{ 'logout.png' | asset_url }}"
+                        alt="Logout"
+                        class="w-[20px] h-auto"
+                      >
+                      <span class="group-hover:underline whitespace-nowrap">Logout</span>
+                    </a>
+
+                  {% else %}
+                    <a href="{{ routes.account_login_url }}" class="flex items-center flex-col group">
+                      {% render 'svg-icons',
+                        name: 'user-icon',
+                        icon_class: 'fill-[#414042] group-hover:fill-[#006A2E]'
+                      %}
+                      <span class="group-hover:underline whitespace-nowrap">Sign In</span>
+                    </a>
+                  {% endif %}
+
                   <a href="#" class="flex items-center flex-col group">
                     {% render 'svg-icons',
                       name: 'wishlist-icon',
