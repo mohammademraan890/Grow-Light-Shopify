@@ -1,6 +1,11 @@
+{%- comment %}<locksmith:1764>{% endcomment -%}
+  {%- include 'locksmith' -%}
+{%- comment %}</locksmith:1764>{% endcomment -%}
+
 <!doctype html>
 <html lang="{{ request.locale.iso_code }}">
   <head>
+    {{ locksmith_initializations }}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
     <link rel="icon" href="{{ 'grow-light-logo.webp' | asset_url }}" type="image/webp">
      <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
