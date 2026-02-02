@@ -167,7 +167,7 @@
               </button>
               {%- for block in section.blocks -%}
                 {%- case block.type -%}
-                  {%- when '@theme' -%}
+                  {%- when '@app' -%}
                     {% render block %}
                 {%- endcase -%}
               {%- endfor -%}
@@ -184,6 +184,9 @@
   "blocks": [
     {
       "type": "@theme"
+    },
+    {
+      "type": "@app"
     }
   ],
   "settings": []
