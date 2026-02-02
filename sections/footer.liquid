@@ -89,6 +89,9 @@
       <div class="footer-desktop-menu md:col-span-3 xl:col-span-3">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-y-10 gap-x-4">
           {% for link in linklists[section.settings.menu].links %}
+            {%- comment %}<locksmith:9950>{% endcomment -%}
+              {%- capture var %}{% render 'locksmith-variables', scope: 'subject', subject: link, subject_parent: linklists[section.settings.menu], variable: 'transparent' %}{% endcapture %}{% if var == "true" %}{% else %}{% continue %}{% endif -%}
+            {%- comment %}</locksmith:9950>{% endcomment -%}
             <div>
               <a href="{{ link.url }}" class="footer-heading flex items-center gap-1">
                 {{ link.title }}
@@ -98,6 +101,9 @@
               {% if link.links.size > 0 %}
                 <ul>
                   {% for child in link.links %}
+                    {%- comment %}<locksmith:c38e>{% endcomment -%}
+                      {%- capture var %}{% render 'locksmith-variables', scope: 'subject', subject: child, subject_parent: link, variable: 'transparent' %}{% endcapture %}{% if var == "true" %}{% else %}{% continue %}{% endif -%}
+                    {%- comment %}</locksmith:c38e>{% endcomment -%}
                     <li>
                       <a href="{{ child.url }}" class="footer-link">
                         {{ child.title }}
@@ -114,6 +120,9 @@
       <!-- MOBILE ACCORDION MENU -->
       <div class="footer-accordion md:col-span-3 xl:col-span-3">
         {% for link in linklists[section.settings.menu].links %}
+          {%- comment %}<locksmith:995f>{% endcomment -%}
+            {%- capture var %}{% render 'locksmith-variables', scope: 'subject', subject: link, subject_parent: linklists[section.settings.menu], variable: 'transparent' %}{% endcapture %}{% if var == "true" %}{% else %}{% continue %}{% endif -%}
+          {%- comment %}</locksmith:995f>{% endcomment -%}
           <div class="accordion-item">
             <button
               class="accordion-button"
@@ -130,6 +139,9 @@
               <div class="accordion-content">
                 <ul>
                   {% for child in link.links %}
+                    {%- comment %}<locksmith:78af>{% endcomment -%}
+                      {%- capture var %}{% render 'locksmith-variables', scope: 'subject', subject: child, subject_parent: link, variable: 'transparent' %}{% endcapture %}{% if var == "true" %}{% else %}{% continue %}{% endif -%}
+                    {%- comment %}</locksmith:78af>{% endcomment -%}
                     <li>
                       <a href="{{ child.url }}">
                         {{ child.title }}
