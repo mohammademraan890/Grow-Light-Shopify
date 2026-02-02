@@ -158,7 +158,9 @@
             <div class="flex items-center gap-2">
               <button
                 type="submit"
-                class="border border-(--color-primary) bg-(--color-primary) hover:bg-white hover:text-(--color-primary) w-fit px-[38px] py-2.5 uppercase text-[12px] text-white rounded-[5px] font-medium transition-colors duration-300 ease-in-out"
+                class="border 
+                {% if product.available %} border-red-500 bg-red-500 hover:bg-white hover:text-red-500 {% else %}border-(--color-primary) bg-(--color-primary) hover:bg-white hover:text-(--color-primary){% endif %}
+                 w-fit px-[38px] py-2.5 uppercase text-[12px] text-white rounded-[5px] font-medium transition-colors duration-300 ease-in-out"
                 {% unless product.available %}
                   disabled
                 {% endunless %}
