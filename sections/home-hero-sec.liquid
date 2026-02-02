@@ -1,88 +1,91 @@
 {%- style -%}
-    /* ===============================
-       HERO SWIPER VARIABLES
-    ================================ */
-    .hero-swiper-section {
-      /* Desktop */
-      --heading-size: 50px;
-      --text-size: 16px;
-      --content-padding: {{ section.settings.content_padding }}px;
+      /* ===============================
+        HERO SWIPER VARIABLES
+      ================================ */
+      .hero-swiper-section {
+        /* Desktop */
+        --heading-size: 50px;
+        --text-size: 16px;
+        --content-padding: {{ section.settings.content_padding }}px;
 
-      /* Mobile */
-      --mobile-heading-size: {{ section.settings.mobile_heading_size }}px;
-      --mobile-text-size: {{ section.settings.mobile_text_size }}px;
-      --mobile-content-padding: {{ section.settings.mobile_content_padding }}px;
-      --mobile-spacing: {{ section.settings.mobile_spacing }}px;
+        /* Mobile */
+        --mobile-heading-size: {{ section.settings.mobile_heading_size }}px;
+        --mobile-text-size: {{ section.settings.mobile_text_size }}px;
+        --mobile-content-padding: {{ section.settings.mobile_content_padding }}px;
+        --mobile-spacing: {{ section.settings.mobile_spacing }}px;
 
-      margin-top: {{ section.settings.margin_top }}px;
-      margin-bottom: {{ section.settings.margin_bottom }}px;
-      background: {{ section.settings.section_bg }};
-    }
-
-    /* ===============================
-       DESKTOP STYLES
-    ================================ */
-    .hero-slide {
-      border-color: {{ section.settings.border_color }};
-    }
-
-    .hero-content {
-      padding: var(--content-padding);
-      color: {{ section.settings.text_color }};
-    }
-
-    .hero-content h2 {
-      font-size: var(--heading-size);
-      line-height: 1.1;
-    }
-
-    .hero-content p {
-      font-size: var(--text-size);
-    }
-
-    .hero-btn {
-      background: {{ section.settings.button_bg }};
-      color: {{ section.settings.button_text }};
-    }
-  /*
-    .hero-btn:hover {
-      background: {{ section.settings.button_hover }};
-    } */
-
-    /* ===============================
-       MOBILE STYLES (<768px)
-    ================================ */
-    @media (max-width: 767px) {
-      /* Layout */
-      .hero-slide .grid {
-        grid-template-columns: 1fr;
+        margin-top: {{ section.settings.margin_top }}px;
+        margin-bottom: {{ section.settings.margin_bottom }}px;
+        background: {{ section.settings.section_bg }};
       }
 
-      .hero-slide img {
-        order: 1;
-        height: auto;
+      /* ===============================
+        DESKTOP STYLES
+      ================================ */
+      .hero-slide {
+        border-color: {{ section.settings.border_color }};
       }
 
       .hero-content {
-        order: 2;
-        padding: var(--mobile-content-padding);
+        padding: var(--content-padding);
+        color: {{ section.settings.text_color }};
       }
 
-      /* Typography */
       .hero-content h2 {
-        font-size: var(--mobile-heading-size);
-        line-height: 1.2;
+        font-size: var(--heading-size);
+        line-height: 1.1;
       }
 
       .hero-content p {
-        font-size: var(--mobile-text-size);
+        font-size: var(--text-size);
       }
 
-      /* Vertical spacing */
-      .hero-content > div > * + * {
-        margin-top: var(--mobile-spacing);
+      .hero-btn {
+        background: {{ section.settings.button_bg }};
+        color: {{ section.settings.button_text }};
       }
-    }
+    /*
+      .hero-btn:hover {
+        background: {{ section.settings.button_hover }};
+      } */
+
+      /* ===============================
+        MOBILE STYLES (<768px)
+      ================================ */
+      @media (max-width: 767px) {
+        /* Layout */
+        .hero-slide .grid {
+          grid-template-columns: 1fr;
+        }
+
+        .hero-slide img {
+          order: 1;
+          height: auto;
+        }
+
+        .hero-content {
+          order: 2;
+          padding: var(--mobile-content-padding);
+        }
+
+        /* Typography */
+        .hero-content h2 {
+          font-size: var(--mobile-heading-size);
+          line-height: 1.2;
+        }
+
+        .hero-content p {
+          font-size: var(--mobile-text-size);
+        }
+
+        /* Vertical spacing */
+        .hero-content > div > * + * {
+          margin-top: var(--mobile-spacing);
+        }
+      }
+      .hero-btn {
+    touch-action: manipulation;
+  }
 {%- endstyle -%}
 
 <style>
@@ -354,6 +357,9 @@
     const MAX_DRAG = swiperEl.offsetWidth * 0.4; // 40% width
 
     swiperEl.addEventListener('pointerdown', (e) => {
+      // ✅ If clicking a link, let browser handle it
+      if (e.target.closest('a')) return;
+
       startX = e.clientX;
       isDragging = true;
       wrapper.style.transition = 'none';
@@ -381,12 +387,6 @@
 
       // If the user barely moved (less than 5px), treat it as a click
       const movement = Math.abs(currentX);
-      if (movement < 5) {
-        const link = e.target.closest('a');
-        if (link && link.getAttribute('href')) {
-          window.location.href = link.getAttribute('href');
-        }
-      }
 
       wrapper.style.transition = 'transform 0.55s cubic-bezier(0.22, 1, 0.36, 1)';
       wrapper.style.transform = 'translate3d(0, 0, 0)';
