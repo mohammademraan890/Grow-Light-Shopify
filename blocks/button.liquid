@@ -1,8 +1,6 @@
-<div class="custom-button-wrapper" style="text-align: {{ block.settings.alignment }};">
   <a href="{{ block.settings.button_link }}" class="custom-btn block-id-{{ block.id }}">
     {{ block.settings.button_label }}
   </a>
-</div>
 
 <style>
   .custom-btn {
@@ -36,17 +34,7 @@
       "id": "button_link",
       "label": "Button Link"
     },
-    {
-      "type": "select",
-      "id": "alignment",
-      "label": "Alignment",
-      "options": [
-        { "value": "left", "label": "Left" },
-        { "value": "center", "label": "Center" },
-        { "value": "right", "label": "Right" }
-      ],
-      "default": "center"
-    },
+   
     {
       "type": "color",
       "id": "bg_color",

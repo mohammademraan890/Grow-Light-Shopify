@@ -165,6 +165,12 @@
               >
                 {% if product.available %} Add to Cart{% else %} Sold Out{% endif %}
               </button>
+              {%- for block in section.blocks -%}
+                {%- case block.type -%}
+                  {%- when '@theme' -%}
+                    {% render block %}
+                {%- endcase -%}
+              {%- endfor -%}
             </div>
           </form>
         </div>
@@ -173,28 +179,15 @@
   </div>
 </div>
 {% schema %}
-  {
-    "name": "Product Page",
-       "blocks": [
-      {
-      "type": "button",
-      "name": "Notification Menu Image",
-      "settings": [
-        {
-          "type": "text",
-          "id": "menu_item",
-          "label": "Menu Item Name",
-          "info": "Type the exact name of the parent link this image should appear under (e.g. 'Shop')"
-        },
-        {
-          "type": "collection",
-          "id": "collection",
-          "label": "Featured Collection"
-        }
-      ]
+{
+  "name": "Product Page",
+  "blocks": [
+    {
+      "type": "@theme"
     }
   ],
-  }
+  "settings": []
+}
 {% endschema %}
 <script>
   // Keep both visible and hidden quantity in sync
