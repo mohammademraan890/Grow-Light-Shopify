@@ -1,0 +1,251 @@
+<div class="bg-(--color-background) md:py-[70px] sm:py-[55px] py-[35px]">
+  <div class="custom-container">
+    <div class="flex items-center flex-wrap justify-between md:flex-row flex-col gap-4 text-center md:text-left">
+      <div>
+        <h2 class="text-[27px] text-(--color-text-1) font-medium">{{ section.settings.heading | default: page.title }}</h2>
+        <p class="text-[14px] text-(--color-text-2)">{{ section.settings.subheading | default: page.content | strip_html }}</p>
+      </div>
+      <div class="flex items-center font-primary gap-3">
+        <a class="text-[14px] text-(--color-text-2)! hover:text-(--color-primary)!" href="{{ routes.root_url }}">Home</a>
+        <span class="text-(--color-text-2)">/</span>
+        <a class="text-[14px] text-(--color-primary)!" href="{{ page.url }}">{{ section.settings.breadcrumb_text | default: 'Contact Us' }}</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="custom-container">
+  <div class="md:py-[120px] sm:py-[90px] py-[50px]">
+    <div class="md:h-[480px] sm:h-[380px] h-[280px] w-full mb-10 sm:mb-[70px] bg-(--color-background)">
+      <iframe
+        src="{{ section.settings.map_url | default: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3616.303008713644!2d72.68230168609169!3d32.079180583824886!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x392177bf4d8021ad%3A0x43d59f23e3ad7eb9!2sBurj%20Huraira%2C%20Sargodha%2C%2040100%2C%20Pakistan!5e0!3m2!1sen!2s!4v1763803644461!5m2!1sen!2s' }}"
+        width="100%"
+        height="100%"
+        style="border:0;"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+      ></iframe>
+    </div>
+    <div>
+      <h3 class="text-[27px] font-bold text-(--color-text-1) mb-[20px]">{{ section.settings.section_title | default: 'Get in Touch' }}</h3>
+      <div class="grid lg:grid-cols-3 gap-8 lg:gap-12">
+        <div class="lg:col-span-2 h-fit grid grid-cols-1 gap-6 md:gap-10 lg:gap-15">
+          {% form 'contact', class: 'contact-form' %}
+            <input type="hidden" name="form_type" value="contact">
+            <input type="hidden" name="utf8" value="✓">
+
+            <div class="grid grid-cols-2 gap-x-6 gap-y-[25px] font-secondary">
+              <!-- Message -->
+              <textarea
+                name="contact[body]"
+                id="message"
+                rows="8"
+                required
+                placeholder="{{ section.settings.placeholder_message | default: 'Enter Message' }}"
+                class="w-full col-span-2 p-[12px] text-(--color-text-2) text-[13px] border border-[#f0e9ff] rounded-[5px] focus:outline-none resize-none"
+              ></textarea>
+
+              <!-- Name -->
+              <input
+                type="text"
+                name="contact[name]"
+                id="name"
+                required
+                placeholder="{{ section.settings.placeholder_name | default: 'Enter your name' }}"
+                class="w-full col-span-2 sm:col-span-1 px-[12px] text-(--color-text-2) py-[6px] text-[13px] h-[48px] border border-[#f0e9ff] rounded-[5px] focus:outline-none"
+              >
+
+              <!-- Email -->
+              <input
+                type="email"
+                name="contact[email]"
+                id="email"
+                required
+                placeholder="{{ section.settings.placeholder_email | default: 'Enter email address' }}"
+                class="w-full col-span-2 sm:col-span-1 px-[12px] text-(--color-text-2) py-[6px] text-[13px] h-[48px] border border-[#f0e9ff] rounded-[5px] focus:outline-none"
+              >
+
+              <!-- Subject -->
+              <input
+                type="text"
+                name="contact[subject]"
+                id="subject"
+                placeholder="{{ section.settings.placeholder_subject | default: 'Enter Subject' }}"
+                class="w-full col-span-2 px-[12px] text-(--color-text-2) py-[6px] text-[13px] h-[48px] border border-[#f0e9ff] rounded-[5px] focus:outline-none"
+              >
+            </div>
+
+            <!-- Submit Button -->
+            <div>
+              <button
+                type="submit"
+                class="font-medium border border-(--color-primary) bg-(--color-primary) hover:bg-white hover:text-(--color-primary) rounded-[5px] mt-7 py-3 px-[32px] uppercase text-[12px] text-white font-primary transition-colors duration-300"
+              >
+                {{ section.settings.button_text | default: 'SEND MESSAGE' }}
+              </button>
+            </div>
+
+            {% if form.posted_successfully? %}
+              <p class="mt-6 text-green-600 font-medium">Thank you! Your message has been sent.</p>
+            {% elsif form.errors %}
+              <p class="mt-6 text-red-600 font-medium">Please fill in all required fields.</p>
+            {% endif %}
+          {% endform %}
+        </div>
+        <div class="flex flex-col gap-6 font-primary">
+          <div class="flex item-start gap-[15px]">
+            <img
+              src="{{ section.settings.address_icon | default: 'home.png' | asset_url }}"
+              class="h-auto w-auto object-contain"
+              alt=""
+              height="inherit"
+              width="inherit"
+            >
+            <div class="flex flex-col">
+              <h4 class="text-(--color-text-1) font-medium text-[16px]">{{ section.settings.address_title | default: 'Buttonwood, California.' }}</h4>
+              <p class="text-(--color-text-2) text-[14px]">{{ section.settings.address_text | default: 'Rosemead, CA 91770' }}</p>
+            </div>
+          </div>
+          <div class="flex item-start gap-[10px]">
+            <img
+              src="{{ section.settings.phone_icon | default: 'tablet (2).png' | asset_url }}"
+              class="h-auto w-auto object-contain"
+              alt=""
+              height="inherit"
+              width="inherit"
+            >
+            <div class="flex flex-col">
+              <h4 class="text-(--color-text-1) font-medium text-[16px]">{{ section.settings.phone_title | default: '00 (440) 9865 562' }}</h4>
+              <p class="text-(--color-text-2) text-[14px]">{{ section.settings.phone_text | default: 'Mon to Fri 9am to 6pm' }}</p>
+            </div>
+          </div>
+          <div class="flex item-start gap-[15px]">
+            <img
+              src="{{ section.settings.email_icon | default: 'email (2).png' | asset_url }}"
+              class="h-auto w-auto object-contain"
+              alt=""
+              height="inherit"
+              width="inherit"
+            >
+            <div class="flex flex-col">
+              <h4 class="text-(--color-text-1) font-medium text-[16px]">{{ section.settings.email_title | default: 'support@colorlib.com' }}</h4>
+              <p class="text-(--color-text-2) text-[14px]">{{ section.settings.email_text | default: 'Send us your query anytime!' }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% schema %}
+{
+  "name": "Contact Us",
+  "tag": "section",
+  "class": "section-contact-us",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading"
+    },
+    {
+      "type": "text",
+      "id": "breadcrumb_text",
+      "label": "Breadcrumb Text"
+    },
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Section Title"
+    },
+    {
+      "type": "url",
+      "id": "map_url",
+      "label": "Google Maps Embed URL"
+    },
+    {
+      "type": "text",
+      "id": "placeholder_message",
+      "label": "Message Placeholder"
+    },
+    {
+      "type": "text",
+      "id": "placeholder_name",
+      "label": "Name Placeholder"
+    },
+    {
+      "type": "text",
+      "id": "placeholder_email",
+      "label": "Email Placeholder"
+    },
+    {
+      "type": "text",
+      "id": "placeholder_subject",
+      "label": "Subject Placeholder"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text"
+    },
+    {
+      "type": "image_picker",
+      "id": "address_icon",
+      "label": "Address Icon"
+    },
+    {
+      "type": "text",
+      "id": "address_title",
+      "label": "Address Title"
+    },
+    {
+      "type": "text",
+      "id": "address_text",
+      "label": "Address Details"
+    },
+    {
+      "type": "image_picker",
+      "id": "phone_icon",
+      "label": "Phone Icon"
+    },
+    {
+      "type": "text",
+      "id": "phone_title",
+      "label": "Phone Number"
+    },
+    {
+      "type": "text",
+      "id": "phone_text",
+      "label": "Phone Details"
+    },
+    {
+      "type": "image_picker",
+      "id": "email_icon",
+      "label": "Email Icon"
+    },
+    {
+      "type": "text",
+      "id": "email_title",
+      "label": "Email Address"
+    },
+    {
+      "type": "text",
+      "id": "email_text",
+      "label": "Email Details"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Contact Us"
+    }
+  ]
+}
+{% endschema %}
