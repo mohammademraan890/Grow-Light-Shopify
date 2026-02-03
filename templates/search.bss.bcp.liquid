@@ -1,6 +1,9 @@
 {% layout none %}
 {% paginate search.results by 1000 %}
-    [{% for item in search.results %}
+    [{%- comment %}<locksmith:704e>{% endcomment -%}{%- assign locksmith_daeb_forloop__size = 0 %}{% for item in search.results %}{% capture var %}{% render 'locksmith-variables', scope: 'subject', subject: item, subject_parent: search, variable: 'transparent' %}{% endcapture %}{% if var == 'true' %}{% assign locksmith_daeb_forloop__size = locksmith_daeb_forloop__size | plus: 1 %}{% endif %}{% endfor %}{% assign locksmith_daeb_forloop__index = nil -%}{%- comment %}</locksmith:704e>{% endcomment -%}{% for item in search.results %}
+        {%- comment %}<locksmith:4797>{% endcomment -%}
+          {%- capture var %}{% render 'locksmith-variables', scope: 'subject', subject: item, subject_parent: search, variable: 'transparent' %}{% endcapture %}{% if var == "true" %}{% if locksmith_daeb_forloop__index == nil %}{% assign locksmith_daeb_forloop__index = 1 %}{% assign locksmith_daeb_forloop__index0 = 0 %}{% else %}{% assign locksmith_daeb_forloop__index = locksmith_daeb_forloop__index | plus: 1 %}{% assign locksmith_daeb_forloop__index0 = locksmith_daeb_forloop__index0 | plus: 1 %}{% endif %}{% if locksmith_daeb_forloop__index == 1 %}{% assign locksmith_daeb_forloop__first = true %}{% else %}{% assign locksmith_daeb_forloop__first = false %}{% endif %}{% if locksmith_daeb_forloop__index == locksmith_daeb_forloop__size %}{% assign locksmith_daeb_forloop__last = true %}{% else %}{% assign locksmith_daeb_forloop__last = false %}{% endif %}{% assign locksmith_daeb_forloop__rindex = locksmith_daeb_forloop__size | minus: locksmith_daeb_forloop__index | minus: 1 %}{% assign locksmith_daeb_forloop__rindex0 = locksmith_daeb_forloop__size | minus: locksmith_daeb_forloop__index0 | minus: 1 %}{% else %}{% continue %}{% endif -%}
+        {%- comment %}</locksmith:4797>{% endcomment -%}
         {
             "id": {{ item.id | json }},
             "title": {{ item.title | json }},
@@ -63,6 +66,6 @@
             "collections": [{% for collection in item.collections %}
                 {{ collection.id }}{% unless forloop.last %},{% endunless %}
             {% endfor %}]
-        }{% unless forloop.last %},{% endunless %}
+        }{% unless locksmith_daeb_forloop__last %},{% endunless %}
     {% endfor %}]
 {% endpaginate %}
