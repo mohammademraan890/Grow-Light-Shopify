@@ -12,32 +12,18 @@
     "main": {
       "type": "cart",
       "blocks": {
-        "essential_upsell_frequently_bought_together_app_block_nhNhKY": {
-          "type": "shopify://apps/essential-upsell/blocks/frequently-bought-together-app-block/50627fd9-24fd-4250-8614-accc12826d80",
-          "settings": {}
-        }
-      },
-      "block_order": [
-        "essential_upsell_frequently_bought_together_app_block_nhNhKY"
-      ],
-      "settings": {}
-    },
-    "17701124403fed665e": {
-      "type": "apps",
-      "blocks": {
-        "essential_upsell_app_block_46DwxX": {
+        "essential_upsell_app_block_wKqbGe": {
           "type": "shopify://apps/essential-upsell/blocks/app-block/50627fd9-24fd-4250-8614-accc12826d80",
           "settings": {}
         }
       },
       "block_order": [
-        "essential_upsell_app_block_46DwxX"
+        "essential_upsell_app_block_wKqbGe"
       ],
       "settings": {}
     }
   },
   "order": [
-    "main",
-    "17701124403fed665e"
+    "main"
   ]
 }
