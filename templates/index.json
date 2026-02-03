@@ -398,6 +398,19 @@
         "padding_top": 16,
         "padding_bottom": 40
       }
+    },
+    "177009782738bb5add": {
+      "type": "apps",
+      "blocks": {
+        "judge_me_reviews_medals_48eNmw": {
+          "type": "shopify://apps/judge-me-reviews/blocks/medals/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "judge_me_reviews_medals_48eNmw"
+      ],
+      "settings": {}
     }
   },
   "order": [
@@ -406,6 +419,7 @@
     "top-products-sec",
     "pricing-banner",
     "home-brands",
-    "home-services"
+    "home-services",
+    "177009782738bb5add"
   ]
 }

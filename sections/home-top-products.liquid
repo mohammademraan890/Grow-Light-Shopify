@@ -55,8 +55,6 @@
   .quick-view-overlay.active .quick-view-modal {
     transform: scale(1);
   }
-
- 
 </style>
 
 <style>
@@ -135,14 +133,15 @@
       <div class="swiper-wrapper">
         {% if collection %}
           {% for product in collection.products %}
-            {%- comment %}<locksmith:3fc9>{% endcomment -%}
-              {%- capture var %}{% render 'locksmith-variables', scope: 'subject', subject: product, subject_parent: collection, variable: 'transparent' %}{% endcapture %}{% if var == "true" %}{% else %}{% continue %}{% endif -%}
-            {%- comment %}</locksmith:3fc9>{% endcomment -%}
+            {%- comment %}<locksmith:3fc9>{%- endcomment %}
+            {%- capture var %}{% render 'locksmith-variables', scope: 'subject', subject: product, subject_parent: collection, variable: 'transparent' %}{% endcapture -%}
+            {%- if var == 'true' %}{% else %}{% continue %}{% endif -%}
+            {%- comment %}</locksmith:3fc9>{%- endcomment %}
             <div
               class="swiper-slide w-[260px]!"
               data-tags="{{ product.tags | join: ',' | downcase }}"
             >
-              <div class="w-[260px]! border border-transparent hover:border-[#0000001f] rounded-md p-2">
+              <div class="w-[260px]! border border-transparent hover:border-[#0000001f]  rounded-md p-2">
                 <div class="relative bg-[#FAFAFA] rounded-md flex items-center justify-center">
                   <img
                     src="{{ product.featured_image | image_url: width: 900 }}"
@@ -167,7 +166,9 @@
                     </p>
                   {% endif %}
                 </div>
-
+                <div class="jdgm-widget jdgm-preview-badge mb-1" data-id="{{ product.id }}">
+                  {{ product.metafields.judgeme.badge }}
+                </div>
                 <a href="{{ product.url }}" class="mt-2 text-[14px] leading-[20px] text-[#414042]">
                   {% assign title_parts = product.title | split: ' ' %}
                   <strong>{{ title_parts[0] }}</strong>
@@ -212,11 +213,7 @@
 </div>
 
 <div class="quick-view-overlay" id="quickViewModal">
-  <div class="quick-view-modal">
-  
-
-    
-  </div>
+  <div class="quick-view-modal"></div>
 </div>
 <script>
   document.addEventListener('DOMContentLoaded', function () {
@@ -405,6 +402,4 @@
 }
 {% endschema %}
 
-<script>
-
-</script>
+<script></script>

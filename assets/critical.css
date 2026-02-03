@@ -56,10 +56,13 @@ li{
     width: 100%;
     color: #108474;
 }
-#shopify-block-AaUd3emhyN2hralU0Z__judge_me_reviews_medals_Yy7J{
+#shopify-section-template--21365332148467__177009782738bb5add{
     position: absolute;
-    /* bottom: 500px; */
-    z-index: 10;
+    /* bottom: 500px  !important; */
+    z-index: 1000;
     right: 135px;
     top: 2145px;
+}
+.jdgm-prev-badge__text{
+  color:#006A2E ;
 }
