@@ -39,3 +39,27 @@ li{
  
   gap: 25px;
 } */
+
+.jdgm-medals-wrapper .jdgm-medals-separator {
+    height: 1px;
+    width: 141px;
+    margin: 0;
+    display: none !important;
+    background-color: #E9EAEB;
+    display: none;
+}
+.jdgm-widget.jdgm-medals-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    color: #108474;
+}
+#shopify-block-AaUd3emhyN2hralU0Z__judge_me_reviews_medals_Yy7J{
+    position: absolute;
+    /* bottom: 500px; */
+    z-index: 10;
+    right: 135px;
+    top: 2145px;
+}
