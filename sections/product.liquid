@@ -251,9 +251,28 @@
       const result = await response.json();
 
       if (response.ok) {
-        // alert('Product added to cart successfully!');
         showToast('Product added to cart successfully!', 'success');
-        // Optional: Update your cart drawer or redirect
+
+        /* 🔥 ESSENTIAL UPSELL TRIGGER (AJAX FIX) */
+        document.dispatchEvent(
+          new CustomEvent('essential-upsell:add-to-cart', {
+            detail: {
+              productId: result.product_id,
+              variantId: result.variant_id,
+            },
+          })
+        );
+
+        /* 🔁 Fallback for older Essential Upsell versions */
+        window.dispatchEvent(
+          new CustomEvent('ESSENTIAL_UPSELL_ADD_TO_CART', {
+            detail: {
+              variantId: result.variant_id,
+            },
+          })
+        );
+
+        // Optional: update cart drawer or redirect
         // window.location.href = '/cart';
       } else {
         console.error('Shopify Error:', result.description);
