@@ -170,7 +170,7 @@
             <div class="flex items-center gap-2">
               <button
                 type="submit"
-                class=" essential-upsell-button ea-add-to-cart
+                class="
                   border
                   {% if product.available %}border-(--color-primary) bg-(--color-primary) hover:bg-white hover:text-(--color-primary) {% else %} border-red-500 bg-red-500{% endif %}
                    w-fit px-[38px] py-2.5 uppercase text-[12px] text-white rounded-[5px] font-medium transition-colors duration-300 ease-in-out
@@ -251,32 +251,10 @@
       const result = await response.json();
 
       if (response.ok) {
+        // alert('Product added to cart successfully!');
         showToast('Product added to cart successfully!', 'success');
-
-        // 1. Trigger standard Shopify Cart AJAX event (Many apps listen for this)
-        document.dispatchEvent(
-          new CustomEvent('ajaxProduct:added', {
-            detail: { product: result },
-          })
-        );
-
-        // 2. Specific Essential Upsell Trigger
-        // The app often looks for 'cart:updated' or its own namespace
-        if (window.EssentialUpsell) {
-          window.EssentialUpsell.triggerupsell(); // Manual trigger if available
-        }
-
-        // 3. The most reliable way: Re-scan for "Essential" triggers
-        window.dispatchEvent(
-          new CustomEvent('essential-upsell-trigger', {
-            detail: {
-              variantId: result.variant_id,
-              productId: result.product_id,
-            },
-          })
-        );
-  triggerEssentialUpsell(result.variant_id);
-        // Update your cart drawer/count here
+        // Optional: Update your cart drawer or redirect
+        // window.location.href = '/cart';
       } else {
         console.error('Shopify Error:', result.description);
         alert('Error: ' + result.description);
@@ -285,20 +263,6 @@
       console.error('Fetch error:', error);
     }
   });
-  function triggerEssentialUpsell(variantId) {
-  // Check if the app's global object exists
-  if (typeof EssentialUpsell !== 'undefined') {
-    // This is a common internal method name for this app
-    EssentialUpsell.openUpsell(variantId);
-  } else {
-    // Fallback: Dispatch the event again with a slight delay
-    setTimeout(() => {
-        window.dispatchEvent(new CustomEvent('essential-upsell:add-to-cart', {
-            detail: { variantId: variantId }
-        }));
-    }, 100);
-  }
-}
 </script>
 
 <script>
