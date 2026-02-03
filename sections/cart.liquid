@@ -53,98 +53,125 @@
   </div>
 </div>
 <div class="custom-container py-[50px]! sm:py-20 md:py-[100px]">
-  <form action="{{ routes.cart_url }}" method="post" class="font-primary">
-    <!-- ADD THIS WRAPPER ONLY -->
-    <div class="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
-      <table class="w-full border-collapse min-w-[600px]">
-        <!-- min-w ensures it never shrinks too much -->
-        <thead>
-          <tr class="text-left border-b border-[#eee] text-[14px] text-(--color-text-2)!">
-            <th class="py-[12px]">Product</th>
-            <th class="py-[12px]">Price</th>
-            <th class="py-[12px]">Quantity</th>
-            <th class="py-[12px]">Total</th>
-            <th class="py-[12px]">Action</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {% for item in cart.items %}
-            <tr class="border-b border-gray-200">
-              <!-- PRODUCT -->
-              <td class="py-6">
-                <div class="flex items-center gap-[30px]">
-                  <img
-                    src="{{ item.image | img_url: '200x' }}"
-                    alt="{{ item.title }}"
-                    class="w-[140px] h-auto max-h-[100px] object-cover rounded-md"
-                  >
-                  <div class="text-[14px]">
-                    <a
-                      href="{{ item.url }}"
-                      class="font-medium text-(--color-text-2)! hover:text-(--color-primary)! transition duration-300"
-                    >
-                      {{ item.product.title }}
-                    </a>
-                  </div>
-                </div>
-              </td>
-
-              <!-- PRICE -->
-              <td class="py-6 text-[14px] font-medium text-(--color-text-2)">
-                {% assign original = item.original_price %}
-                {% assign final = item.final_price %}
-                {% assign discount = original | minus: final %}
-
-                {% if discount > 0 %}
-                  <span> {{ original | money }} - {{ discount | money }} = {{ final | money }} </span>
-                {% else %}
-                  <span>{{ original | money }}</span>
-                {% endif %}
-              </td>
-
-              <!-- QUANTITY -->
-              <td class="py-6">
-                <input
-                  type="number"
-                  name="updates[{{ item.key }}]"
-                  value="{{ item.quantity }}"
-                  min="0"
-                  class="w-[80px] border border-[#eee] text-[14px] rounded-md px-2 py-2 text-center focus:outline-none focus:border-(--color-primary)"
-                >
-              </td>
-
-              <!-- TOTAL -->
-              <td class="py-6 text-[14px] font-medium text-[--color-text-2]">
-                {{ item.final_line_price | money }}
-              </td>
-              <td class="py-6  text-[14px] font-medium text-[--color-text-2]">
-                <a href="{{ item.url_to_remove }}" class="text-[14px] cursor-pointer text-(--color-text-2) hover:text-(--color-primary) transition duration-300">
-                  Remove
-                </a>
-              </td>
+  {% if cart.item_count != 0 %}
+    <form action="{{ routes.cart_url }}" method="post" class="font-primary">
+      <!-- ADD THIS WRAPPER ONLY -->
+      <div class="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
+        <table class="w-full border-collapse min-w-[600px]">
+          <!-- min-w ensures it never shrinks too much -->
+          <thead>
+            <tr class="text-left border-b border-[#eee] text-[14px] text-(--color-text-2)!">
+              <th class="py-[12px]">Product</th>
+              <th class="py-[12px]">Price</th>
+              <th class="py-[12px]">Quantity</th>
+              <th class="py-[12px]">Total</th>
+              <th class="py-[12px]">Action</th>
             </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
-    <!-- END WRAPPER -->
+          </thead>
 
-    <!-- CHECKOUT BUTTON -->
-    
-    <div class="flex items-center flex-wrap gap-1 justify-end mt-[30px]">
-      <a
-        href="{{ home.url }}"
-        class=" w-full sm:w-fit text-center sm:text-start bg-(--color-background) font-primary uppercase whitespace-nowrap text-(--color-text-1) px-[30px] py-2.5 border border-[#eee] text-[14px] font-medium rounded-[3px]"
-      >
-        Continue Shopping
-      </a>
-      <button
-        name="checkout"
-        class="w-full sm:w-fit border border-(--color-primary) bg-(--color-primary) hover:bg-white hover:text-(--color-primary) py-2.5 px-[30px] uppercase text-[13px] text-white rounded-[3px] transition duration-300"
-      >
-        Proceed to Checkout
-      </button>
+          <tbody>
+            {% for item in cart.items %}
+              <tr class="border-b border-gray-200">
+                <!-- PRODUCT -->
+                <td class="py-6">
+                  <div class="flex items-center gap-[30px]">
+                    <img
+                      src="{{ item.image | img_url: '200x' }}"
+                      alt="{{ item.title }}"
+                      class="w-[140px] h-auto max-h-[100px] object-cover rounded-md"
+                    >
+                    <div class="text-[14px]">
+                      <a
+                        href="{{ item.url }}"
+                        class="font-medium text-(--color-text-2)! hover:text-(--color-primary)! transition duration-300"
+                      >
+                        {{ item.product.title }}
+                      </a>
+                    </div>
+                  </div>
+                </td>
+
+                <!-- PRICE -->
+                <td class="py-6 text-[14px] font-medium text-(--color-text-2)">
+                  {% assign original = item.original_price %}
+                  {% assign final = item.final_price %}
+                  {% assign discount = original | minus: final %}
+
+                  {% if discount > 0 %}
+                    <span> {{ original | money }} - {{ discount | money }} = {{ final | money }} </span>
+                  {% else %}
+                    <span>{{ original | money }}</span>
+                  {% endif %}
+                </td>
+
+                <!-- QUANTITY -->
+                <td class="py-6">
+                  <input
+                    type="number"
+                    name="updates[{{ item.key }}]"
+                    value="{{ item.quantity }}"
+                    min="0"
+                    class="w-[80px] border border-[#eee] text-[14px] rounded-md px-2 py-2 text-center focus:outline-none focus:border-(--color-primary)"
+                  >
+                </td>
+
+                <!-- TOTAL -->
+                <td class="py-6 text-[14px] font-medium text-[--color-text-2]">
+                  {{ item.final_line_price | money }}
+                </td>
+                <td class="py-6  text-[14px] font-medium text-[--color-text-2]">
+                  <a
+                    href="{{ item.url_to_remove }}"
+                    class="text-[14px] cursor-pointer text-(--color-text-2) hover:text-(--color-primary) transition duration-300"
+                  >
+                    Remove
+                  </a>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <!-- END WRAPPER -->
+
+      <!-- CHECKOUT BUTTON -->
+
+      <div class="flex items-center flex-wrap gap-1 justify-end mt-[30px]">
+        <a
+          href="{{ home.url }}"
+          class=" w-full sm:w-fit text-center sm:text-start bg-(--color-background) font-primary uppercase whitespace-nowrap text-(--color-text-1) px-[30px] py-2.5 border border-[#eee] text-[14px] font-medium rounded-[3px]"
+        >
+          Continue Shopping
+        </a>
+        <button
+          name="checkout"
+          class="w-full sm:w-fit border border-(--color-primary) bg-(--color-primary) hover:bg-white hover:text-(--color-primary) py-2.5 px-[30px] uppercase text-[13px] text-white rounded-[3px] transition duration-300"
+        >
+          Proceed to Checkout
+        </button>
+      </div>
+    </form>
+  {% else %}
+    <div class="text-center mt-8">
+      <p class="text-[14px] text-(--color-text-2)">Your cart is empty</p>
     </div>
-  </form>
+  {% endif %}
+  {%- for block in section.blocks -%}
+    {%- case block.type -%}
+      {%- when '@app' -%}
+        {% render block %}
+    {%- endcase -%}
+  {%- endfor -%}
 </div>
+
+{% schema %}
+{
+  "name": "cart page",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "@app"
+    }
+  ]
+}
+{% endschema %}
