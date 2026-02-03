@@ -12,9 +12,23 @@
     "main": {
       "type": "cart",
       "settings": {}
+    },
+    "177011241932267eb5": {
+      "type": "apps",
+      "blocks": {
+        "essential_upsell_frequently_bought_together_app_block_LRMqYf": {
+          "type": "shopify://apps/essential-upsell/blocks/frequently-bought-together-app-block/50627fd9-24fd-4250-8614-accc12826d80",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "essential_upsell_frequently_bought_together_app_block_LRMqYf"
+      ],
+      "settings": {}
     }
   },
   "order": [
-    "main"
+    "main",
+    "177011241932267eb5"
   ]
 }
