@@ -1,11 +1,11 @@
 <style>
- .back-in-stock-btn {
+  .back-in-stock-btn {
     background-color: #222222;
     color: #ffffff;
     /* height: 39px; */
     padding: 10px 30px;
     border-radius: 4px;
-}
+  }
 </style>
 
 <div class="bg-(--color-background) md:py-[70px] sm:py-[55px] py-[35px]">
@@ -89,7 +89,9 @@
         <h1 class="text-[24px] capitalize font-medium text-(--color-text-1) mb-[10px]">
           {{ product.title }}
         </h1>
-
+        <div class="jdgm-widget jdgm-preview-badge mb-1" data-id="{{ product.id }}">
+          {{ product.metafields.judgeme.badge }}
+        </div>
         <!-- Price -->
         <h2 id="variant-price" class="text-[24px] font-bold text-(--color-primary) mb-[15px]">
           {{ product.price | money }}
@@ -168,9 +170,11 @@
             <div class="flex items-center gap-2">
               <button
                 type="submit"
-                class="border 
-                {% if product.available %}border-(--color-primary) bg-(--color-primary) hover:bg-white hover:text-(--color-primary) {% else %} border-red-500 bg-red-500{% endif %}
-                 w-fit px-[38px] py-2.5 uppercase text-[12px] text-white rounded-[5px] font-medium transition-colors duration-300 ease-in-out"
+                class="
+                  border
+                  {% if product.available %}border-(--color-primary) bg-(--color-primary) hover:bg-white hover:text-(--color-primary) {% else %} border-red-500 bg-red-500{% endif %}
+                   w-fit px-[38px] py-2.5 uppercase text-[12px] text-white rounded-[5px] font-medium transition-colors duration-300 ease-in-out
+                "
                 {% unless product.available %}
                   disabled
                 {% endunless %}
