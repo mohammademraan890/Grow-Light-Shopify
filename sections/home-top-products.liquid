@@ -133,10 +133,9 @@
       <div class="swiper-wrapper">
         {% if collection %}
           {% for product in collection.products %}
-            {%- comment %}<locksmith:3fc9>{%- endcomment %}
-            {%- capture var %}{% render 'locksmith-variables', scope: 'subject', subject: product, subject_parent: collection, variable: 'transparent' %}{% endcapture -%}
-            {%- if var == 'true' %}{% else %}{% continue %}{% endif -%}
-            {%- comment %}</locksmith:3fc9>{%- endcomment %}
+            {%- comment %}<locksmith:093a>{% endcomment -%}
+              {%- capture var %}{% render 'locksmith-variables', scope: 'subject', subject: product, subject_parent: collection, variable: 'transparent' %}{% endcapture %}{% if var == "true" %}{% else %}{% continue %}{% endif -%}
+            {%- comment %}</locksmith:093a>{% endcomment -%}
             <div
               class="swiper-slide w-[260px]!"
               data-tags="{{ product.tags | join: ',' | downcase }}"
