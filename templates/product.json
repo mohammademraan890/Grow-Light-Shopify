@@ -38,14 +38,14 @@
             "empty_state": "empty_widget"
           }
         },
-        "essential_upsell_product_addon_app_block_ytknAz": {
-          "type": "shopify://apps/essential-upsell/blocks/product-addon-app-block/50627fd9-24fd-4250-8614-accc12826d80",
+        "essential_upsell_app_block_cBAUAi": {
+          "type": "shopify://apps/essential-upsell/blocks/app-block/50627fd9-24fd-4250-8614-accc12826d80",
           "settings": {}
         }
       },
       "block_order": [
         "judge_me_reviews_review_widget_7gj6dH",
-        "essential_upsell_product_addon_app_block_ytknAz"
+        "essential_upsell_app_block_cBAUAi"
       ],
       "settings": {}
     }
