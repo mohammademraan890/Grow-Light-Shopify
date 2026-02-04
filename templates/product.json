@@ -12,6 +12,10 @@
     "main": {
       "type": "product",
       "blocks": {
+        "bss_b2b_quote_quote_cart_button_qwqU7j": {
+          "type": "shopify://apps/bss-b2b-quote/blocks/quote-cart-button/0c13e75b-92f5-4200-98c1-50c1fdb201bc",
+          "settings": {}
+        },
         "mailchimp_email_sms_mailchimp_for_shopify_bis_j4pEVK": {
           "type": "shopify://apps/mailchimp-email-sms/blocks/mailchimp_for_shopify_bis/e3b67dce-fd41-4b61-b3cf-961c12344cde",
           "settings": {
@@ -29,6 +33,7 @@
         }
       },
       "block_order": [
+        "bss_b2b_quote_quote_cart_button_qwqU7j",
         "mailchimp_email_sms_mailchimp_for_shopify_bis_j4pEVK",
         "869a76fe-9e2b-43ad-bbbe-0f64a54b2d32"
       ],
