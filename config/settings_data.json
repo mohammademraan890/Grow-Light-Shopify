@@ -186,6 +186,11 @@
         "type": "shopify://apps/essential-upsell/blocks/app-embed/50627fd9-24fd-4250-8614-accc12826d80",
         "disabled": false,
         "settings": {}
+      },
+      "14082181514032464150": {
+        "type": "shopify://apps/o-request-a-quote/blocks/omgrfq_script/5f4ac0e6-8a57-4f3d-853e-0194eab86273",
+        "disabled": false,
+        "settings": {}
       }
     }
   }
