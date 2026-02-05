@@ -89,10 +89,26 @@
         "essential_upsell_app_block_cBAUAi"
       ],
       "settings": {}
+    },
+    "fc65485db2fc2286faf1": {
+      "type": "apps",
+      "blocks": {
+        "b6b4934f-fa8f-4b31-917c-0c3e8ad767fc": {
+          "type": "shopify://apps/yotpo-product-reviews/blocks/reviews/eb7dfd7d-db44-4334-bc49-c893b51b36cf",
+          "settings": {
+            "product": "{{product}}"
+          }
+        }
+      },
+      "block_order": [
+        "b6b4934f-fa8f-4b31-917c-0c3e8ad767fc"
+      ],
+      "settings": {}
     }
   },
   "order": [
     "main",
+    "fc65485db2fc2286faf1",
     "0b10e5097c1e1e18cf7a",
     "1770038861950051a7"
   ]
