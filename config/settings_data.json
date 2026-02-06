@@ -160,11 +160,6 @@
         "disabled": false,
         "settings": {}
       },
-      "14060646107696862457": {
-        "type": "shopify://apps/judge-me-reviews/blocks/judgeme_core/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
-        "disabled": false,
-        "settings": {}
-      },
       "1102061855093433159": {
         "type": "shopify://apps/bss-b2b-quote/blocks/config-header/0c13e75b-92f5-4200-98c1-50c1fdb201bc",
         "disabled": false,
@@ -185,6 +180,11 @@
       "7570552984445421165": {
         "type": "shopify://apps/yotpo-product-reviews/blocks/settings/eb7dfd7d-db44-4334-bc49-c893b51b36cf",
         "disabled": false,
+        "settings": {}
+      },
+      "14060646107696862457": {
+        "type": "shopify://apps/judge-me-reviews/blocks/judgeme_core/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+        "disabled": true,
         "settings": {}
       }
     }
