@@ -59,12 +59,17 @@
           "settings": {
             "product": "{{product}}"
           }
+        },
+        "essential_upsell_app_block_9D9NQ9": {
+          "type": "shopify://apps/essential-upsell/blocks/app-block/50627fd9-24fd-4250-8614-accc12826d80",
+          "settings": {}
         }
       },
       "block_order": [
         "judge_me_reviews_review_widget_8BVgw8",
         "b6b4934f-fa8f-4b31-917c-0c3e8ad767fc",
-        "yotpo_product_reviews_star_rating_VaCFQc"
+        "yotpo_product_reviews_star_rating_VaCFQc",
+        "essential_upsell_app_block_9D9NQ9"
       ],
       "settings": {}
     }
