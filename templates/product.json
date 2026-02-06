@@ -37,8 +37,18 @@
     "fc65485db2fc2286faf1": {
       "type": "apps",
       "blocks": {
+        "judge_me_reviews_review_widget_8BVgw8": {
+          "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {
+            "review_data": "sample_data",
+            "max_width": 1200,
+            "show_shop_reviews": false,
+            "empty_state": "empty_widget"
+          }
+        },
         "b6b4934f-fa8f-4b31-917c-0c3e8ad767fc": {
           "type": "shopify://apps/yotpo-product-reviews/blocks/reviews/eb7dfd7d-db44-4334-bc49-c893b51b36cf",
+          "disabled": true,
           "settings": {
             "product": "{{product}}"
           }
@@ -52,57 +62,15 @@
         }
       },
       "block_order": [
+        "judge_me_reviews_review_widget_8BVgw8",
         "b6b4934f-fa8f-4b31-917c-0c3e8ad767fc",
         "yotpo_product_reviews_star_rating_VaCFQc"
-      ],
-      "disabled": true,
-      "settings": {}
-    },
-    "1770038861950051a7": {
-      "type": "apps",
-      "blocks": {
-        "judge_me_reviews_review_widget_7gj6dH": {
-          "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
-          "disabled": true,
-          "settings": {
-            "review_data": "real_data",
-            "max_width": 900,
-            "show_shop_reviews": true,
-            "empty_state": "empty_widget"
-          }
-        },
-        "essential_upsell_app_block_cBAUAi": {
-          "type": "shopify://apps/essential-upsell/blocks/app-block/50627fd9-24fd-4250-8614-accc12826d80",
-          "settings": {}
-        }
-      },
-      "block_order": [
-        "judge_me_reviews_review_widget_7gj6dH",
-        "essential_upsell_app_block_cBAUAi"
-      ],
-      "disabled": true,
-      "settings": {}
-    },
-    "17703574180365d203": {
-      "type": "apps",
-      "blocks": {
-        "yotpo_product_reviews_reviews_J3jGUD": {
-          "type": "shopify://apps/yotpo-product-reviews/blocks/reviews/eb7dfd7d-db44-4334-bc49-c893b51b36cf",
-          "settings": {
-            "product": "{{product}}"
-          }
-        }
-      },
-      "block_order": [
-        "yotpo_product_reviews_reviews_J3jGUD"
       ],
       "settings": {}
     }
   },
   "order": [
     "main",
-    "fc65485db2fc2286faf1",
-    "1770038861950051a7",
-    "17703574180365d203"
+    "fc65485db2fc2286faf1"
   ]
 }
